@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f9fa;
+  color: #1c1c1c;
+}
+
+.umkm-section {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.umkm-section h2 {
+  font-size: 2rem;
+  color: #00529b;
+  margin-bottom: 2rem;
+  padding-top: 4rem;
+}
+
+.umkm-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.umkm-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.umkm-card:hover {
+  transform: translateY(-5px);
+}
+
+.umkm-card img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.umkm-card h3 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0.3rem;
+  color: #00529b;
+}
+
+.umkm-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.umkm-search {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 250px;
+}
+
+.category-select {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
+
+.search-btn {
+  background-color: #00529b;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-btn:hover {
+  background-color: #002d33;
+}
+
+/* === ANIMASI SAAT SCROLL === */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition-delay: var(--animation-delay, 0s);
+}
+
+.animate-on-scroll.show {
+  opacity: 1;
+  transform: translateY(0);
+}
