@@ -21,8 +21,10 @@
 
   <div v-if="showModal" class="modal" @click.self="closeModal">
     <span class="close" @click="closeModal">&times;</span>
-    <img class="modal-content" :src="modalImage" />
-    <div class="modal-caption">{{ modalCaption }}</div>
+    <div class="modal-content-wrapper">
+      <img class="modal-content" :src="modalImage" />
+      <div class="modal-caption">{{ modalCaption }}</div>
+    </div>
   </div>
 </template>
 
@@ -102,7 +104,7 @@ const galleryItems = [
 // Modal open/close functions
 const openModal = (item) => {
   modalImage.value = item.src
-  modalCaption.value = `${item.title}: ${item.caption}`
+  modalCaption.value = item.caption
   showModal.value = true
 }
 
@@ -116,17 +118,20 @@ const closeModal = () => {
 <!-- Caption styling (global) -->
 <style>
 .modal-caption {
-  margin: 10px auto 0 auto;
+  margin: 10px auto 20px auto;
   display: block;
-  width: 700px;
+  width: 100%;
+  max-width: 90vw;
   color: #fff;
-  padding: 8px 20px;
+  padding: 12px 20px;
   text-align: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  background-color: rgba(0, 0, 0, 0.6);
+  font-size: 1.2rem;
+  font-weight: 400;
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: none;
+  text-shadow: none;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 </style>
