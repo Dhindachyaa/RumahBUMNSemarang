@@ -124,59 +124,77 @@ h1 {
 .modal {
   position: fixed;
   z-index: 2000;
-  padding-top: 60px;
+  padding: 0;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.3);
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content-wrapper {
   position: relative;
-  max-width: 95vw;
-  max-height: 85vh;
-  margin: auto;
+  max-width: 90vw;
+  max-height: 80vh;
+  margin: 0;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+  box-shadow: none;
+  background-color: transparent;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modal-content {
   display: block;
-  width: 100%;
+  max-width: 80vw;
+  max-height: 90vh;
   height: auto;
   object-fit: contain;
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.7);
 }
 
 .modal-caption {
   position: absolute;
-  bottom: 40px;
+  bottom: 0;
+  left: 0;
   width: 100%;
   color: #fff;
   padding: 12px 20px;
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.6);
-  box-shadow: inset 0 10px 15px -10px rgba(0, 0, 0, 0.7);
   border-radius: 0 0 8px 8px;
+  box-shadow: none;
+  text-shadow: none;
   word-wrap: break-word;
   word-break: break-word;
+  box-sizing: border-box;
 }
 
 .close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 0px;
   z-index: 3000;
-  color: #f1f1f1;
-  font-size: 40px;
+  color: #000;
+  font-size: 48px;
   font-weight: bold;
   cursor: pointer;
   transition: color 0.3s ease;
+  user-select: none;
+  text-shadow: none;
+  background-color: transparent;
+  padding: 5px 12px;
+  border-radius: 8px;
 }
 
 .close:hover,

@@ -110,16 +110,16 @@ const fiturList = [
   {
     icon: iconUmkm,
     alt: 'Ikon UMKM',
-    title: 'Ingin menjadi UMKM Binaan Rumah BUMN Pekalongan?',
-    desc: 'Bimbingan intensif bagi UMKM untuk pengembangan usaha dan peningkatan kualitas produk.',
+    title: 'Daftar Sekarang',
+    desc: 'Gabung program pembinaan UMKM Rumah BUMN Semarang, yuk!',
     btn: 'Daftar Disini'
   },
   {
     icon: iconEvent,
     alt: 'Ikon Event',
-    title: 'Ingin Ikut Event Yang Diselenggarakan Rumah BUMN Pekalongan?',
-    desc: 'Kesempatan mengikuti pelatihan dan workshop bisnis eksklusif dari Rumah BUMN.',
-    btn: 'Daftar Disini'
+    title: 'Ikuti Kami!',
+    desc: 'Banyak kegiatan seru menanti! ikuti update lengkapnya lewat sosial media kami.',
+    btn: 'Cek Disini'
   },
   {
     icon: iconBooking,

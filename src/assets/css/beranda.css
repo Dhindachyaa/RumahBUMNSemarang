@@ -132,11 +132,11 @@ html, body {
   gap: 2rem;
   flex-wrap: wrap;
   padding: 4rem 2rem;
-  background-color: #f9f9f9;
+  background-color: #F8F9FB;
 }
 
 .fitur-cards .card {
-  background: white;
+  background: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 2rem;
@@ -170,7 +170,7 @@ html, body {
 
 .fitur-cards .btn {
   padding: 0.6rem 1.2rem;
-  background-color: #006d77;
+  background-color: #0E3B4F;
   color: white;
   text-decoration: none;
   border-radius: 6px;
@@ -178,7 +178,7 @@ html, body {
 }
 
 .fitur-cards .btn:hover {
-  background-color: #004d50;
+  background-color: #0a2a38;
 }
 
 /* === TESTIMONI SECTION === */

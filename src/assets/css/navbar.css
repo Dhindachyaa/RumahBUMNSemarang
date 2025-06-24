@@ -52,13 +52,13 @@
 
 .nav-links li a {
   text-decoration: none;
-  color: #00529b;
+  color: #0E3B4F;
   font-weight: 500;
 }
 
 .nav-links li a.active,
 .nav-links li a:hover {
-  border-bottom: 2px solid #c70740;
+  border-bottom: 2px solid #219994;
   padding-bottom: 2px;
 }
 

@@ -20,11 +20,11 @@
   </div>
 
   <div v-if="showModal" class="modal" @click.self="closeModal">
-    <span class="close" @click="closeModal">&times;</span>
     <div class="modal-content-wrapper">
       <img class="modal-content" :src="modalImage" />
       <div class="modal-caption">{{ modalCaption }}</div>
     </div>
+    <span class="close" @click="closeModal">&times;</span>
   </div>
 </template>
 
