@@ -4,8 +4,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Beranda from '@/pages/beranda.vue'
 import Umkm from '@/pages/umkm.vue'
 import Galeri from '@/pages/galeri.vue'
-import Tentang from '@/pages/tentang.vue'
+import Berita from '@/pages/berita.vue'
 import Hubungi from '@/pages/hubungi.vue'
+
 
 // Halaman detail UMKM (dinamis)
 import UmkmDetail from '@/pages/umkm-detail.vue'
@@ -33,9 +34,9 @@ const routes = [
     component: Galeri
   },
   {
-    path: '/tentang',
-    name: 'Tentang',
-    component: Tentang
+    path: '/berita',
+    name: 'Berita',
+    component: Berita
   },
   {
     path: '/hubungi',

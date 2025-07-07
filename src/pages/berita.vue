@@ -52,4 +52,4 @@
 const fotoUtama = new URL('@/assets/galeri/foto3.jpg', import.meta.url).href
 </script>
 
-<style scoped src="../assets/css/tentang.css"></style>
+<style scoped src="../assets/css/berita.css"></style>

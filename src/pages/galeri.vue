@@ -1,30 +1,32 @@
 <template>
-  <section class="umkm-section">
-    <h2>DOKUMENTASI</h2>
-  </section>
-
-  <div class="gallery">
-    <div
-      v-for="(item, index) in galleryItems"
-      :key="index"
-      class="gallery-item"
-      @click="openModal(item)"
-      :style="{ '--animation-delay': `${index * 0.1}s` }"
-    >
-      <img :src="item.src" :alt="item.alt" class="gallery-img" />
-      <div class="caption">
-        <strong>{{ item.title }}</strong><br />
-        {{ item.caption }}
+  <div>
+    <h2 class="gallery-title">GALERI</h2>
+    <section class="galeri-container">
+      <div class="right-gallery full-width no-left-text">
+        <div
+          v-for="(item, index) in galleryItems"
+          :key="index"
+          class="gallery-item"
+          @click="openModal(item)"
+          :style="{ '--animation-delay': `${index * 0.1}s` }"
+        >
+          <img :src="item.src" :alt="item.alt" class="gallery-img" />
+          <div class="caption">
+            <strong>{{ item.title }}</strong><br />
+            {{ item.caption }}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div v-if="showModal" class="modal" @click.self="closeModal">
-    <div class="modal-content-wrapper">
-      <img class="modal-content" :src="modalImage" />
-      <div class="modal-caption">{{ modalCaption }}</div>
-    </div>
-    <span class="close" @click="closeModal">&times;</span>
+      <div v-if="showModal" class="modal" @click.self="closeModal">
+        <div class="modal-content-wrapper">
+          <img class="modal-content" :src="modalImage" />
+          <div class="modal-caption">{{ modalCaption }}</div>
+        </div>
+        <span class="close" @click="closeModal">&times;</span>
+      </div>
+    </section>
+    <footer-component />
   </div>
 </template>
 

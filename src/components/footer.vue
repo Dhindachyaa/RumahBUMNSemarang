@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="/logobumn.png" alt="Logo BUMN" />
+        <img src="/Logo bumn sah.png" alt="Logo BUMN" />
         <h3>Rumah BUMN</h3>
       </div>
       <div class="footer-links">

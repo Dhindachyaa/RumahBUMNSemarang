@@ -1,4 +1,6 @@
 /* === RESET DASAR === */
+@import url('https://fonts.googleapis.com/css2?family=Bona+Nova&family=Inter:wght@900&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -11,14 +13,14 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
   font-family: 'Segoe UI', sans-serif;
-  background-color: white;
+  background-color: #F5F6F8;
 }
 
 /* === HERO SECTION === */
 .hero {
-  background: #003366;       /* Warna biru */
+  background: #F5F6F8;       /* Warna biru */
   color: white;
-  width: 100vw;              /* Lebar penuh layar */
+  width: 100%;              /* Lebar penuh layar */
   min-height: 100vh;         /* Tinggi penuh layar */
   display: flex;
   align-items: center;
@@ -28,6 +30,44 @@ html, body {
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
+}
+
+.stage {
+  width: 350px;
+  height: 300px;
+  margin: auto;
+  position: relative;
+  perspective: 2000px;
+  user-select: none;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  cursor: grab;
+  overflow: visible;
+}
+
+.ring {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.img {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  backface-visibility: hidden;
+  transition: opacity 0.3s ease;
 }
 
 .hero-container {
@@ -44,6 +84,18 @@ html, body {
 .hero-left {
   flex: 1;
   min-width: 300px;
+  /* Removed pink shading */
+  background: none !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: auto !important;
 }
 
 .hero-logo {
@@ -54,7 +106,7 @@ html, body {
 .hero-left p {
   font-size: 16px;
   line-height: 1.6;
-  color: #f0f0f0;
+  color: #333333;
   max-width: 450px;
   text-align: justify;
 }
@@ -74,6 +126,20 @@ html, body {
   padding-bottom: 10px;
   overflow-x: auto;
   overflow-y: hidden;
+  perspective: 1000px; /* Enable 3D perspective for parallax */
+}
+
+.image-scroll img {
+  width: 350px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  box-shadow: 0 6px 8px rgba(245, 239, 239, 0.2);
+  transition: transform 0.3s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .image-scroll img {
@@ -165,7 +231,7 @@ html, body {
 .fitur-cards p {
   font-size: 0.95rem;
   margin-bottom: 1.5rem;
-  color: #555;
+  color: #333333;
 }
 
 .fitur-cards .btn {
@@ -253,7 +319,7 @@ html, body {
 }
 
 .testimoni-content {
-  color: #444;
+  color: #333333;
   font-size: 1rem;
 }
 
@@ -264,18 +330,18 @@ html, body {
 
 .quote-icon {
   font-size: 2rem;
-  color: #888;
+  color: #333333;
   margin-right: 0.5rem;
 }
 
 .author {
   font-weight: 500;
-  color: #3a3a3a;
+  color: #333333;
 }
 
 .user-icon {
   margin-right: 5px;
-  color: #888;
+  color: #333333;
 }
 
 /* === TIM SECTION === */
@@ -408,13 +474,6 @@ html, body {
 
 .btn-maps:hover {
   background-color: #002e32;
-}
-
-.lokasi-map {
-  flex: 1 1 400px;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
 /* === Scroll Animation === */

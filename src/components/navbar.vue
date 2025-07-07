@@ -2,8 +2,8 @@
   <nav class="navbar" :class="{ scrolled: isScrolled }">
     <div class="navbar-container">
       <div class="logo-group">
-        <img src="/logobumn.png" alt="Logo BUMN" />
-        <img src="/rumahbumn.png" alt="Logo Rumah BUMN" />
+        <img src="/Logo bumn sah.png" alt="Logo BUMN Sah" />
+        <img src="/logobumnsemarang.png" alt="Logo Rumah BUMN Semarang" />
         <img src="/logobri.png" alt="Logo BRI" />
       </div>
       <div class="menu-toggle" @click="toggleMenu">☰</div>
@@ -11,7 +11,7 @@
         <li><router-link to="/" exact-active-class="active">Beranda</router-link></li>
         <li><router-link to="/umkm" exact-active-class="active">UMKM</router-link></li>
         <li><router-link to="/galeri" exact-active-class="active">Galeri</router-link></li>
-        <li><router-link to="/tentang" exact-active-class="active">Tentang Kami</router-link></li>
+        <li><router-link to="/berita" exact-active-class="active">Berita</router-link></li>
         <li><router-link to="/hubungi" exact-active-class="active">Hubungi Kami</router-link></li>
       </ul>
     </div>
