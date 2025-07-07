@@ -1,15 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// Halaman biasa
+// 👉 Halaman publik
 import Beranda from '@/pages/beranda.vue'
 import Umkm from '@/pages/umkm.vue'
+import UmkmDetail from '@/pages/umkm-detail.vue'
 import Galeri from '@/pages/galeri.vue'
 import Berita from '@/pages/berita.vue'
 import Hubungi from '@/pages/hubungi.vue'
 
 
-// Halaman detail UMKM (dinamis)
-import UmkmDetail from '@/pages/umkm-detail.vue'
+// 👉 Halaman admin
+import AdminLogin from '@/pages/admin/admin-login.vue'
+import AdminDashboard from '@/pages/admin/admin-dashboard.vue'
+import AdminUmkm from '@/pages/admin/admin-umkm.vue'
+import AdminGaleri from '@/pages/admin/admin-galeri.vue' // sudah aktif untuk kelola galeri
+// import AdminBerita from '@/pages/admin/admin-berita.vue' // nanti aktifkan jika sudah ada
 
 const routes = [
   {
@@ -34,9 +39,9 @@ const routes = [
     component: Galeri
   },
   {
-    path: '/berita',
-    name: 'Berita',
-    component: Berita
+    path: '/tentang',
+    name: 'Tentang',
+    component: Tentang
   },
   {
     path: '/hubungi',
@@ -52,6 +57,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+// ✅ Navigation Guard: proteksi halaman admin
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const isAdmin = localStorage.getItem('isAdmin')
+    if (isAdmin === 'true') {
+      next()
+    } else {
+      next('/admin/login')
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

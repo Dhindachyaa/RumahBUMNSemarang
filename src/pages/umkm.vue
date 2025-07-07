@@ -1,17 +1,19 @@
 <template>
   <section class="umkm-section">
     <h2 class="animate-on-scroll">UMKM BINAAN</h2>
+
     <form @submit.prevent class="umkm-search animate-on-scroll">
       <input v-model="search" placeholder="Cari UMKM ..." class="search-input" />
       <select v-model="category" class="category-select">
         <option value="">Semua Kategori</option>
-        <option value="perdagangan">Perdagangan</option>
-        <option value="kerajinan">Craft/Kerajinan Tangan</option>
-        <option value="fashion">Fashion/Busana</option>
-        <option value="makanan">Makanan & Minuman</option>
+        <option value="Perdagangan">Perdagangan</option>
+        <option value="Craft/Kerajinan Tangan">Craft/Kerajinan Tangan</option>
+        <option value="Fashion/Busana">Fashion/Busana</option>
+        <option value="Makanan & Minuman">Makanan & Minuman</option>
       </select>
       <button class="search-btn">Cari</button>
     </form>
+
     <div class="umkm-list">
       <router-link
         v-for="(umkm, i) in filteredUMKM"
@@ -29,34 +31,44 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
+import axios from 'axios'
 import '@/assets/css/umkm.css'
 
 const search = ref('')
 const category = ref('')
-const umkmList = ref([
-  { id: 'batik-amel', nama: 'Rumah Batik Amel', kategori: 'Perdagangan', img: '/rumahbumn.png' },
-  { id: 'puzo-gallery', nama: "Puzo’s Art Gallery", kategori: 'Craft/Kerajinan Tangan', img: '/rumahbumn.png' },
-  { id: 'laudya-hijab', nama: 'Laudya Hijab', kategori: 'Fashion/Busana', img: '/rumahbumn.png' },
-  { id: 'adjie-1', nama: 'Toko Oleh-Oleh ADJIE', kategori: 'Makanan & Minuman', img: '/rumahbumn.png' },
-])
+const umkmList = ref([])
 
 const filteredUMKM = computed(() =>
-  umkmList.value.filter(u => 
+  umkmList.value.filter(u =>
     u.nama.toLowerCase().includes(search.value.toLowerCase()) &&
-    (!category.value || u.kategori.toLowerCase().includes(category.value))
+    (category.value === '' || u.kategori.toLowerCase().includes(category.value.toLowerCase()))
   )
 )
 
-onMounted(() => {
-  const obs = new IntersectionObserver((es, obs) => {
-    es.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('show')
-        obs.unobserve(e.target)
+onMounted(async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/api/umkm')
+    console.log('Data dari backend:', res.data)
+    umkmList.value = res.data.data.map(u => ({
+      ...u,
+      img: `http://localhost:3000/${u.image_path}`
+    }))
+  } catch (err) {
+    console.error('Gagal load UMKM:', err)
+  }
+
+  await nextTick() // pastikan DOM siap sebelum observer
+
+  const obs = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show')
+        observer.unobserve(entry.target)
       }
     })
   }, { threshold: 0.1 })
+
   document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el))
 })
 </script>

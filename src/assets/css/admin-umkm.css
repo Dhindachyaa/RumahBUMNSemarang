@@ -1,0 +1,158 @@
+.admin-umkm-page {
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* FORM */
+.umkm-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.umkm-form input,
+.umkm-form select,
+.umkm-form textarea {
+  flex: 1 1 200px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.umkm-form button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.umkm-form button[type="button"] {
+  background: #6c757d;
+}
+
+/* TABEL DESKTOP */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.umkm-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.umkm-table th,
+.umkm-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.umkm-table th {
+  background: #f8f9fa;
+  text-align: center;
+}
+
+.umkm-table td {
+  text-align: left;
+}
+
+.umkm-table td.wrap-text {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 250px;
+}
+
+.umkm-table button {
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.umkm-table button:first-child { background: #ffc107; color: black; }
+.umkm-table button:last-child { background: #dc3545; color: white; }
+
+.umkm-table td:last-child {
+  white-space: nowrap;
+}
+
+/* CARD UNTUK MOBILE */
+.umkm-card-list {
+  display: none;
+}
+
+.umkm-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.umkm-card p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+.umkm-card .image-container img {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+.card-actions {
+  margin-top: 0.8rem;
+}
+
+.card-actions button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card-actions button:first-child { background: #ffc107; color: black; }
+.card-actions button:last-child { background: #dc3545; color: white; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .table-responsive { display: none; }
+  .umkm-card-list { display: block; }
+  .umkm-form input,
+  .umkm-form select,
+  .umkm-form textarea { flex: 1 1 100%; }
+}
+
+.pagination {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 0.3rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background: #f1f1f1;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: bold;
+  margin: 0 0.5rem;
+}

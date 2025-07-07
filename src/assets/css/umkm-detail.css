@@ -40,6 +40,10 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+.detail-right {
+  flex: 1;
+}
+
 .detail-right p {
   margin: 0.75rem 0;
   font-size: 1rem;
@@ -49,6 +53,22 @@
   display: inline-block;
   width: 140px;
   font-weight: 600;
+}
+
+.whatsapp-button {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #25D366;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.whatsapp-button:hover {
+  background-color: #1ebe5d;
 }
 
 /* === Fade-in animation === */
@@ -71,7 +91,28 @@
     text-align: center;
   }
 
+  .detail-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* bikin button di center di mobile */
+  }
+
   .detail-right p strong {
     width: auto;
+  }
+
+  .whatsapp-button {
+    width: auto;          /* BUKAN full width */
+    text-align: center;
+    margin-top: 1rem;     /* rapat dengan teks sebelumnya */
+  }
+}
+
+/* === Desktop tetap rapat === */
+@media (min-width: 769px) {
+  .whatsapp-button {
+    display: inline-block;
+    margin-top: 0.5rem;   /* lebih rapat dengan teks Instagram di desktop */
   }
 }
