@@ -8,58 +8,39 @@ import Galeri from '@/pages/galeri.vue'
 import Berita from '@/pages/berita.vue'
 import Hubungi from '@/pages/hubungi.vue'
 
-
 // 👉 Halaman admin
 import AdminLogin from '@/pages/admin/admin-login.vue'
 import AdminDashboard from '@/pages/admin/admin-dashboard.vue'
 import AdminUmkm from '@/pages/admin/admin-umkm.vue'
-import AdminGaleri from '@/pages/admin/admin-galeri.vue' // sudah aktif untuk kelola galeri
-// import AdminBerita from '@/pages/admin/admin-berita.vue' // nanti aktifkan jika sudah ada
+import AdminGaleri from '@/pages/admin/admin-galeri.vue'
+// import AdminBerita from '@/pages/admin/admin-berita.vue' // Aktifkan jika sudah siap
 
 const routes = [
-  {
-    path: '/',
-    name: 'Beranda',
-    component: Beranda
-  },
-  {
-    path: '/umkm',
-    name: 'Umkm',
-    component: Umkm
-  },
-  {
-    path: '/umkm/:id',
-    name: 'UmkmDetail',
-    component: UmkmDetail,
-    props: true // Agar parameter :id bisa langsung diakses lewat props
-  },
-  {
-    path: '/galeri',
-    name: 'Galeri',
-    component: Galeri
-  },
-  {
-    path: '/tentang',
-    name: 'Tentang',
-    component: Tentang
-  },
-  {
-    path: '/hubungi',
-    name: 'Hubungi',
-    component: Hubungi
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/' // Fallback: jika tidak ada route, redirect ke Beranda
-  }
+  // Public
+  { path: '/', name: 'Beranda', component: Beranda },
+  { path: '/umkm', name: 'Umkm', component: Umkm },
+  { path: '/umkm/:id', name: 'UmkmDetail', component: UmkmDetail, props: true },
+  { path: '/galeri', name: 'Galeri', component: Galeri },
+  { path: '/berita', name: 'Berita', component: Berita },
+  { path: '/hubungi', name: 'Hubungi', component: Hubungi },
+
+  // Admin
+  { path: '/admin/login',     name: 'AdminLogin',     component: AdminLogin },
+  { path: '/admin',           name: 'AdminDashboard', component: AdminDashboard, meta: { requiresAuth: true } },
+  { path: '/admin/umkm',      name: 'AdminUmkm',      component: AdminUmkm,      meta: { requiresAuth: true } },
+  { path: '/admin/galeri',    name: 'AdminGaleri',    component: AdminGaleri,    meta: { requiresAuth: true } },
+  // { path: '/admin/berita', name: 'AdminBerita', component: AdminBerita, meta: { requiresAuth: true } },
+
+  // Catch‑all
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
-// ✅ Navigation Guard: proteksi halaman admin
+// Proteksi halaman admin
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     const isAdmin = localStorage.getItem('isAdmin')
