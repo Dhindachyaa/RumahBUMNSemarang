@@ -6,7 +6,7 @@ import Umkm from '@/pages/umkm.vue'
 import UmkmDetail from '@/pages/umkm-detail.vue'
 import Galeri from '@/pages/galeri.vue'
 import Berita from '@/pages/berita.vue'
-import Hubungi from '@/pages/hubungi.vue'
+ import Hubungi from '@/pages/hubungi.vue'
 
 // 👉 Halaman admin
 import AdminLogin from '@/pages/admin/admin-login.vue'

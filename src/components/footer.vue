@@ -9,7 +9,7 @@
         <a href="#">Beranda</a>
         <a href="#">UMKM</a>
         <a href="#">Galeri</a>
-        <a href="#">Tentang Kami</a>
+        <a href="#"> Berita</a>
         <a href="#">Hubungi Kami</a>
       </div>
       <div class="footer-contact">
