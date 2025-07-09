@@ -6,6 +6,7 @@ import Umkm from '@/pages/umkm.vue'
 import UmkmDetail from '@/pages/umkm-detail.vue'
 import Galeri from '@/pages/galeri.vue'
 import Berita from '@/pages/berita.vue'
+import BeritaDetail from '@/pages/berita-detail.vue'
 import Hubungi from '@/pages/hubungi.vue'
 
 
@@ -39,9 +40,14 @@ const routes = [
     component: Galeri
   },
   {
-    path: '/tentang',
-    name: 'Tentang',
-    component: Tentang
+    path: '/berita',
+    name: 'Berita',
+    component: Berita
+  },
+  { path: '/berita/:id',
+    name: 'BeritaDetail',
+    component: BeritaDetail,
+    props: true // Agar parameter :id bisa langsung diakses lewat props
   },
   {
     path: '/hubungi',

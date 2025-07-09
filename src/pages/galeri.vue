@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h2 class="gallery-title">GALERI</h2>
-    <section class="galeri-container">
+    <section class="gallery-section">
+      <h2 class="animate-on-scroll">GALERI</h2>
+
       <div class="right-gallery full-width no-left-text">
         <div
           v-for="(item, index) in galleryItems"
           :key="index"
-          class="gallery-item"
+          class="gallery-item animate-on-scroll"
           @click="openModal(item)"
           :style="{ '--animation-delay': `${index * 0.1}s` }"
         >
@@ -17,7 +18,7 @@
           </div>
         </div>
       </div>
-
+        
       <div v-if="showModal" class="modal" @click.self="closeModal">
         <div class="modal-content-wrapper">
           <img class="modal-content" :src="modalImage" />
@@ -31,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 // Modal state
 const showModal = ref(false)
@@ -113,6 +114,21 @@ const openModal = (item) => {
 const closeModal = () => {
   showModal.value = false
 }
+
+// Scroll animation setup
+onMounted(() => {
+  const obs = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Observe all animate-on-scroll elements
+  document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el));
+});
 </script>
 
 <style scoped src="../assets/css/galeri.css"></style>

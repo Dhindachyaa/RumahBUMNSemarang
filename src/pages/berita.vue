@@ -1,55 +1,129 @@
 <template>
-  <section class="umkm-section">
-    <h2>Seputar Rumah BUMN</h2>
-  </section>
+  <section class="news-section">
+    <h2 class="animate-on-scroll">BERITA TERKINI</h2>
+    
+    <div class="news-search animate-on-scroll">
+      <input v-model="searchQuery" placeholder="Cari berita..." class="search-input" />
+      <select v-model="selectedCategory" class="category-select">
+        <option value="">Semua Kategori</option>
+        <option value="Teknologi">Teknologi</option>
+        <option value="Ekonomi">Ekonomi</option>
+        <option value="Lingkungan">Lingkungan</option>
+        <option value="Pendidikan">Pendidikan</option>
+        <option value="Umum">Umum</option>
+      </select>
+      <button type="button" @click="clearFilters" class="search-btn">Cari</button>
+    </div>
 
-  <main class="tentang-main">
-    <img :src="fotoUtama" alt="Rumah BUMN di Labuan Bajo" class="tentang-image" />
-    <p class="caption">Keterangan Foto: Rumah BUMN di Labuan Bajo</p>
-    <p class="tentang-text">
-      Saat ini, jumlah pelaku UKM di Indonesia telah mencapai 57 juta, dimana sebagian besar merupakan para pelaku usaha mikro. Hal ini menunjukkan potensi UKM sebagai salah satu penggerak ekonomi Indonesia untuk meningkatkan kemakmuran negeri.
-      <br /><br />
-      BUMN sebagai agent of development telah mengembangkan beberapa inisiatif untuk meningkatkan kualitas UKM, antara lain Bank Mandiri dengan program Wirausaha Muda Mandiri, Bank BNI dengan Kampoeng BNI Nusantara, Bank BRI dengan program Teras BRI, dan Telkom Indonesia dengan 2 juta UKM terdaftar melalui program Kampung UKM Digital.
-      <br /><br />
-      Latar belakang didirikannya Rumah BUMN: pertumbuhan pasar global telah menggeser paradigma bisnis nasional, dimana UKM memegang peranan penting dalam memakmurkan ekonomi negara melalui penciptaan lapangan kerja, kesejahteraan masyarakat, serta inovasi.
-      <br /><br />
-      Sebagai upaya pemberdayaan ekonomi kerakyatan, khususnya bagi para pelaku usaha mikro kecil dan menengah, Kementerian BUMN bersama perusahaan milik negara membangun Rumah BUMN sebagai rumah bersama untuk berkumpul, belajar, dan membina UKM menjadi UKM Indonesia yang berkualitas.
-    </p>
-  </main>
-
-  <section class="program-info-section">
-    <div class="program-info-container">
-      <h2>
-        Informasi Pembinaan <strong>Rumah BUMN Riau</strong>
-      </h2>
-      <div class="program-stats">
-        <div class="stat-item">
-          <div class="stat-number">1,027</div>
-          <div class="stat-label">Peserta Kegiatan</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">186</div>
-          <div class="stat-label">Agenda Kegiatan</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">661,057</div>
-          <div class="stat-label">Go Modern</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">112,776</div>
-          <div class="stat-label">Go Digital</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">30,111</div>
-          <div class="stat-label">Go Online</div>
-        </div>
-      </div>
+    <div class="news-list">
+      <router-link
+        v-for="(berita, i) in filteredNews"
+        :key="berita.id"
+        :to="`/berita/${berita.id}`"
+        class="news-card animate-on-scroll"
+        :style="{ '--animation-delay': `${i * 0.1}s` }"
+      >
+        <img :src="berita.imageUrl || '/placeholder-news.png'" :alt="berita.title" />
+        <h3>{{ berita.title }}</h3>
+        <p class="news-category">{{ berita.category }}</p>
+        <p class="news-date">{{ berita.date }}</p>
+      </router-link>
+      
+      <p v-if="filteredNews.length === 0" class="no-results animate-on-scroll">
+        Tidak ada berita yang ditemukan.
+      </p>
     </div>
   </section>
 </template>
 
 <script setup>
-const fotoUtama = new URL('@/assets/galeri/foto3.jpg', import.meta.url).href
-</script>
+import { ref, computed, onMounted } from 'vue';
+import '@/assets/css/berita.css'
 
-<style scoped src="../assets/css/berita.css"></style>
+const allNews = ref([
+  {
+    id: 'kunjungan-menteri-semarang',
+    title: 'Kunjungan Menteri ke UMKM di Semarang Perkuat Ekonomi Lokal',
+    imageUrl: 'https://picsum.photos/300/200?random=1',
+    category: 'Ekonomi',
+    date: '05 Juli 2025'
+  },
+  {
+    id: 'inovasi-teknologi-kampus',
+    title: 'Inovasi Teknologi Terbaru dari Mahasiswa Kampus Lokal',
+    imageUrl: 'https://picsum.photos/300/200?random=2',
+    category: 'Teknologi',
+    date: '03 Juli 2025'
+  },
+  {
+    id: 'sosialisasi-daur-ulang',
+    title: 'Pentingnya Daur Ulang: Sosialisasi di Tingkat Komunitas',
+    imageUrl: 'https://picsum.photos/300/200?random=3',
+    category: 'Lingkungan',
+    date: '01 Juli 2025'
+  },
+  {
+    id: 'workshop-pemasaran-digital',
+    title: 'Workshop Pemasaran Digital Sukses Digelar untuk Pengusaha Muda',
+    imageUrl: 'https://picsum.photos/300/200?random=4',
+    category: 'Pendidikan',
+    date: '28 Juni 2025'
+  },
+  {
+    id: 'peresmian-pusat-kreatif',
+    title: 'Pusat Kreatif Baru Diresmikan, Dorong Talenta Lokal',
+    imageUrl: 'https://picsum.photos/300/200?random=5',
+    category: 'Umum',
+    date: '25 Juni 2025'
+  },
+  {
+    id: 'penghijauan-kota-semarang',
+    title: 'Gerakan Penghijauan Kota Semarang Targetkan Ribuan Pohon',
+    imageUrl: 'https://picsum.photos/300/200?random=6',
+    category: 'Lingkungan',
+    date: '20 Juni 2025'
+  },
+  {
+    id: 'startup-lokal-raih-investasi',
+    title: 'Startup Lokal Raih Pendanaan Besar dari Investor Asing',
+    imageUrl: 'https://picsum.photos/300/200?random=7',
+    category: 'Ekonomi',
+    date: '18 Juni 2025'
+  },
+  {
+    id: 'kurikulum-baru-sekolah',
+    title: 'Implementasi Kurikulum Baru di Sekolah Dasar Berjalan Lancar',
+    imageUrl: 'https://picsum.photos/300/200?random=8',
+    category: 'Pendidikan',
+    date: '15 Juni 2025'
+  }
+]);
+
+const searchQuery = ref('');
+const selectedCategory = ref('');
+
+const filteredNews = computed(() =>
+  allNews.value.filter(berita =>
+    berita.title.toLowerCase().includes(searchQuery.value.toLowerCase()) &&
+    (selectedCategory.value === '' || berita.category === selectedCategory.value)
+  )
+);
+
+const clearFilters = () => {
+  searchQuery.value = '';
+  selectedCategory.value = '';
+};
+
+onMounted(() => {
+  const obs = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el));
+});
+</script>
