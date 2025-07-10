@@ -8,7 +8,7 @@
 }
 
 .gallery-section h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #00529b;
   margin-bottom: 3rem;
   padding-top: 4rem;
@@ -43,7 +43,7 @@
   display: block;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(180, 180, 180, 0.1);
   cursor: pointer;
   transition: all 0.1s ease !important;
   overflow: hidden;
@@ -347,7 +347,7 @@
 }
 
 .gallery-section h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #00529b;
   margin-bottom: 3rem;
   padding-top: 4rem;
@@ -375,7 +375,7 @@
 .gallery-item {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(180, 180, 180, 0.1);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;

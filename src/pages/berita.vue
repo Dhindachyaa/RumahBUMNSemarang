@@ -1,19 +1,6 @@
 <template>
   <section class="news-section">
     <h2 class="animate-on-scroll">BERITA TERKINI</h2>
-    
-    <div class="news-search animate-on-scroll">
-      <input v-model="searchQuery" placeholder="Cari berita..." class="search-input" />
-      <select v-model="selectedCategory" class="category-select">
-        <option value="">Semua Kategori</option>
-        <option value="Teknologi">Teknologi</option>
-        <option value="Ekonomi">Ekonomi</option>
-        <option value="Lingkungan">Lingkungan</option>
-        <option value="Pendidikan">Pendidikan</option>
-        <option value="Umum">Umum</option>
-      </select>
-      <button type="button" @click="clearFilters" class="search-btn">Cari</button>
-    </div>
 
     <div class="news-list">
       <router-link

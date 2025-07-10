@@ -1,8 +1,10 @@
 /* === RESET DASAR === */
-@import url('https://fonts.googleapis.com/css2?family=Bona+Nova&family=Inter:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bona+Nova&family=Inter:wght@400,700&display=swap');
 
 * {
   box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
 }
 
 html, body {
@@ -12,7 +14,7 @@ html, body {
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: #F5F6F8;
 }
 
@@ -195,58 +197,417 @@ html, body {
 .fitur-cards {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 2.5rem;
   flex-wrap: wrap;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   background-color: #F8F9FB;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .fitur-cards .card {
   background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  padding: 3rem 2.5rem;
   text-align: center;
-  max-width: 300px;
+  width: 380px;
+  min-height: 320px;
   flex: 1;
-  transition: transform 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.fitur-cards .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(14, 59, 79, 0.03), transparent);
+  transition: left 0.6s;
+}
+
+.fitur-cards .card:hover::before {
+  left: 100%;
 }
 
 .fitur-cards .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  border-color: rgba(14, 59, 79, 0.1);
+}
+
+.card-icon {
+  margin-bottom: 0.9rem;
+  position: relative;
 }
 
 .card-icon img {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 1rem;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.fitur-cards .card:hover .card-icon img {
+  transform: scale(1.1);
 }
 
 .fitur-cards h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
   color: #0c2e4e;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .fitur-cards p {
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
-  color: #333333;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #4a5568;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .fitur-cards .btn {
-  padding: 0.6rem 1.2rem;
+  padding: 0.8rem 2rem;
   background-color: #0E3B4F;
   color: white;
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.fitur-cards .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s;
+}
+
+.fitur-cards .btn:hover::before {
+  left: 100%;
 }
 
 .fitur-cards .btn:hover {
   background-color: #0a2a38;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(14, 59, 79, 0.3);
 }
 
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .fitur-cards .card {
+    width: 350px;
+  }
+}
+
+@media (max-width: 992px) {
+  .fitur-cards {
+    gap: 2rem;
+    padding: 4rem 1.5rem;
+  }
+  
+  .fitur-cards .card {
+    width: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .fitur-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem 1rem;
+  }
+
+  .fitur-cards .card {
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem 2rem;
+  }
+  
+  .card-icon img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .fitur-cards h3 {
+    font-size: 1.3rem;
+  }
+  
+  .fitur-cards p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .fitur-cards .card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .card-icon img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .fitur-cards h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* === BEAUTIFUL TIM SECTION === */
+.tim-section {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.tim-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-opacity=".1"/><stop offset="100%" stop-opacity="0"/></radialGradient></defs><circle cx="10" cy="10" r="10" fill="url(%23a)"/><circle cx="30" cy="10" r="10" fill="url(%23a)"/><circle cx="50" cy="10" r="10" fill="url(%23a)"/><circle cx="70" cy="10" r="10" fill="url(%23a)"/><circle cx="90" cy="10" r="10" fill="url(%23a)"/></svg>') repeat;
+    opacity: 0.1;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100px); }
+}
+
+.tim-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: white;
+}
+
+.tim-section > p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    opacity: 0.9;
+    font-weight: 300;
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.tim-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.tim-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.tim-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+}
+
+.tim-card:hover::before {
+    left: 100%;
+}
+
+.tim-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+}
+
+.tim-card-image {
+    position: relative;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+}
+
+.tim-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+
+.tim-card:hover img {
+    transform: scale(1.05);
+}
+
+.tim-card-image::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+    z-index: -1;
+    animation: rotate 3s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tim-card:hover .tim-card-image::after {
+    opacity: 1;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.tim-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.tim-card p {
+    font-size: 0.95rem;
+    color: #718096;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link i {
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.social-link.linkedin {
+    background: linear-gradient(135deg, #0077b5, #0066a2);
+    color: white;
+}
+
+.social-link.linkedin:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 119, 181, 0.4);
+}
+
+.social-link.email {
+    background: linear-gradient(135deg, #ea4335, #d93025);
+    color: white;
+}
+
+.social-link.email:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(234, 67, 53, 0.4);
+}
+
+.social-link.instagram {
+    background: linear-gradient(135deg, #e4405f, #833ab4, #fccc63);
+    color: white;
+}
+
+.social-link.instagram:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(228, 64, 95, 0.4);
+}
+
+.social-link.twitter {
+    background: linear-gradient(135deg, #1da1f2, #1991db);
+    color: white;
+}
+
+.social-link.twitter:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(29, 161, 242, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tim-section {
+        padding: 3rem 1rem;
+    }
+    
+    .tim-section h2 {
+        font-size: 2rem;
+    }
+    
+    .tim-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tim-card {
+        width: 100%;
+        max-width: 320px;
+    }
+}
 /* === TESTIMONI SECTION === */
 .testimoni-section {
   background-color: #f2f4f8;
@@ -256,92 +617,274 @@ html, body {
 
 .testimoni-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   max-width: 900px;
   margin: 0 auto 2rem auto;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .testimoni-header h2 {
-  font-size: 1.8rem;
+  font-size: 3rem;
   color: #0c2e4e;
+  font-weight: 900;
+  text-align: center;
+  margin: 0;
+}
+
+.testimoni-header p {
+  font-size: 1rem;
+  color: #0c2e4e;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  font-family: 'Bona Nova', serif;
+  font-style: italic;
 }
 
 .testimoni-btn {
   background-color: #006d77;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
   text-decoration: none;
-  font-weight: bold;
-  transition: background 0.3s;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .testimoni-btn:hover {
   background-color: #004d50;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 109, 119, 0.3);
 }
 
 .testimoni-card {
   position: relative;
   background: white;
-  border-radius: 10px;
+  border-radius: 16px;
   max-width: 900px;
   margin: auto;
-  padding: 2rem 3rem;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 3rem 4rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.testimoni-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(12, 46, 78, 0.02), rgba(0, 109, 119, 0.02));
+  pointer-events: none;
 }
 
 .testimoni-nav-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #ddd;
+  background: rgba(12, 46, 78, 0.1);
   border: none;
   border-radius: 50%;
-  padding: 0.6rem 0.9rem;
+  padding: 0.8rem 1rem;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
   z-index: 10;
+  color: #0c2e4e;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .testimoni-nav-btn:hover {
-  background: #bbb;
+  background: rgba(12, 46, 78, 0.2);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .left-btn {
-  left: 15px;
+  left: 20px;
 }
 
 .right-btn {
-  right: 15px;
+  right: 20px;
 }
 
 .testimoni-content {
   color: #333333;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 5;
+  line-height: 1.8;
 }
 
 .quote {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-style: italic;
+  font-size: 1.2rem;
+  color: #2d3748;
+  font-weight: 400;
 }
 
 .quote-icon {
-  font-size: 2rem;
-  color: #333333;
+  font-size: 2.5rem;
+  color: #006d77;
   margin-right: 0.5rem;
+  opacity: 0.7;
 }
 
 .author {
-  font-weight: 500;
-  color: #333333;
+  font-weight: 600;
+  color: #0c2e4e;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .user-icon {
-  margin-right: 5px;
-  color: #333333;
+  font-size: 1.2rem;
+  color: #006d77;
+}
+
+/* === RESPONSIVE DESIGN === */
+
+/* Tablet Design */
+@media (max-width: 768px) {
+  .testimoni-section {
+    padding: 3rem 1.5rem;
+  }
+  
+  .testimoni-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .testimoni-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .testimoni-btn {
+    padding: 0.7rem 1.3rem;
+    font-size: 0.9rem;
+  }
+  
+  .testimoni-card {
+    padding: 2.5rem 3rem;
+    margin: 0 1rem;
+  }
+  
+  .testimoni-nav-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0.7rem 0.8rem;
+    font-size: 1.1rem;
+  }
+  
+  .left-btn {
+    left: 15px;
+  }
+  
+  .right-btn {
+    right: 15px;
+  }
+  
+  .testimoni-content {
+    font-size: 1rem;
+  }
+  
+  .quote {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .quote-icon {
+    font-size: 2.2rem;
+  }
+}
+
+/* Mobile Design */
+@media (max-width: 480px) {
+  .testimoni-section {
+    padding: 2.5rem 1rem;
+  }
+  
+  .testimoni-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .testimoni-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+  
+  .testimoni-card {
+    padding: 2rem 1.5rem;
+    margin: 0 0.5rem;
+    border-radius: 12px;
+  }
+  
+  /* Hide navigation buttons on very small screens */
+  .testimoni-nav-btn {
+    display: none;
+  }
+  
+  .testimoni-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  
+  .quote {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .quote-icon {
+    font-size: 2rem;
+    margin-right: 0.3rem;
+  }
+  
+  .author {
+    font-size: 0.9rem;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .user-icon {
+    font-size: 1rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 320px) {
+  .testimoni-section {
+    padding: 2rem 0.75rem;
+  }
+  
+  .testimoni-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .testimoni-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  .quote {
+    font-size: 0.95rem;
+  }
+  
+  .quote-icon {
+    font-size: 1.8rem;
+  }
 }
 
 /* === TIM SECTION === */
@@ -487,3 +1030,5 @@ html, body {
   opacity: 1;
   transform: translateY(0);
 }
+
+

@@ -1,19 +1,20 @@
 <template>
-  <div>
-    <!-- NEW BACKGROUND IMAGE SECTION -->
-<section class="background-image-section" :style="{ backgroundImage: `url(${tuguMuda})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
+    <div>
+      <!-- NEW BACKGROUND IMAGE SECTION -->
+  <section class="background-image-section" :style="{ backgroundImage: `url(${tuguMuda})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
   <div class="overlay">
-<div class="logo-sequence">
-<img src="/logobumnsemarang.png" alt="Logo BUMN Semarang" class="background-logo-seq" />
-</div>
-    <p class="background-text">
-      Merupakan wadah bagi langkah kolaborasi BUMN dalam membentuk digital ekonomi ekosistem melalui pembinaan bagi UKM untuk meningkatkan kapasitas dan kapabilitas UKM itu sendiri.
-    </p>
+  <div class="logo-sequence">
+  <img src="/logobumnsemarang.png" alt="Logo BUMN Semarang" class="background-logo-seq" />
   </div>
-</section>
+      <p class="background-text">
+        Merupakan wadah bagi langkah kolaborasi BUMN dalam membentuk digital ekonomi ekosistem melalui pembinaan bagi UKM untuk meningkatkan kapasitas dan kapabilitas UKM itu sendiri.
+      </p>
+    </div>
+  </section>
 
     <!-- HERO -->
-<section class="hero scroll-anim" id="beranda">
+  <section class="fitur-cards scroll-anim" id="fitur">
+
   <div class="hero-container">
     <div class="hero-left hero-heading" style="color:#0E3B4F; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 96px;">
       <h1>
@@ -31,7 +32,7 @@
       </div>
     </div>
   </div>
-</section>
+  </section>
 
     <!-- FITUR -->
     <section class="fitur-cards scroll-anim" id="fitur">
@@ -47,16 +48,17 @@
 
     <!-- TESTIMONI -->
     <section class="testimoni-section scroll-anim">
+      
       <div class="testimoni-header">
-        <h2>Testimoni</h2>
-        <a href="#" class="testimoni-btn">Tulis Disini!</a>
+        <h2>Suara UMKM Binaan</h2>
+        <p>Setiap UMKM memiliki cerita dan tantangan tersendiri dalam perjalanan bisnisnya. Berikut ini adalah kisah mereka yang telah bergabung dan tumbuh bersama Rumah BUMN Semarang.</p>
       </div>
       <div class="testimoni-card">
         <button class="testimoni-nav-btn left-btn">&#10094;</button>
         <div class="testimoni-content">
           <p class="quote">
             <span class="quote-icon">❝</span>
-            Rumah BUMN ruang bagi UMKM untuk tumbuh dan berkembang...
+            Sejak ikut program pembinaan di Rumah BUMN Semarang, usaha saya makin berkembang. Ilmu dan jejaring yang saya dapat sangat membantu
           </p>
           <p class="author">
             <span class="user-icon">👤</span>
@@ -67,22 +69,35 @@
       </div>
     </section>
 
-    <!-- TIM -->
-    <section class="tim-section scroll-anim">
-      <h2>Awesome people behind us.</h2>
-      <p>Di balik kesuksesan Rumah BUMN Pekalongan, terdapat tim...</p>
-      <div class="tim-container">
-        <div class="tim-card" v-for="(tim, i) in timList" :key="i">
-          <img :src="tim.foto" :alt="tim.nama" />
-          <h3>{{ tim.nama }}</h3>
-          <p>{{ tim.jabatan }}</p>
-          <div class="socials">
-            <a href="#"><img :src="tim.linkedin" alt="LinkedIn" /></a>
-            <a href="#"><img :src="tim.email" alt="Email" /></a>
-          </div>
+  <!-- TIM SECTION -->
+  <section class="tim-section scroll-anim">
+    <h2>Awesome people behind us.</h2>
+    <p>Di balik kesuksesan Rumah BUMN Semarang terdapat tim yang luar biasa dan berdedikasi tinggi</p>
+    <div class="tim-container">
+      <div class="tim-card" v-for="(tim, i) in timList" :key="i">
+        <div class="tim-card-image">
+          <img 
+            :src="tim.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(tim.nama)}&background=667eea&color=fff&size=120`" 
+            :alt="tim.nama"
+            @error="handleImageError"
+          />
+        </div>
+        <h3>{{ tim.nama }}</h3>
+        <p>{{ tim.jabatan }}</p>
+        <div class="socials">
+          <a href="#" class="social-link linkedin" title="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="#" class="social-link email" title="Email">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <a href="#" class="social-link instagram" title="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- LOKASI -->
     <section class="lokasi-section scroll-anim">
@@ -112,7 +127,7 @@ import { onMounted } from 'vue'
 // Import dari src/assets/beranda
 import foto1 from '@/assets/beranda/foto1.jpg'
 import foto2 from '@/assets/beranda/foto2.jpg'
-import iconUmkm from '@/assets/beranda/icon-umkm.jpg'
+import iconUmkm from '@/assets/beranda/icon-umkm.png'
 import iconEvent from '@/assets/beranda/icon-event.png'
 import iconBooking from '@/assets/beranda/icon-booking.png'
 import orang1 from '@/assets/beranda/orang1.png'
@@ -121,7 +136,7 @@ import iconEmail from '@/assets/beranda/icon-email.jpg'
 
 // Import tugu muda background image
 import tuguMuda from '@/assets/beranda/tugu muda.jpg'
-import logobri from '/logobri.png'
+import backgroundgradient from '@/assets/beranda/backgroundgradient.png'
 
 const fiturList = [
   {
@@ -147,25 +162,30 @@ const fiturList = [
   }
 ]
 
+// Updated timList with only 2 cards
 const timList = [
   {
-    foto: orang1,
+    foto: orang1 || 'https://ui-avatars.com/api/?name=M+Riza+Prawira&background=667eea&color=fff&size=120',
     nama: 'M. Riza Prawira',
-    jabatan: 'CEO Rumah BUMN Riau',
+    jabatan: 'CEO Rumah BUMN Semarang',
     linkedin: iconLinkedin,
     email: iconEmail
   },
   {
-    foto: orang1,
+    foto: orang1 || 'https://ui-avatars.com/api/?name=Irawan+Setiyono&background=764ba2&color=fff&size=120',
     nama: 'Irawan Setiyono',
-    jabatan: 'CFO Rumah BUMN Riau',
+    jabatan: 'CFO Rumah BUMN Semarang',
     linkedin: iconLinkedin,
     email: iconEmail
   }
 ]
 
-
-+// Removed heroBackgroundStyle as it's no longer needed
+// Handle image loading errors
+const handleImageError = (event) => {
+  const img = event.target
+  const name = img.alt
+  img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=667eea&color=fff&size=120`
+}
 
 onMounted(() => {
   const animatedSections = document.querySelectorAll('.scroll-anim')
@@ -180,7 +200,6 @@ onMounted(() => {
   animatedSections.forEach(section => observer.observe(section))
 })
 </script>
-
 <style scoped>
 @import '@/assets/css/beranda.css';
 
@@ -195,31 +214,6 @@ onMounted(() => {
   padding: 0;
   color: black;
   text-align: center;
-}
-
-.pink-shading {
-  background: radial-gradient(circle at left top, rgba(255,192,203,0.4), rgba(255,255,255,0) 70%);
-  padding: 2rem;
-  border-radius: 50% / 100%;
-  align-self: flex-start;
-  margin-left: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 40%;
-  max-width: 400px;
-  z-index: -1;
-  transform: translateX(-20%);
-  margin-top: 0;
-  clip-path: circle(50% at 0 0);
-  background-position: left top;
-  background-repeat: no-repeat;
-  background-size: 150% 150%;
-  box-shadow: inset 20px 0 30px rgba(255,192,203,0.5);
-  border-top-left-radius: 100% 100%;
-  border-bottom-left-radius: 100% 100%;
-  left: -20px;
 }
 
 .background-image-section .overlay {
