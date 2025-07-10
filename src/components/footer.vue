@@ -2,25 +2,38 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="/Logo bumn sah.png" alt="Logo BUMN" />
-        <h3>Rumah BUMN</h3>
+        <img src="/logobumnsemarang.png" alt="Rumah BUMN Semarang" style="width: 150px; height: auto;" />
+        <div class="address-container" style="max-width: 320px;">
+          <img src="/lokasi.png" alt="Location Icon" class="location-icon" style="width:20px; height:20px;" />
+          <p>Jl. Sultan Agung No.108, Wonotingal, Kec. Candisari, Kota Semarang, Jawa Tengah</p>
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="#">Beranda</a>
-        <a href="#">UMKM</a>
-        <a href="#">Galeri</a>
-        <a href="#"> Berita</a>
-        <a href="#">Hubungi Kami</a>
+      <div class="footer-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <h4>Tautan</h4>
+        <a href="/beranda">Beranda</a>
+        <a href="/umkm">UMKM</a>
+        <a href="/galeri">Galeri</a>
+        <a href="/berita">Berita</a>
       </div>
-      <div class="footer-contact">
-        <p>Jl. Sultan Syarif Qasim No.138, Pekanbaru</p>
-        <p>Email: rkbpekanbaru@gmail.com</p>
-        <p>Telp: 0853-6388-0228</p>
+      <div class="footer-right" style="text-align: left;">
+        <h4>Ikuti Kami</h4>
+        <div class="footer-social">
+          <a href="https://wa.me/6288221455037" target="_blank" rel="noopener noreferrer">
+            <img src="/whatsapp.png" alt="WhatsApp" class="social-icon" />
+          </a>
+          <a href="https://www.instagram.com/rumahbumn.semarang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
+            <img src="/instagram.png" alt="Instagram" class="social-icon" />
+          </a>
+          <a href="https://www.tiktok.com/@rumahbumn.semarang?_t=ZS-8xsVsR2mAJ5&_r=1" target="_blank" rel="noopener noreferrer">
+            <img src="/tiktok.png" alt="TikTok" class="social-icon" />
+          </a>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Rumah BUMN. Semua hak dilindungi.</p>
+      &copy; 2025 &middot; Rumah BUMN Semarang
     </div>
+    <img src="/batik.png" alt="Batik" class="footer-batik" />
   </footer>
 </template>
 
