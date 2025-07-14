@@ -471,7 +471,7 @@ html, body {
 }
 
 .member-name {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 900;
   color: #0E3B4F;
   margin-bottom: 0.5rem;
@@ -909,7 +909,7 @@ html, body {
   font-style: italic;
   color: #4a5568;
   line-height: 1.6;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .member-quote::before {
@@ -1029,102 +1029,308 @@ html, body {
 /* === LOKASI SECTION === */
 .lokasi-section {
   background: #f8f9fb;
-  padding: 4rem 2rem;
+  padding: 8rem 2rem;
   color: white;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.lokasi-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  animation: lokasiFloat 12s ease-in-out infinite;
+}
+
+@keyframes lokasiFloat {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.05) rotate(180deg); }
 }
 
 .lokasi-title {
-  font-size: 1.8rem;
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 2;
   color: #0E3B4F;
-  margin-bottom: 2rem;
 }
 
 .lokasi-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: space-between;
+  gap: 4rem;
   align-items: flex-start;
+  position: relative;
+  z-index: 2;
 }
 
 .lokasi-info {
   flex: 1;
-  min-width: 300px;
-  max-width: 700px;
-  min-height: 500px;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  color: #1a202c;
+  text-align: left;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(180, 180, 180, 0.1);
+  background: linear-gradient(135deg, #f7fafc, #edf2f7);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.info-item:hover {
+  transform: translateY(-5px);
+}
+
+.info-icon {
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0E3B4F, #00529C);
+  border-radius: 50%;
+  color: white;
+}
+
+.info-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.info-content h4 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.info-content p {
+  font-size: 1rem;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.btn-maps {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.btn-maps:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
 }
 
 .lokasi-map {
-  flex: 2;
-  min-width: 500px;
-  min-height: auto;
-  margin-left: auto;
+  flex: 1.5;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  height: 400px;
 }
 
-.btn-maps {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #003c3c;
-  color: white;
-  border-radius: 8px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
+.lokasi-map iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
 }
 
-.btn-maps:hover {
-  background-color: #005e5e;
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 1200px) {
+  .lokasi-container {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .lokasi-map {
+    height: 500px;
+  }
 }
 
 @media (max-width: 768px) {
-  .lokasi-container {
+  .lokasi-info {
+    padding: 2rem;
+  }
+  
+  .info-item {
     flex-direction: column;
-    align-items: center;
-  }
-
-  .lokasi-info,
-  .lokasi-map {
-    width: 100%;
-    margin-left: 0;
     text-align: center;
+    gap: 1rem;
   }
-
-  .lokasi-map iframe {
-    width: 100% !important;
+  
+  .lokasi-map {
+    height: 300px;
+  }
+  
+  .floating-actions {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .main-fab {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .main-fab .fab-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .fab-menu.active {
+    transform: translateY(-70px);
   }
 }
 
-.lokasi-info p {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #0E3B4F;
+@media (max-width: 480px) {
+  .lokasi-title {
+    font-size: 2rem;
+  }
+  
+  .fab-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .fab-text {
+    display: none;
+  }
+  
+  .fab-icon {
+    width: 16px;
+    height: 16px;
+  }
 }
 
-.btn-maps {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  background-color: #004d50;
+
+/* === FLOATING ACTION BUTTON === */
+.floating-actions {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+.main-fab {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0E3B4F, #00529C);
+  border: none;
   color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: background 0.3s;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1001;
 }
 
-.btn-maps:hover {
-  background-color: #002e32;
+.main-fab:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
 }
+
+.main-fab.active .fab-icon {
+  transform: rotate(45deg);
+}
+
+.fab-menu {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-80px);
+}
+
+.fab-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: none;
+  border-radius: 50px;
+  color: #1a202c;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.fab-item:hover {
+  transform: translateX(-10px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.fab-item.whatsapp:hover {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: white;
+}
+
+.fab-item.email:hover {
+  background: linear-gradient(135deg, #ea4335, #d93025);
+  color: white;
+}
+
+.fab-item.scroll-top:hover {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.fab-icon {
+  font-size: 1.2rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.fab-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 
 /* === Scroll Animation === */
 .scroll-anim {
