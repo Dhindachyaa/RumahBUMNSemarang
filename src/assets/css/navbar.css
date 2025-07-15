@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-/* === NAVBAR UTAMA === */
-=======
-@import url('https://fonts.googleapis.com/css2?family=Bona+Nova&family=Inter:wght@400,700&display=swap');
-
->>>>>>> d858d86465e4077b4fb34deb9526507a950dc489
 .navbar {
   position: fixed;
   top: 0;
@@ -21,7 +15,6 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* === FLEX KONTAINER === */
 .navbar-container {
   display: flex;
   justify-content: space-between;
@@ -30,7 +23,6 @@
   flex-wrap: wrap;
 }
 
-/* === LOGO === */
 .logo-group {
   display: flex;
   align-items: center;
@@ -39,36 +31,9 @@
 
 .logo-group img {
   height: 40px;
-  width: auto;
-  object-fit: contain;
 }
 
-/* === MENU NAVIGASI === */
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-}
-
-.nav-links li a {
-  text-decoration: none;
-  color: #0E3B4F;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.nav-links li a.active,
-.nav-links li a:hover {
-  color: #0E3B4F;
-  border-bottom: 2px solid #219994;
-  padding-bottom: 2px;
-}
-
-/* === HAMBURGER MENU (MOBILE) === */
+/* Hamburger (mobile) */
 .menu-toggle {
   display: none;
   font-size: 1.8rem;
@@ -76,26 +41,40 @@
   color: #004b5a;
 }
 
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-  .navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+/* Desktop nav links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
 
+.nav-links li a {
+  text-decoration: none;
+  color: #0E3B4F;
+  font-weight: 500;
+}
+
+.nav-links li a.active,
+.nav-links li a:hover {
+  border-bottom: 2px solid #219994;
+  padding-bottom: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .menu-toggle {
     display: block;
-    align-self: flex-end;
-    margin-bottom: 0.5rem;
   }
 
   .nav-links {
     display: none;
     flex-direction: column;
     width: 100%;
-    background-color: #ffffff;
-    padding: 1rem 0;
-    border-top: 1px solid #e0e0e0;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #fff;
   }
 
   .nav-links.show {
@@ -103,12 +82,6 @@
   }
 
   .nav-links li {
-    padding: 0.5rem 1.5rem;
-    width: 100%;
-  }
-
-  .nav-links li a {
-    display: block;
-    width: 100%;
+    margin: 0.5rem 0;
   }
 }
