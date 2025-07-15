@@ -2,20 +2,22 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="/logobumnsemarang.png" alt="Rumah BUMN Semarang" style="width: 150px; height: auto;" />
-        <div class="address-container" style="max-width: 320px;">
-          <img src="/lokasi.png" alt="Location Icon" class="location-icon" style="width:20px; height:20px;" />
-          <p>Jl. Sultan Agung No.108, Wonotingal, Kec. Candisari, Kota Semarang, Jawa Tengah</p>
+        <img src="/logobumnsemarang.png" alt="Rumah BUMN Semarang" style="width: 250px; height: 125px;" />
+        <div class="address-container">
+          <p>
+          <img src="/lokasi.png" alt="Location Icon" class="location-icon" style="width: 30px; height: 20px;" />
+            <span>Jl. Sultan Agung No.108, Wonotingal,<br />Kec. Candisari, Kota Semarang, Jawa Tengah</span>
+          </p>
         </div>
       </div>
-      <div class="footer-center" style="display: flex; flex-direction: column; gap: 0.5rem;">
+      <div class="footer-center footer-links">
         <h4>Tautan</h4>
         <a href="/beranda">Beranda</a>
         <a href="/umkm">UMKM</a>
         <a href="/galeri">Galeri</a>
         <a href="/berita">Berita</a>
       </div>
-      <div class="footer-right" style="text-align: left;">
+      <div class="footer-right">
         <h4>Ikuti Kami</h4>
         <div class="footer-social">
           <a href="https://wa.me/6288221455037" target="_blank" rel="noopener noreferrer">
@@ -29,11 +31,11 @@
           </a>
         </div>
       </div>
+    <img src="/batik.png" alt="Batik" class="footer-batik" />
     </div>
     <div class="footer-bottom">
       &copy; 2025 &middot; Rumah BUMN Semarang
     </div>
-    <img src="/batik.png" alt="Batik" class="footer-batik" />
   </footer>
 </template>
 
