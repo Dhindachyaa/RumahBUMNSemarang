@@ -2,7 +2,6 @@
   <div>
     <section class="gallery-section">
       <h2 class="animate-on-scroll">GALERI</h2>
-
       <div class="right-gallery full-width no-left-text">
         <div
           v-for="(item, index) in galleryItems"
@@ -13,8 +12,8 @@
         >
           <img :src="item.src" :alt="item.alt" class="gallery-img" />
           <div class="caption">
-            <strong>{{ item.title }}</strong><br />
-            {{ item.caption }}
+            <strong>{{ item.title }}</strong>
+            <div class="caption-desc">{{ item.caption }}</div>
           </div>
         </div>
       </div>
@@ -107,7 +106,7 @@ const galleryItems = [
 // Modal open/close functions
 const openModal = (item) => {
   modalImage.value = item.src
-  modalCaption.value = item.caption
+  modalCaption.value = `${item.title} - ${item.caption}`
   showModal.value = true
 }
 
