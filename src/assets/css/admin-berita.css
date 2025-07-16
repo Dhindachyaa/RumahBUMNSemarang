@@ -1,0 +1,231 @@
+/* ===================== */
+/* ADMIN BERITA PAGE BASE */
+/* ===================== */
+.admin-berita-page {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  overflow-x: auto;
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===================== */
+/* TOOLBAR DAN TOMBOL */
+/* ===================== */
+.toolbar {
+  margin-bottom: 1rem;
+}
+
+.btn-save,
+.btn-cancel,
+.btn-edit,
+.btn-delete {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-save {
+  background-color: #198754;
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: #157347;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-edit:hover {
+  background-color: #ec971f;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c9302c;
+}
+
+/* ===================== */
+/* TABEL BERITA */
+/* ===================== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.berita-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.berita-table th,
+.berita-table td {
+  border: 1px solid #b0b0b0;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.berita-table th {
+  background: #d0d5e6;
+  text-align: center;
+}
+
+.berita-table td img {
+  max-width: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.wrap-text {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* ===================== */
+/* MODAL */
+/* ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.modal {
+  background: white;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===================== */
+/* FORM INPUT MODAL */
+/* ===================== */
+.modal-form {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-form input,
+.modal-form textarea {
+  margin-bottom: 0.9rem;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  width: 100%;
+  resize: vertical;
+}
+
+/* ===================== */
+/* PREVIEW GAMBAR */
+/* ===================== */
+.preview-img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* ===================== */
+/* FOOTER MODAL */
+/* ===================== */
+.modal-footer {
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  background-color: #f9f9f9;
+}
+
+/* ===================== */
+/* RESPONSIVE STYLES */
+/* ===================== */
+@media (max-width: 768px) {
+  .modal {
+    width: 100%;
+    max-height: 95vh;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+}
+.editable-div {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  background-color: white;
+  outline: none;
+  margin-bottom: 1rem;
+}
+
+.editable-div:focus {
+  border-color: #198754;
+}
+.editable-div[contenteditable]:empty::before {
+  content: attr(data-placeholder);
+  color: #888;
+  font-style: italic;
+  pointer-events: none;
+}
