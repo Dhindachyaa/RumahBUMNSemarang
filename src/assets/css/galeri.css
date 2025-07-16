@@ -1,23 +1,91 @@
-/* ===== GALERI STYLES ===== */
+/* Import Google Fonts - HARUS DI PALING ATAS */
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800;900&display=swap');
 
-.gallery-section {
-  padding: 3rem 2rem;
-  text-align: center;
+/* ===== RESET & BASE STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
   background-color: #f8f9fa;
-  min-height: 100vh;
+  color: #1c1c1c;
+  line-height: 1.6;
 }
 
-.gallery-section h2 {
-  font-size: 2.5rem;
-  color: #00529b;
-  margin-bottom: 3rem;
-  padding-top: 4rem;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== RESPONSIVE GALLERY CONTENT ===== */
+.gallery-content {
+  padding: 3rem 2rem; /* Reduced default padding */
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.gallery-header {  
+  background: linear-gradient(135deg, #0E3B4F 0%, #1e5f74 100%);
+  color: white;
+  padding: 8rem 0 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,100"/></svg>');
+  background-size: cover;
+}
+
+.gallery-header h1 {
+  font-size: 3rem;
+  font-weight: 700 !important;
+  font-family: 'Funnel Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  
+  /* Simple fade in animation seperti berita */
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Animasi fadeInUp seperti di berita */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add styling for all headers */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Funnel Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
-/* Fix for title visibility - Override scroll animation for h2 */
+/* Gallery section headers */
+.gallery-section h2 {
+  font-family: 'Funnel Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+
 .gallery-section h2.animate-on-scroll {
   opacity: 1 !important;
   transform: translateY(0) !important;
@@ -27,7 +95,7 @@
 .right-gallery {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: 1rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0;
@@ -38,72 +106,124 @@
   max-width: 100%;
 }
 
-/* Gallery Item - Same as News Card */
+/* Gallery Item - Image Overlay Style */
 .gallery-item {
   display: block;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(180, 180, 180, 0.1);
   cursor: pointer;
-  transition: all 0.1s ease !important;
   overflow: hidden;
   position: relative;
-  height: auto;
-  min-height: 300px;
-  padding: 1rem;
+  height: 280px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   color: inherit;
 }
 
 .gallery-item:hover {
-  transform: translateY(-20px) !important;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(133, 133, 133, 0.15);
 }
 
-/* Gallery Image - Same as News Image */
+/* Gallery Image */
 .gallery-img {
   width: 100%;
-  height: 120px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 1rem;
   display: block;
+  transition: transform 0.3s ease;
 }
 
-/* Caption - Same as News Card Content */
+.gallery-item:hover .gallery-img {
+  transform: scale(1.05);
+}
+
+/* Caption - SIMPLE APPROACH */
 .caption {
-  padding: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+  color: white;
+  padding: 3rem 1rem 1rem;
   text-align: left;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  overflow: hidden;
 }
 
+/* Title - 1 line only */
 .caption strong {
-  font-size: 1.1rem;
-  color: #00529b;
-  font-weight: 600;
-  margin: 0.5rem 0 0.3rem;
   display: block;
+  font-size: 14px;
+  font-weight: 700 !important;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: white;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* Text setelah strong (tanpa wrapper div) */
+.caption strong + * {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.4;
+  margin: 0;
+  padding: 0;
 }
 
-.caption br + * {
-  font-size: 0.9rem;
-  color: #555;
-  line-height: 1.4;
-  margin: 0.5rem 0;
+/* Jika ada text langsung setelah strong tanpa tag pembungkus */
+.caption::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* Description wrapper - untuk menampung teks setelah <br> */
+.caption-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fallback untuk browser lama */
+.caption-desc-fallback {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.3;
+  height: 2.6em;
+  overflow: hidden;
+  position: relative;
+}
+
+.caption-desc-fallback::after {
+  content: "...";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.85) 50%);
+  padding-left: 20px;
 }
 
 /* ===== MODAL STYLES ===== */
 
-/* Modal overlay background */
 .modal {
   position: fixed;
   top: 0;
@@ -124,7 +244,6 @@
   to { opacity: 1; }
 }
 
-/* Modal content wrapper */
 .modal-content-wrapper {
   position: relative;
   max-width: 90vw;
@@ -150,7 +269,6 @@
   }
 }
 
-/* Modal image */
 .modal-content {
   width: 100%;
   height: auto;
@@ -159,7 +277,6 @@
   max-height: 70vh;
 }
 
-/* Modal caption (already defined in vue file) */
 .modal-caption {
   margin: 10px auto 20px auto;
   display: block;
@@ -168,7 +285,7 @@
   color: #fff;
   padding: 12px 20px;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 0 0 8px 8px;
@@ -179,7 +296,6 @@
   line-height: 1.4;
 }
 
-/* Close button */
 .close {
   position: absolute;
   top: 15px;
@@ -204,7 +320,6 @@
 .close:hover {
   color: #ff4444;
   background: rgba(255, 68, 68, 0.2);
-  transform: scale(1.1);
 }
 
 /* ===== ANIMATION CLASSES ===== */
@@ -222,15 +337,30 @@
 
 /* ===== RESPONSIVE DESIGN ===== */
 
-/* Large screens */
+/* Desktop Large (1200px+) */
 @media (min-width: 1200px) {
+  .gallery-content {
+    padding: 3rem 4rem;
+  }
+  
   .right-gallery {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* Medium screens */
+/* Desktop Medium (992px - 1199px) */
+@media (max-width: 1199px) {
+  .gallery-content {
+    padding: 2.5rem 3rem;
+  }
+}
+
+/* Tablet Large (992px - 768px) */
 @media (max-width: 992px) {
+  .gallery-content {
+    padding: 2rem 2rem;
+  }
+  
   .gallery-section {
     padding: 2.5rem 1.5rem;
   }
@@ -244,10 +374,18 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
+  
+  .gallery-item {
+    height: 240px;
+  }
 }
 
-/* Tablet */
+/* Tablet (768px - 991px) */
 @media (max-width: 768px) {
+  .gallery-content {
+    padding: 1.5rem 1rem;
+  }
+  
   .gallery-section {
     padding: 2rem 1rem;
   }
@@ -257,13 +395,31 @@
     margin-bottom: 2rem;
   }
   
+  .gallery-header h1 {
+    font-size: 2.5rem;
+  }
+  
   .right-gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
   
   .gallery-item {
-    padding: 1rem;
+    height: 220px;
+  }
+  
+  .caption {
+    padding: 2.5rem 1rem 1rem;
+  }
+  
+  .caption strong {
+    font-size: 13px;
+  }
+  
+  .caption-desc,
+  .caption-desc-fallback {
+    font-size: 11px;
+    height: 2.4em;
   }
   
   .modal-content-wrapper {
@@ -280,8 +436,19 @@
   }
 }
 
-/* Mobile */
+/* Mobile Large (480px - 767px) */
+@media (max-width: 600px) {
+  .gallery-content {
+    padding: 1rem 0.75rem;
+  }
+}
+
+/* Mobile Small (480px and below) */
 @media (max-width: 480px) {
+  .gallery-content {
+    padding: 1rem 0.5rem;
+  }
+  
   .gallery-section {
     padding: 1.5rem 0.5rem;
   }
@@ -298,16 +465,41 @@
   }
   
   .gallery-item {
-    padding: 1rem;
+    height: 200px;
+  }
+  
+  .caption {
+    padding: 2rem 1rem 1rem;
   }
   
   .caption strong {
-    font-size: 1rem;
+    font-size: 12px;
+  }
+  
+  .caption-desc,
+  .caption-desc-fallback {
+    font-size: 10px;
+    height: 2.2em;
   }
   
   .modal-caption {
     font-size: 0.9rem;
     padding: 10px 15px;
+  }
+}
+
+/* Very Small Mobile (360px and below) */
+@media (max-width: 360px) {
+  .gallery-content {
+    padding: 0.75rem 0.25rem;
+  }
+  
+  .gallery-section {
+    padding: 1rem 0.25rem;
+  }
+  
+  .right-gallery {
+    padding: 0 0.25rem;
   }
 }
 
@@ -317,13 +509,13 @@
   .modal,
   .modal-content-wrapper,
   .close,
-  .animate-on-scroll {
+  .animate-on-scroll,
+  .gallery-header h1 {
     transition: none;
     animation: none;
   }
 }
 
-/* High contrast mode */
 @media (prefers-contrast: high) {
   .gallery-item {
     border: 2px solid #000;
@@ -334,98 +526,36 @@
   }
 }
 
-
-
-
-/* ===== GALERI STYLES ===== */
-
-.gallery-section {
-  padding: 3rem 2rem;
-  text-align: center;
-  background-color: #f8f9fa;
-  min-height: 100vh;
+/* ===== LANDSCAPE ORIENTATION FOR MOBILE ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+  .gallery-content {
+    padding: 1rem 2rem;
+  }
+  
+  .gallery-section {
+    padding: 1.5rem 2rem;
+  }
+  
+  .right-gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  .gallery-item {
+    height: 180px;
+  }
 }
 
-.gallery-section h2 {
-  font-size: 2.5rem;
-  color: #00529b;
-  margin-bottom: 3rem;
-  padding-top: 4rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Main Gallery Container */
-.right-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-/* When full width is needed */
-.right-gallery.full-width {
-  max-width: 100%;
-}
-
-/* Gallery Item */
-.gallery-item {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  position: relative;
-  height: auto;
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-}
-
-.gallery-item:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Gallery Image */
-.gallery-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-img {
-  transform: scale(1.05);
-}
-
-/* Caption */
-.caption {
-  padding: 1.5rem;
-  text-align: left;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.caption strong {
-  font-size: 1.1rem;
-  color: #00529b;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
-.caption br + text,
-.caption strong + br + * {
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.5;
-  margin-top: 0.5rem;
+@media (max-width: 480px) and (orientation: landscape) {
+  .gallery-content {
+    padding: 0.75rem 1rem;
+  }
+  
+  .right-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .gallery-item {
+    height: 160px;
+  }
 }

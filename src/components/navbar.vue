@@ -34,7 +34,7 @@ onMounted(() => {
   })
 })
 </script>
-
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Bona+Nova&family=Inter:wght@400,700&display=swap');
 @import '../assets/css/navbar.css';
 </style>
