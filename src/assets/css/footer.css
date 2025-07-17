@@ -28,6 +28,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
+  padding-left: 10px; /* add padding to align left edges */
 }
 
 .address-container {
@@ -39,8 +40,7 @@
   height: auto;
   margin: 0;
   display: block;
-  padding-left: 0;
-  align-items: center;
+  padding-left: 10px; /* add padding to align left edge with location icon */
 }
 
 .location-icon {
