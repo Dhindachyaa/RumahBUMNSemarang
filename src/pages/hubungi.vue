@@ -1,5 +1,5 @@
 <template>
-  <div class="hubungi-container">
+  <div class="hubungi-container fade-in-up">
     <div class="hubungi-text">
       <h1>Hubungi Kami</h1>
       <p style="font-weight: 100 !important;">

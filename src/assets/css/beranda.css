@@ -123,10 +123,11 @@ html, body {
 .image-scroll {
   display: flex;
   gap: 10px;
-  scroll-snap-type: x mandatory;
+  /* Disabled scroll-snap to remove auto-swipe */
+  /* scroll-snap-type: x mandatory; */
   -webkit-overflow-scrolling: touch;
   padding-bottom: 10px;
-  overflow-x: auto;
+  overflow-x: hidden; /* Disable horizontal scroll */
   overflow-y: hidden;
   perspective: 1000px; /* Enable 3D perspective for parallax */
 }
@@ -1036,7 +1037,7 @@ html, body {
   overflow: hidden;
 }
 
-.lokasi-section::before {
+/* .lokasi-section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -1047,12 +1048,12 @@ html, body {
     radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
   animation: lokasiFloat 12s ease-in-out infinite;
-}
+} */
 
-@keyframes lokasiFloat {
+/* @keyframes lokasiFloat {
   0%, 100% { transform: scale(1) rotate(0deg); }
   50% { transform: scale(1.05) rotate(180deg); }
-}
+} */
 
 .lokasi-title {
   font-size: 3rem;

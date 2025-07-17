@@ -180,7 +180,9 @@
             style="border:0; border-radius: 16px;" 
             allowfullscreen="" 
             loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
+            referrerpolicy="no-referrer-when-downgrade"
+            tabindex="-1"
+            >
           </iframe>
         </div>
       </div>

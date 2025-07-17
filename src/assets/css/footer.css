@@ -18,10 +18,10 @@
   max-width: 1200px;
   margin: auto;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #ccc;
   max-width: 1100px; /* further reduce max-width to shorten border */
   padding-right: 100px; /* add right padding to create space from batik image */
   align-items: flex-start;
+  justify-content: flex-start; /* added to align content to left */
 }
 
 .footer-logo {
@@ -29,11 +29,11 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
-  padding-left: 10px; /* add padding to align left edges */
+  padding-left: 0; /* removed padding to move logo more left */
 }
 
 .address-container {
-  padding-left: 10px; /* match padding to align location icon */
+  padding-left: 0; /* removed padding to move address text more left */
 }
 
 .footer-logo img:first-child {
@@ -41,7 +41,7 @@
   height: auto;
   margin: 0;
   display: block;
-  padding-left: 10px; /* add padding to align left edge with location icon */
+  padding-left: 0; /* removed padding to move logo more left */
 }
 
 .location-icon {
@@ -106,7 +106,8 @@
   width: auto;
   height: 75%;
   object-fit: contain;
-  opacity: 0.4;
+  opacity: 1.0;
+  filter: brightness(0.7) contrast(1.4) saturate(1.3);
   transition: opacity 0.3s ease;
   z-index: 0;
 }
