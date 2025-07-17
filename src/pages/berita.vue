@@ -29,9 +29,8 @@
                 <h2 class="featured-title">{{ featuredArticle.title }}</h2>
                 <p class="featured-excerpt">{{ featuredArticle.excerpt }}</p>
                 <div class="featured-meta">
-                  <span><i class="fas fa-calendar-alt"></i> {{ featuredArticle.date }}</span>
+                  <span><i class="fas fa-clock"></i> {{ featuredArticle.date }}</span>
                   <span><i class="fas fa-user"></i> {{ featuredArticle.author || 'Admin' }}</span>
-                  <span><i class="fas fa-eye"></i> {{ featuredArticle.views || '0' }} views</span>
                 </div>
               </div>
             </div>
@@ -113,8 +112,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=1',
     category: 'ekonomi',
     date: '05 Juli 2025',
-    author: 'Admin Ekonomi',
-    views: '1.234',
     isFeatured: true,
     isTrending: true
   },
@@ -125,8 +122,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=2',
     category: 'teknologi',
     date: '03 Juli 2025',
-    author: 'Tim Teknologi',
-    views: '987',
     isTrending: true
   },
   {
@@ -136,8 +131,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=3',
     category: 'lingkungan',
     date: '01 Juli 2025',
-    author: 'Tim Lingkungan',
-    views: '756'
   },
   {
     id: 'workshop-pemasaran-digital',
@@ -146,8 +139,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=4',
     category: 'pendidikan',
     date: '28 Juni 2025',
-    author: 'Tim Pendidikan',
-    views: '643'
   },
   {
     id: 'pusat-kreatif-baru',
@@ -156,8 +147,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=5',
     category: 'umum',
     date: '25 Juni 2025',
-    author: 'Admin',
-    views: '521'
   },
   {
     id: 'penghijauan-kota-semarang',
@@ -166,8 +155,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=6',
     category: 'lingkungan',
     date: '20 Juni 2025',
-    author: 'Tim Lingkungan',
-    views: '432',
     isTrending: true
   },
   {
@@ -177,8 +164,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=7',
     category: 'ekonomi',
     date: '18 Juni 2025',
-    author: 'Tim Ekonomi',
-    views: '1.089'
   },
   {
     id: 'kurikulum-baru-sekolah',
@@ -187,8 +172,6 @@ const allNews = ref([
     imageUrl: 'https://picsum.photos/600/400?random=8',
     category: 'pendidikan',
     date: '15 Juni 2025',
-    author: 'Tim Pendidikan',
-    views: '367'
   }
 ])
 

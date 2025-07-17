@@ -447,7 +447,7 @@ onUnmounted(() => {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #2a5fab, #184481);
   border: none;
   color: white;
   cursor: pointer;
@@ -534,7 +534,7 @@ onUnmounted(() => {
 }
 
 .fab-item.scroll-top:hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #2a5fab, #184481);
   color: white;
 }
 

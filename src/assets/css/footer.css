@@ -1,6 +1,6 @@
 
 .footer {
-  background-color: #f9f9f9;
+  background-color: #fff;
   padding: 3rem 2rem 1.5rem;
   color: #333;
   font-size: 0.95rem;
@@ -16,7 +16,7 @@
   flex-wrap: wrap;
   gap: 9rem;
   max-width: 1200px;
-  margin: auto;
+  margin: 1rem 8rem 0;
   padding-bottom: 1rem;
   max-width: 1100px; /* further reduce max-width to shorten border */
   align-items: flex-start;
@@ -28,7 +28,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
-  padding-left: 0; /* removed padding to move logo more left */
+  padding-left: 10px; /* add padding to align left edges */
 }
 
 .address-container {
@@ -40,7 +40,7 @@
   height: auto;
   margin: 0;
   display: block;
-  padding-left: 0; /* removed padding to move logo more left */
+  padding-left: 10px; /* add padding to align left edge with location icon */
 }
 
 .location-icon {
@@ -51,8 +51,6 @@
   vertical-align: middle;
   padding-left: 0;
 }
-
-/* Removed duplicate .footer-logo img:first-child and .location-icon styles */
 
 .address-container p {
   display: flex;
@@ -126,7 +124,6 @@
 @media (max-width: 768px) {
   .footer-batik {
     width: 100px;
-    opacity: 0.3;
   }
 }
 
@@ -135,7 +132,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 2rem; /* reduce gap for mobile */
+    gap: 2rem; 
+    margin: auto;
   }
 
   .footer-links {
@@ -150,6 +148,7 @@
 @media (max-width: 480px) {
   .footer-content {
     gap: 1.5rem;
+    margin: auto;
   }
 
   .footer-logo,
@@ -160,14 +159,13 @@
 
   .footer-center {
     width: 100%;
-    text-align: left;
+    text-align: center;
   }
 
   .footer-batik {
     position: static;
     width: 80px;
     height: auto;
-    opacity: 0.2;
     margin: 0 auto;
     display: block;
   }
