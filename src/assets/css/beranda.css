@@ -1069,25 +1069,6 @@ h2, h3, h4, h5, h6 {
             overflow: hidden;
         }
 
-<<<<<<< HEAD
-/* .lokasi-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-  animation: lokasiFloat 12s ease-in-out infinite;
-} */
-
-/* @keyframes lokasiFloat {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.05) rotate(180deg); }
-} */
-=======
         .lokasi-section::before {
             content: '';
             position: absolute;
@@ -1105,7 +1086,42 @@ h2, h3, h4, h5, h6 {
             0%, 100% { transform: scale(1) rotate(0deg); }
             50% { transform: scale(1.05) rotate(180deg); }
         }
->>>>>>> 3c98c7c4fb871f4b07efb65642fa632fc5d6fb66
+
+      .lokasi-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: lokasiFloat 12s ease-in-out infinite;
+        }
+
+        @keyframes lokasiFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(180deg); }
+        }
+
+        .lokasi-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: lokasiFloat 12s ease-in-out infinite;
+        }
+
+        @keyframes lokasiFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(180deg); }
+        }
 
         .lokasi-title {
             font-size: clamp(2rem, 5vw, 3rem);
