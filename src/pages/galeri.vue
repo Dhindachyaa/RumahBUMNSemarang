@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <section class="gallery-section">
-      <h2 class="animate-on-scroll">GALERI</h2>
+    <div class="news-page">
+    <!-- Header Section -->
+    <header class="gallery-header">
+      <div class="container">
+        <h1 class="animate-fade-in">GALERI</h1>
+      </div>
+    </header>
+    <!-- Gallery Section -->
+    <section class="gallery-content">
       <div class="right-gallery full-width no-left-text">
         <div
           v-for="(item, index) in galleryItems"

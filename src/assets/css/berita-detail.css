@@ -19,7 +19,7 @@
 
 /* ===== HERO SECTION ===== */
 .hero-section {
-  background: linear-gradient(135deg, #00529b 0%, #003a6b 100%);
+  background: linear-gradient(135deg, #0E3B4F 0%, #00506b 100%);
   color: white;
   padding: 4rem 0 3rem;
   position: relative;
@@ -48,6 +48,7 @@
 .breadcrumb {
   margin-bottom: 2rem;
   font-size: 0.9rem;
+  padding-top: rem;
 }
 
 .breadcrumb-link {
@@ -154,7 +155,7 @@
 .article-body h2,
 .article-body h3,
 .article-body h4 {
-  color: #00529b;
+  color: #0E3B4F;
   margin: 2rem 0 1rem;
   font-weight: 600;
 }
@@ -179,7 +180,7 @@
 }
 
 .article-body blockquote {
-  border-left: 4px solid #00529b;
+  border-left: 4px solid #0E3B4F;
   margin: 2rem 0;
   padding: 1rem 1.5rem;
   background: #f8f9fa;
@@ -196,7 +197,7 @@
 
 .article-tags h4 {
   margin-bottom: 1rem;
-  color: #00529b;
+  color: #0E3B4F;
   font-size: 1rem;
 }
 
@@ -213,7 +214,7 @@
 }
 
 .tag:hover {
-  background: #00529b;
+  background: #0E3B4F;
   color: white;
   transform: translateY(-1px);
 }
@@ -227,7 +228,7 @@
 
 .article-share h4 {
   margin-bottom: 1rem;
-  color: #00529b;
+  color: #0E3B4F;
   font-size: 1rem;
 }
 
@@ -309,7 +310,7 @@
 }
 
 .sidebar-widget h3 {
-  color: #00529b;
+  color: #0E3B4F;
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
@@ -381,7 +382,7 @@
   right: 2rem;
   width: 50px;
   height: 50px;
-  background: #00529b;
+  background: #0E3B4F;
   color: white;
   border: none;
   border-radius: 50%;

@@ -1,9 +1,10 @@
-/* === RESET DASAR === */
-@import url('https://fonts.googleapis.com/css2?family=Bona+Nova&family=Inter:wght@400,700&display=swap');
+/* Import Google Fonts - HARUS DI PALING ATAS */
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800;900&display=swap');
 
+/* === RESET DASAR === */
 * {
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
 }
 
@@ -14,8 +15,19 @@ html, body {
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #F5F6F8;
+}
+
+/* Add styling for headers */
+h1 {
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
 }
 
 /* === HERO SECTION === */
@@ -111,6 +123,7 @@ html, body {
   color: #333333;
   max-width: 450px;
   text-align: justify;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* Kanan (gambar scroll) */
@@ -191,7 +204,6 @@ html, body {
   .image-scroll img {
     width: 80%;
   }
-
 }
 
 /* === FITUR SECTION === */
@@ -219,6 +231,7 @@ html, body {
   border: 1px solid rgba(0,0,0,0.05);
   position: relative;
   overflow: hidden;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .fitur-cards .card::before {
@@ -265,6 +278,7 @@ html, body {
   color: #0c2e4e;
   font-weight: 600;
   line-height: 1.3;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .fitur-cards p {
@@ -273,6 +287,7 @@ html, body {
   color: #4a5568;
   line-height: 1.6;
   font-weight: 400;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .fitur-cards .btn {
@@ -287,6 +302,7 @@ html, body {
   display: inline-block;
   position: relative;
   overflow: hidden;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .fitur-cards .btn::before {
@@ -378,6 +394,7 @@ html, body {
   min-height: 100vh;
   position: relative;
   margin-bottom: 5rem;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .tim-section h2 {
@@ -389,6 +406,7 @@ html, body {
   max-width: 600px;
   line-height: 1.1;
   margin-left: 2rem;
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .tim-container {
@@ -449,6 +467,7 @@ html, body {
   color: #4a5568;
   line-height: 1.6;
   font-size: 1rem;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .member-quote::before {
@@ -476,6 +495,7 @@ html, body {
   font-weight: 900;
   color: #0E3B4F;
   margin-bottom: 0.5rem;
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .member-position {
@@ -483,6 +503,7 @@ html, body {
   font-size: 1.1rem;
   font-weight: 500;
   font-style: italic;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* Responsive Design */
@@ -561,6 +582,7 @@ html, body {
   background: linear-gradient(to top, hsl(185, 41%, 75%), #f8f9fb);
   padding: 5rem 2rem 8rem 2rem;
   text-align: center;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .testimoni-header {
@@ -579,6 +601,7 @@ html, body {
   font-weight: 900;
   text-align: center;
   margin: 0;
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .testimoni-header p {
@@ -587,7 +610,7 @@ html, body {
   font-weight: 400;
   text-align: center;
   margin: 0;
-  font-family: 'Bona Nova', serif;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-style: italic;
   line-height: 1.5;
 }
@@ -602,6 +625,7 @@ html, body {
   font-size: 0.95rem;
   transition: all 0.3s ease;
   white-space: nowrap;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .testimoni-btn:hover {
@@ -651,6 +675,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .testimoni-nav-btn:hover {
@@ -672,6 +697,7 @@ html, body {
   position: relative;
   z-index: 5;
   line-height: 1.8;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .quote {
@@ -681,6 +707,7 @@ html, body {
   color: #2d3748;
   font-weight: 400;
   line-height: 1.4;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .quote-icon {
@@ -698,6 +725,7 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .user-icon {
@@ -854,6 +882,7 @@ html, body {
   max-width: 700px;
   line-height: 1.1;
   margin-left: 2rem;
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .tim-container {
@@ -911,6 +940,7 @@ html, body {
   color: #4a5568;
   line-height: 1.6;
   font-size: 0.9rem;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .member-quote::before {
@@ -938,6 +968,7 @@ html, body {
   font-weight: 900;
   color: #0E3B4F;
   margin-bottom: 0.5rem;
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .member-position {
@@ -945,6 +976,7 @@ html, body {
   font-size: 1.1rem;
   font-weight: 500;
   font-style: italic;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* Responsive Design */
@@ -1027,16 +1059,17 @@ html, body {
 }
 
 
-/* === LOKASI SECTION === */
+ /* === LOKASI SECTION === */
 .lokasi-section {
   background: #f8f9fb;
-  padding: 8rem 2rem;
-  color: white;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+  padding: 4rem 1rem;
+            color: #0E3B4F;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
+<<<<<<< HEAD
 /* .lokasi-section::before {
   content: '';
   position: absolute;
@@ -1054,115 +1087,251 @@ html, body {
   0%, 100% { transform: scale(1) rotate(0deg); }
   50% { transform: scale(1.05) rotate(180deg); }
 } */
+=======
+        .lokasi-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: lokasiFloat 12s ease-in-out infinite;
+        }
 
-.lokasi-title {
-  font-size: 3rem;
-  font-weight: 900;
-  margin-bottom: 4rem;
-  position: relative;
-  z-index: 2;
-  color: #0E3B4F;
-}
+        @keyframes lokasiFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(180deg); }
+        }
+>>>>>>> 3c98c7c4fb871f4b07efb65642fa632fc5d6fb66
 
-.lokasi-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  gap: 4rem;
-  align-items: flex-start;
-  position: relative;
-  z-index: 2;
-}
+        .lokasi-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+            color: #0E3B4F;
+        }
 
-.lokasi-info {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  padding: 3rem;
-  border-radius: 24px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-  color: #1a202c;
-  text-align: left;
-}
+        .lokasi-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+            align-items: stretch;
+            position: relative;
+            z-index: 2;
+        }
 
-.info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #f7fafc, #edf2f7);
-  border-radius: 16px;
-  transition: transform 0.3s ease;
-}
+        .lokasi-info {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            color: #1a202c;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-.info-item:hover {
-  transform: translateY(-5px);
-}
+        .info-items {
+            flex: 1;
+        }
 
-.info-icon {
-  min-width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #0E3B4F, #00529C);
-  border-radius: 50%;
-  color: white;
-}
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
 
-.info-icon svg {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-}
+        .info-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
 
-.info-content h4 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 0.5rem;
-}
+        .info-icon {
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0E3B4F, #00529C);
+            border-radius: 50%;
+            color: white;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
 
-.info-content p {
-  font-size: 1rem;
-  color: #4a5568;
-  line-height: 1.6;
-  margin: 0;
-}
+        .info-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
 
-.btn-maps {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-}
+        .info-content h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
 
-.btn-maps:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-}
+        .info-content p {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 0;
+        }
 
-.lokasi-map {
-  flex: 1.5;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-  height: 400px;
-}
+        .btn-maps {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            text-align: center;
+            align-self: flex-start;
+        }
 
-.lokasi-map iframe {
-  width: 100%;
-  height: 500px;
-  border: none;
-}
+        .btn-maps:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .lokasi-map {
+            flex: 1.2;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            min-height: 400px;
+        }
+
+        .lokasi-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 24px;
+        }
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 768px) {
+            .lokasi-section {
+                padding: 3rem 1rem;
+            }
+
+            .lokasi-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .lokasi-info {
+                padding: 1.5rem;
+            }
+
+            .info-item {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .info-icon {
+                min-width: 35px;
+                height: 35px;
+            }
+
+            .info-icon svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .info-content h4 {
+                font-size: 1.1rem;
+            }
+
+            .info-content p {
+                font-size: 0.9rem;
+            }
+
+            .btn-maps {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+                width: 100%;
+            }
+
+            .lokasi-map {
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .lokasi-section {
+                padding: 2rem 0.5rem;
+            }
+
+            .lokasi-container {
+                gap: 1.5rem;
+            }
+
+            .lokasi-info {
+                padding: 1rem;
+            }
+
+            .info-item {
+                padding: 0.8rem;
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .info-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .lokasi-map {
+                min-height: 250px;
+            }
+        }
+
+        /* === TABLET LANDSCAPE === */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .lokasi-container {
+                gap: 1.5rem;
+            }
+
+            .lokasi-info {
+                padding: 1.8rem;
+            }
+
+            .info-item {
+                padding: 1.2rem;
+            }
+        }
+
+        /* === LARGE SCREENS === */
+        @media (min-width: 1200px) {
+            .lokasi-container {
+                gap: 3rem;
+            }
+
+            .lokasi-info {
+                padding: 2.5rem;
+            }
+        }
 
 /* === RESPONSIVE DESIGN === */
 @media (max-width: 1200px) {
@@ -1344,5 +1513,3 @@ html, body {
   opacity: 1;
   transform: translateY(0);
 }
-
-

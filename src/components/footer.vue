@@ -31,7 +31,7 @@
           </a>
         </div>
       </div>
-    <img src="/batik.png" alt="Batik" class="footer-batik" />
+    <img src="/batik.svg" alt="Batik" class="footer-batik" />
     </div>
     <div class="footer-bottom">
       &copy; 2025 &middot; Rumah BUMN Semarang

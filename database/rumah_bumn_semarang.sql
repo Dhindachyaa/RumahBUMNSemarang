@@ -34,7 +34,6 @@ CREATE TABLE `umkm` (
   `kategori` varchar(100) DEFAULT NULL,
   `telepon` varchar(20) DEFAULT NULL,
   `instagram` varchar(100) DEFAULT NULL,
-  `facebook` varchar(100) DEFAULT NULL,
   `image_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -42,7 +41,7 @@ CREATE TABLE `umkm` (
 -- Dumping data for table `umkm`
 --
 
-INSERT INTO `umkm` (`id`, `nama`, `pemilik`, `kategori`, `telepon`, `instagram`, `facebook`, `image_path`) VALUES
+INSERT INTO `umkm` (`id`, `nama`, `pemilik`, `kategori`, `telepon`, `instagram`, `image_path`) VALUES
 ('batik-amel', 'Rumah Batik Amel', 'Rizqi Amaliya', 'Perdagangan', '085879851421', '@rumah_batik_amel', 'rumah batik amel', 'images/batik-amel.jpg'),
 ('laudya-hijab', 'Laudya Hijab', 'Laudya Sari', 'Fashion/Busana', '081234000000', '@laudya_hijab', 'Laudya Hijab', 'images/laudya-hijab.jpg'),
 ('puzo-gallery', 'Puzo’s Art Gallery', 'Puzo Mahendra', 'Craft/Kerajinan Tangan', '082112345678', '@puzo_gallery', 'puzo art gallery', 'images/puzo-gallery.jpg');
