@@ -34,7 +34,8 @@
     </section>
 
     <!-- FITUR CARDS SECTION -->
-    <section class="fitur-cards scroll-anim" id="fitur">
+  <section class="fitur-section scroll-anim" id="fitur">
+    <div class="fitur-cards">
       <div 
         class="card" 
         v-for="(fitur, index) in fiturList" 
@@ -50,7 +51,8 @@
           {{ fitur.btn }}
         </a>
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- TIM SECTION -->
     <section class="tim-section scroll-anim">
@@ -180,9 +182,7 @@
             style="border:0; border-radius: 16px;" 
             allowfullscreen="" 
             loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade"
-            tabindex="-1"
-            >
+            referrerpolicy="no-referrer-when-downgrade">
           </iframe>
         </div>
       </div>
@@ -225,9 +225,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 // Import assets
 import foto1 from '@/assets/beranda/foto1.jpg'
 import foto2 from '@/assets/beranda/foto2.jpg'
-import iconUmkm from '@/assets/beranda/icon-umkm.png'
-import iconEvent from '@/assets/beranda/icon-event.png'
-import iconBooking from '@/assets/beranda/icon-booking.png'
+import iconUmkm from '@/assets/beranda/icon-umkm.svg'
+import iconEvent from '@/assets/beranda/icon-event.svg'
+import iconBooking from '@/assets/beranda/icon-booking.svg'
 import orang1 from '@/assets/beranda/orang1.png'
 import iconLinkedin from '@/assets/beranda/icon-linkedin.png'
 import iconEmail from '@/assets/beranda/icon-email.jpg'
@@ -447,7 +447,7 @@ onUnmounted(() => {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2a5fab, #184481);
+  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
   border: none;
   color: white;
   cursor: pointer;
