@@ -137,24 +137,3 @@ onMounted(() => {
 </script>
 
 <style scoped src="../assets/css/galeri.css"></style>
-
-<!-- Caption styling (global) -->
-<style>
-.modal-caption {
-  margin: 10px auto 20px auto;
-  display: block;
-  width: 100%;
-  max-width: 90vw;
-  color: #fff;
-  padding: 12px 20px;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 0 0 8px 8px;
-  box-shadow: none;
-  text-shadow: none;
-  word-wrap: break-word;
-  word-break: break-word;
-}
-</style>

@@ -42,7 +42,7 @@ body, html {
 
 /* === HEADER STYLING === */
 .hubungi-header {
-  background: linear-gradient(135deg, #0E3B4F 0%, #1e5f74 100%);
+  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
   color: white;
   padding: 8rem 0 2rem; /* Exact same as news-header */
   text-align: center;
@@ -126,7 +126,7 @@ body, html, .hubungi-container, .hubungi-text, .contact-list, .footer, .footer-c
 .contact-list .icon {
   font-size: 1.2rem;
   margin-right: 0.75rem;
-  color: #0E3B4F;
+  color: #184481;
   width: 24px;
   height: 24px;
   display: inline-flex;

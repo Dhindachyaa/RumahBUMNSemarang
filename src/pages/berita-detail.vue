@@ -42,14 +42,6 @@
               <!-- Article Body -->
               <div class="article-body" v-html="articleContent"></div>
 
-              <!-- Article Tags -->
-              <div class="article-tags" v-if="article.tags && article.tags.length > 0">
-                <h4>Tags:</h4>
-                <div class="tags-list">
-                  <span v-for="tag in article.tags" :key="tag" class="tag">{{ tag }}</span>
-                </div>
-              </div>
-
               <!-- Share Buttons -->
               <div class="article-share">
                 <h4>Bagikan Artikel:</h4>
@@ -77,29 +69,6 @@
 
           <!-- Sidebar -->
           <aside class="article-sidebar">
-            <!-- Related Articles Widget -->
-            <div class="sidebar-widget" v-if="relatedArticles.length > 0">
-              <h3>Artikel Terkait</h3>
-              <div class="related-articles">
-                <router-link
-                  v-for="related in relatedArticles"
-                  :key="related.id"
-                  :to="{ name: 'BeritaDetail', params: { id: related.id } }"
-                  class="related-article"
-                >
-                  <img 
-                    :src="related.imageUrl || getPlaceholderImage()" 
-                    :alt="related.title"
-                    @error="handleImageError"
-                  />
-                  <div class="related-content">
-                    <h4>{{ related.title }}</h4>
-                    <div class="related-date">{{ related.date }}</div>
-                  </div>
-                </router-link>
-              </div>
-            </div>
-
             <!-- Latest Articles Widget -->
             <div class="sidebar-widget">
               <h3>Berita Terbaru</h3>
@@ -185,7 +154,6 @@ const allNews = ref([
     date: '05 Juli 2025',
     author: 'Admin Ekonomi',
     views: '1.234',
-    tags: ['UMKM', 'Ekonomi', 'Semarang', 'Menteri', 'Bantuan Modal'],
     content: `
       <p>Kunjungan Menteri Koperasi dan Usaha Kecil Menengah (UKM) ke Semarang menandai komitmen pemerintah dalam mendukung pertumbuhan ekonomi kerakyatan. Dalam kunjungan ini, Menteri secara langsung meninjau berbagai unit usaha UMKM yang tersebar di wilayah Semarang dan sekitarnya.</p>
 
@@ -230,7 +198,6 @@ const allNews = ref([
     date: '03 Juli 2025',
     author: 'Tim Teknologi',
     views: '987',
-    tags: ['Teknologi', 'Mahasiswa', 'Inovasi', 'Aplikasi', 'UMKM'],
     content: `
       <p>Sebuah terobosan baru dalam dunia teknologi lokal telah lahir dari kreativitas mahasiswa universitas di Semarang. Aplikasi bernama "UMKM Helper" ini dirancang khusus untuk membantu para pelaku usaha mikro, kecil, dan menengah dalam mengelola bisnis mereka secara lebih efisien dan modern.</p>
 
@@ -257,7 +224,6 @@ const allNews = ref([
     date: '01 Juli 2025',
     author: 'Tim Lingkungan',
     views: '756',
-    tags: ['Lingkungan', 'Daur Ulang', 'Komunitas', 'Sosialisasi'],
     content: `
       <p>Program sosialisasi daur ulang sampah tingkat komunitas telah berhasil menjangkau lebih dari 50 komunitas di Semarang. Inisiatif ini bertujuan untuk meningkatkan kesadaran masyarakat tentang pentingnya pengelolaan sampah yang bertanggung jawab.</p>
 
@@ -282,7 +248,6 @@ const allNews = ref([
     date: '28 Juni 2025',
     author: 'Tim Pendidikan',
     views: '643',
-    tags: ['Pemasaran', 'Digital', 'Workshop', 'Pengusaha Muda'],
     content: `
       <p>Workshop pemasaran digital yang diselenggarakan khusus untuk para pengusaha muda telah berhasil menarik perhatian lebih dari 200 peserta dari berbagai sektor usaha. Acara ini bertujuan untuk memberikan pemahaman mendalam tentang strategi pemasaran di era digital.</p>
 
@@ -305,7 +270,6 @@ const allNews = ref([
     date: '25 Juni 2025',
     author: 'Admin',
     views: '521',
-    tags: ['Kreatif', 'Talenta Lokal', 'Inovasi'],
     content: `
       <p>Peresmian pusat kreatif baru di Semarang menandai tonggak penting dalam pengembangan talenta lokal. Fasilitas ini dirancang untuk menjadi wadah bagi para kreator, seniman, dan inovator dalam mengembangkan karya-karya terbaik mereka.</p>
 

@@ -1111,7 +1111,7 @@ h2, h3, h4, h5, h6 {
             backdrop-filter: blur(20px);
             padding: 2rem;
             border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.05);
             color: #1a202c;
             text-align: left;
             display: flex;
@@ -1162,6 +1162,7 @@ h2, h3, h4, h5, h6 {
             font-weight: 700;
             color: #2d3748;
             margin-bottom: 0.5rem;
+            margin-top: 0%;
         }
 
         .info-content p {
@@ -1175,7 +1176,7 @@ h2, h3, h4, h5, h6 {
             display: inline-block;
             margin-top: 1.5rem;
             padding: 1rem 2rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -1278,11 +1279,11 @@ h2, h3, h4, h5, h6 {
 
             .info-icon {
                 margin-right: 0;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0;
             }
 
             .lokasi-map {
-                min-height: 250px;
+                min-height: 100%;
             }
         }
 
@@ -1465,7 +1466,7 @@ h2, h3, h4, h5, h6 {
 }
 
 .fab-item.scroll-top:hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
   color: white;
 }
 
