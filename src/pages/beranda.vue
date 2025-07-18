@@ -130,6 +130,27 @@
       </div>
     </section>
 
+    <!-- FAQ SECTION - Added -->
+    <section class="faq-section scroll-anim">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-container">
+        <div class="faq-column">
+          <div class="faq-item" v-for="(faq, index) in leftFaqs" :key="'left-'+index" @click="toggleLeftFaq(index)">
+            <span>{{ activeLeftFaq === index ? '-' : '+' }}</span>
+            <strong>{{ faq.question }}</strong>
+            <p v-if="activeLeftFaq === index" class="faq-answer" v-html="faq.answer"></p>
+          </div>
+        </div>
+        <div class="faq-column">
+          <div class="faq-item" v-for="(faq, index) in rightFaqs" :key="'right-'+index" @click="toggleRightFaq(index)">
+            <span>{{ activeRightFaq === index ? '-' : '+' }}</span>
+            <strong>{{ faq.question }}</strong>
+            <p v-if="activeRightFaq === index" class="faq-answer" v-html="faq.answer"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- LOKASI SECTION -->
     <section class="lokasi-section scroll-anim">
       <h2 class="lokasi-title">Lokasi Kami</h2>
@@ -221,6 +242,8 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+
+
 
 // Import assets
 import foto1 from '@/assets/beranda/foto1.jpg'
@@ -357,6 +380,55 @@ const scrollToTop = () => {
 
 // Auto-rotate testimoni
 let testimoniInterval
+
+const activeLeftFaq = ref(null)
+const activeRightFaq = ref(null)
+
+const leftFaqs = [
+  {
+    question: 'Apakah itu Rumah BUMN?',
+    answer: 'Rumah BUMN adalah sebuah fasilitas atau wadah yang disediakan oleh Badan Usaha Milik Negara (BUMN) sebagai pusat pengembangan kewirausahaan UMKM (Usaha Mikro, Kecil, dan Menengah). Rumah BUMN bertujuan untuk memberdayakan pelaku UMKM agar naik kelas melalui pelatihan, pendampingan, dan akses ke pasar maupun digitalisasi.'
+  },
+  {
+    question: 'Cara agar bisa magang di Rumah BUMN?',
+    answer: 'Mahasiswa atau pelajar yang ingin magang di Rumah BUMN bisa:<ul><li>Mengirim surat permohonan magang dari instansi pendidikan ke Rumah BUMN yang dituju.</li><li>Melampirkan CV dan dokumen pendukung.</li><li>Jika disetujui, akan diberikan penempatan dan jadwal sesuai kebutuhan operasional Rumah BUMN tersebut.</li></ul>'
+  },
+  {
+    question: 'Layanan apa yang biasanya diberikan oleh Rumah BUMN?',
+    answer: 'Rumah BUMN biasanya menyediakan layanan:<ul><li>Pelatihan kewirausahaan dan digital marketing</li><li>Pendampingan legalitas dan sertifikasi produk</li><li>Fasilitasi akses permodalan dan perbankan</li><li>Ruang kerja bersama (co-working space)</li><li>Pameran produk dan promosi melalui marketplace</li></ul>'
+  }
+]
+
+const rightFaqs = [
+  {
+    question: 'Caranya gabung UMKM bagaimana?',
+    answer: 'Untuk bergabung sebagai UMKM binaan Rumah BUMN, pelaku usaha biasanya perlu:<ul><li>Mengisi formulir pendaftaran secara offline atau online melalui website resmi Rumah BUMN setempat.</li><li>Melampirkan dokumen seperti KTP, NPWP (jika ada), dan data usaha (misalnya foto produk, legalitas usaha, dll).</li><li>Setelah itu, akan dilakukan verifikasi dan UMKM bisa mengikuti program pembinaan.</li></ul>'
+  },
+  {
+    question: 'Cara booking tempat di Rumah BUMN bagaimana ya?',
+    answer: 'Untuk memesan atau booking tempat (seperti ruang pelatihan, booth pameran, atau ruang kerja) di Rumah BUMN:<ul><li>Hubungi pengelola Rumah BUMN secara langsung (datang ke lokasi atau melalui kontak yang tersedia).</li><li>Beberapa Rumah BUMN juga menyediakan sistem booking online melalui website atau WhatsApp resmi.</li><li>Pemesanan biasanya bersifat gratis untuk UMKM binaan, namun tetap perlu penjadwalan dan konfirmasi.</li></ul>'
+  },
+  {
+    question: 'Apa tujuan utama Rumah BUMN bagi pelaku UMKM?',
+    answer: 'Tujuan utamanya adalah untuk membantu UMKM naik kelas, yaitu agar mereka lebih siap bersaing di pasar nasional dan global melalui pelatihan, digitalisasi, pembiayaan, serta jaringan pemasaran yang lebih luas.'
+  }
+]
+
+const toggleLeftFaq = (index) => {
+  if (activeLeftFaq.value === index) {
+    activeLeftFaq.value = null
+  } else {
+    activeLeftFaq.value = index
+  }
+}
+
+const toggleRightFaq = (index) => {
+  if (activeRightFaq.value === index) {
+    activeRightFaq.value = null
+  } else {
+    activeRightFaq.value = index
+  }
+}
 
 onMounted(() => {
   // Scroll animations

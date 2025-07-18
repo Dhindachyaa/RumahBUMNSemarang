@@ -291,7 +291,7 @@ h2, h3, h4, h5, h6 {
 
 .fitur-cards .btn {
   padding: 0.8rem 2rem;
-  background-color: #0E3B4F;
+  background-color: #184481;
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -397,7 +397,7 @@ h2, h3, h4, h5, h6 {
 }
 
 .tim-section h2 {
-  color: #0E3B4F;
+  color: #184481;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 900;
   margin-bottom: 1rem;
@@ -492,7 +492,7 @@ h2, h3, h4, h5, h6 {
 .member-name {
   font-size: 2rem;
   font-weight: 900;
-  color: #0E3B4F;
+  color: #184481;
   margin-bottom: 0.5rem;
   font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -873,7 +873,7 @@ h2, h3, h4, h5, h6 {
 }
 
 .tim-section h2 {
-  color: #0E3B4F;
+  color: #184481;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 900;
   margin-bottom: 2rem;
@@ -965,7 +965,7 @@ h2, h3, h4, h5, h6 {
 .member-name {
   font-size: 3rem;
   font-weight: 900;
-  color: #0E3B4F;
+  color: #184481;
   margin-bottom: 0.5rem;
   font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -1062,31 +1062,13 @@ h2, h3, h4, h5, h6 {
 .lokasi-section {
   background: #f8f9fb;
   padding: 4rem 1rem;
-            color: #0E3B4F;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+  margin-top: 10rem;
+  color: #184481;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
-<<<<<<< HEAD
-/* .lokasi-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-  animation: lokasiFloat 12s ease-in-out infinite;
-} */
-
-/* @keyframes lokasiFloat {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.05) rotate(180deg); }
-} */
-=======
         .lokasi-section::before {
             content: '';
             position: absolute;
@@ -1104,7 +1086,6 @@ h2, h3, h4, h5, h6 {
             0%, 100% { transform: scale(1) rotate(0deg); }
             50% { transform: scale(1.05) rotate(180deg); }
         }
->>>>>>> 3c98c7c4fb871f4b07efb65642fa632fc5d6fb66
 
         .lokasi-title {
             font-size: clamp(2rem, 5vw, 3rem);
@@ -1112,7 +1093,7 @@ h2, h3, h4, h5, h6 {
             margin-bottom: 3rem;
             position: relative;
             z-index: 2;
-            color: #0E3B4F;
+            color: #184481;
         }
 
         .lokasi-container {
@@ -1164,7 +1145,7 @@ h2, h3, h4, h5, h6 {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0E3B4F, #00529C);
+            background: linear-gradient(135deg, #184481, #00529C);
             border-radius: 50%;
             color: white;
             margin-right: 1rem;
@@ -1413,7 +1394,7 @@ h2, h3, h4, h5, h6 {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0E3B4F, #00529C);
+  background: linear-gradient(135deg, #184481, #00529C);
   border: none;
   color: white;
   font-size: 2rem;
@@ -1512,4 +1493,51 @@ h2, h3, h4, h5, h6 {
 .scroll-anim.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* FAQ Section Styles */
+.faq-section {
+  margin-top: 6rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-weight: 900;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #184481;
+}
+
+.faq-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.faq-item {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.faq-item:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.faq-item span {
+  margin-right: 0.5rem;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #184481;
 }
