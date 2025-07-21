@@ -1,3 +1,5 @@
+/* Import Font Awesome for icons */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 .footer {
   background-color: #fff;
@@ -28,11 +30,11 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
-  padding-left: 10px; /* add padding to align left edges */
+  padding-left: -90px; 
 }
 
 .address-container {
-  padding-left: 0; /* removed padding to move address text more left */
+  padding-left: 0;
 }
 
 .footer-logo img:first-child {
@@ -66,13 +68,77 @@
   gap: 0.5rem; /* reduce gap between links to make them closer */
 }
 
-.footer-social a {
-  display: inline-block;
-  margin-right: 8px;
+/* Updated social media icons styling */
+.footer-social {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.footer-social a:last-child {
-  margin-right: 0;
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  background-color: #eeeeee;
+  border-radius: 50%;
+  color: #A6A6A6;
+  font-size: 25px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.footer-social a:hover {
+  background-color: #c70740;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(199, 7, 64, 0.3);
+  border-color: #c70740;
+}
+
+/* Specific hover effects for each platform */
+.footer-social a.whatsapp:hover {
+  background-color: #25d366;
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+  border-color: #25d366;
+}
+
+.footer-social a.instagram:hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  box-shadow: 0 5px 15px rgba(225, 48, 108, 0.3);
+  border-color: #dc2743;
+}
+
+.footer-social a.tiktok:hover {
+  background-color: #000000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-color: #000000;
+}
+
+/* Icon animation on hover */
+.footer-social a i {
+  transition: transform 0.3s ease;
+}
+
+.footer-social a:hover i {
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-social a {
+    width: 60px;
+    height: 60px;
+    font-size: 16px;
+  }
 }
 
 .footer-links a {
@@ -121,9 +187,70 @@
   margin-top: 0.5rem; /* add margin to create space between heading and icons */
 }
 
-@media (max-width: 768px) {
+.footer-bottom {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #0E3B4F;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-bottom::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 41%;
+  transform: translateX(-50%);
+  width: 63%;
+  height: 1px;
+  background-color: #E5E5E5;
+}
+
+/* Tablet responsiveness: adjust size and keep position absolute */
+@media (max-width: 1024px) and (min-width: 769px) {
   .footer-batik {
-    width: 100px;
+    height: 50%;
+    width: auto;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+/* Mobile responsiveness: smaller size and position static centered */
+@media (max-width: 768px) and (min-width: 481px) {
+  .footer-batik {
+    position: static;
+    width: 200px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+/* Small mobile devices: smaller size and position static centered */
+@media (max-width: 480px) {
+  .footer-batik {
+    position: static;
+    width: 200px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .footer-social {
+    justify-content: center;
+  }
+  
+  .footer-social a {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
   }
 }
 
@@ -140,8 +267,6 @@
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
-  
-
   }
 }
 
@@ -164,7 +289,7 @@
 
   .footer-batik {
     position: static;
-    width: 80px;
+    width: 200px;
     height: auto;
     margin: 0 auto;
     display: block;
