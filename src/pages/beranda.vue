@@ -1,46 +1,37 @@
 <template>
   <div>
     <!-- NEW BACKGROUND IMAGE SECTION -->
-    <section class="background-image-section" :style="{ backgroundImage: `url(${tuguMuda})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
-      <div class="overlay">
-        <div class="logo-sequence">
-          <img src="/logobumnsemarang.png" alt="Logo BUMN Semarang" class="background-logo-seq" />
-        </div>
-        <p class="background-text">
-          Merupakan wadah bagi langkah kolaborasi BUMN dalam membentuk digital ekonomi ekosistem melalui pembinaan bagi UKM untuk meningkatkan kapasitas dan kapabilitas UKM itu sendiri.
-        </p>
-      </div>
-    </section>
+<section
+  class="background-image-section"
+  :style="{
+    backgroundImage: 'url(' + tuguMuda + ')',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }"
+>
+  <div class="overlay">
+    <div class="logo-sequence">
+    <img src="/logobumnsemarang.png" alt="Logo BUMN Semarang" class="background-logo-seq" />
 
-    <!-- HERO -->
-    <section class="fitur-cards scroll-anim" id="hero">
-      <div class="hero-container">
-        <div class="hero-left hero-heading" style="color:#0E3B4F; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 96px;">
-          <h1>
-            <span class="bold-line" style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 96px;">RUMAH</span><br />
-            <span class="bold-line" style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 96px;">BUMN</span><br />
-            <span class="italic-line" style="font-family: 'Bona Nova', serif; font-size: 96px; font-style: italic;">Semarang</span>
-          </h1>
-        </div>
-        <div class="hero-right">
-          <div class="image-scroll">
-            <img :src="foto1" alt="Foto 1" />
-            <img :src="foto2" alt="Foto 2" />
-            <img :src="foto1" alt="Foto 3" />
-            <img :src="foto2" alt="Foto 4" />
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
+    <p class="background-text">
+      Merupakan wadah bagi langkah kolaborasi BUMN dalam membentuk digital ekonomi ekosistem melalui pembinaan bagi UKM untuk meningkatkan kapasitas dan kapabilitas UKM itu sendiri.
+    </p>
+  </div>
+</section>
 
+
+    
     <!-- FITUR CARDS SECTION -->
   <section class="fitur-section scroll-anim" id="fitur">
     <div class="fitur-cards">
-      <div 
-        class="card" 
-        v-for="(fitur, index) in fiturList" 
-        :key="index"
-        :style="{ '--animation-delay': `${index * 0.2}s` }"
+     <div 
+  class="card" 
+  v-for="(fitur, index) in fiturList" 
+  :key="index"
+  :style="{ '--animation-delay': (index * 0.2) + 's' }"
+>
+
       >
         <div class="card-icon">
           <img :src="fitur.icon" :alt="fitur.alt" />
@@ -131,6 +122,31 @@
         ></span>
       </div>
     </section>
+<!-- FAQ SECTION -->
+<section class="faq-section scroll-anim">
+  <h2 class="lokasi-title">Frequently Asked Questions</h2>
+  <div class="faq-container">
+    <div 
+      v-for="(faq, index) in faqList" 
+      :key="index" 
+      class="faq-item" 
+      :class="{ expanded: expandedFaqs.includes(index) }"
+    >
+      <!-- Bagian pertanyaan -->
+      <div class="faq-question" @click="toggleFaq(index)">
+        <span class="faq-sign">{{ expandedFaqs.includes(index) ? '-' : '+' }}</span>
+        {{ faq.question }}
+      </div>
+
+      <!-- Bagian jawaban -->
+      <div
+        v-if="expandedFaqs.includes(index)"
+        class="faq-answer"
+        v-html="faq.answer"
+      ></div>
+    </div>
+  </div>
+</section>
 
     <!-- LOKASI SECTION -->
     <section class="lokasi-section scroll-anim">
@@ -305,6 +321,65 @@ const testimoniList = ref([
     quote: 'Dari yang tidak tahu tentang online marketing, sekarang saya bisa jualan melalui berbagai platform digital. Terima kasih Rumah BUMN Semarang!'
   }
 ])
+
+const faqList = ref([
+  {
+    question: 'Apakah itu Rumah BUMN?',
+    answer: 'Rumah BUMN adalah sebuah fasilitas atau wadah yang disediakan oleh Badan Usaha Milik Negara (BUMN) sebagai pusat pengembangan kewirausahaan UMKM (Usaha Mikro, Kecil, dan Menengah). Rumah BUMN bertujuan untuk memberdayakan pelaku UMKM agar naik kelas melalui pelatihan, pendampingan, dan akses ke pasar maupun digitalisasi.'
+  },
+  {
+    question: 'Caranya gabung UMMKM bagaimana?',
+    answer: `
+      <ul>
+        <li>Mengisi formulir pendaftaran secara offline atau online melalui website resmi Rumah BUMN setempat.</li>
+        <li>Melampirkan dokumen seperti KTP, NPWP (jika ada), dan data usaha (misalnya foto produk, legalitas usaha, dll).</li>
+        <li>Setelah itu, akan dilakukan verifikasi dan UMKM bisa mengikuti program pembinaan.</li>
+      </ul>`
+  },
+  {
+    question: 'Cara agar bisa magang di Rumah BUMN?',
+    answer: `
+      <ul>
+        <li>Mengirim surat permohonan magang dari instansi pendidikan ke Rumah BUMN yang dituju.</li>
+        <li>Melampirkan CV dan dokumen pendukung.</li>
+        <li>Jika disetujui, akan diberikan penempatan dan jadwal sesuai kebutuhan operasional Rumah BUMN tersebut.</li>
+      </ul>`
+  },
+  {
+    question: 'Cara booking tempat di Rumah BUMN bagaimana ya?',
+    answer: `
+      <ul>
+        <li>Hubungi pengelola Rumah BUMN secara langsung (datang ke lokasi atau melalui kontak yang tersedia).</li>
+        <li>Beberapa Rumah BUMN juga menyediakan sistem booking online melalui website atau WhatsApp resmi.</li>
+        <li>Pemesanan biasanya bersifat gratis untuk UMKM binaan, namun tetap perlu penjadwalan dan konfirmasi.</li>
+      </ul>`
+  },
+  {
+    question: 'Layanan apa yang biasanya diberikan oleh Rumah BUMN?',
+    answer: `
+      <ul>
+        <li>Pelatihan kewirausahaan dan digital marketing</li>
+        <li>Pendampingan legalitas dan sertifikasi produk</li>
+        <li>Fasilitasi akses permodalan dan perbankan</li>
+        <li>Ruang kerja bersama (co-working space)</li>
+        <li>Pameran produk dan promosi melalui marketplace</li>
+      </ul>`
+  },
+  {
+    question: 'Apa tujuan utama Rumah BUMN bagi pelaku UMKM?',
+    answer:'Tujuan utamanya adalah untuk membantu UMKM naik kelas, yaitu agar mereka lebih siap bersaing di pasar nasional dan global melalui pelatihan, digitalisasi, pembiayaan, serta jaringan pemasaran yang lebih luas.'
+  }
+])
+
+const expandedFaqs = ref([])
+
+const toggleFaq = (index) => {
+  if (expandedFaqs.value.includes(index)) {
+    expandedFaqs.value = []
+  } else {
+    expandedFaqs.value = [index]
+  }
+}
 
 // Methods
 const toggleFab = () => {
@@ -542,4 +617,17 @@ onUnmounted(() => {
   font-size: 0.9rem;
   font-weight: 600;
 }
+.faq-answer :deep(ul) {
+  padding-left: 1.2rem;
+  list-style: disc;
+  margin-top: 0.5rem;
+}
+
+.faq-answer :deep(li) {
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #2d3748;
+}
+
 </style>
