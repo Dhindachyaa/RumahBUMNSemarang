@@ -1,24 +1,25 @@
-  .faq-container {
+.faq-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2.5rem;
   align-items: start;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: 0 0 5rem 5rem;
   padding: 0 2rem;
   justify-content: flex-start;
   padding-left: 2rem;
 }
 
 .faq-section h2 {
-  text-align: center;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 900;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  margin: 7rem auto 2rem auto;
+  z-index: 2;
   color: #184481;
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  position: relative;
+  text-align: center;
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .faq-item {
@@ -1236,45 +1237,45 @@
 
  /* === LOKASI SECTION === */
 .lokasi-section {
-  background: #f8f9fb;
+  background: #184481;
   padding: 4rem 1rem;
-  color: #184481;
+  color: #fff;
   text-align: center;
   position: relative;
   overflow: hidden;
   }
 
-        .lokasi-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            animation: lokasiFloat 12s ease-in-out infinite;
-        }
+  .lokasi-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.04) 0%, transparent 50%);
+  animation: lokasiFloat 12s ease-in-out infinite;
+  }
 
-        @keyframes lokasiFloat {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.05) rotate(180deg); }
-        }
+  @keyframes lokasiFloat {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.05) rotate(180deg); }
+  }
 
 .lokasi-title {
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 900;
   margin-bottom: 3rem;
   z-index: 2;
-  color: #184481;
+  color: #fff;
   font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   max-width: 1200px;
-   }
+  }
   
    
   .lokasi-container {
@@ -1831,23 +1832,4 @@
 .fab-text {
   font-size: 0.9rem;
   font-weight: 600;
-}
-.faq-answer ul {
-  padding-left: 20px; /* Atur sesuai keinginan */
-  list-style: none;   /* Hilangkan bullet bawaan */
-}
-
-.faq-answer li {
-  position: relative;
-  padding-left: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.faq-answer li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  top: 0.2rem;
-  color: #4a5568;
-  font-size: 1rem;
 }
