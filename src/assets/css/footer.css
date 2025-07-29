@@ -128,8 +128,11 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .footer-social {
-    justify-content: center;
+  .footer-social a {
+    width: 60px;
+    height: 60px;
+    font-size: 16px;
+    gap: 15px;
   }
 }
 
@@ -138,6 +141,7 @@
     width: 60px;
     height: 60px;
     font-size: 16px;
+    gap: 15px;
   }
 }
 
@@ -167,9 +171,8 @@
   bottom: 0;
   right: 0;
   width: auto;
-  height: 75%;
+  height: 80%;
   object-fit: contain;
-  opacity: 1.0;
   filter: brightness(0.8) contrast(1.2) saturate(1.5);
   transition: opacity 0.3s ease;
   z-index: 0;
@@ -248,9 +251,9 @@
   }
   
   .footer-social a {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
   }
 }
 

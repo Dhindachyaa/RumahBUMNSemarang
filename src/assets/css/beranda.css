@@ -11,7 +11,7 @@
 }
 
 .faq-section h2 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: 3.5rem;
   font-weight: 900;
   margin: 7rem auto 2rem auto;
   z-index: 2;
@@ -129,24 +129,7 @@
   text-indent: 0 !important;
   text-align: justify !important;
 }
-.faq-answer ul {
-  padding-left: 20px !important;
-  list-style: none;
-}
 
-.faq-answer li {
-  padding-left: 1rem;
-  margin-bottom: 0.5rem;
-  position: relative;
-}
-
-.faq-answer li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  top: 0.2rem;
-  color: #4a5568;
-}
 .hero-logo {
   width: 300px;
   margin-bottom: 10px;
@@ -494,17 +477,18 @@
 
 /* === TIM SECTION CSS === */
 .tim-section {
-  background: #f8f9fb;
+  background:
+  radial-gradient(900px circle at bottom left, #ddf0ff, transparent 70%),
+  radial-gradient(900px circle at top right, #ddf0ff, transparent 70%);
   padding: 4rem 2rem;
   min-height: 100vh;
   position: relative;
-  margin-bottom: 5rem;
   font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .tim-section h2 {
   color: #184481;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: 3.5rem;
   font-weight: 900;
   margin-bottom: 1rem;
   text-align: left;
@@ -682,197 +666,6 @@
   transition: transform 0.3s ease;
 }
 
-/* TIM SECTION CSS */
-.tim-section {
-  background: #f8f9fb;
-  padding: 4rem 2rem;
-  min-height: 100vh;
-  position: relative;
-}
-
-.tim-section h2 {
-  color: #184481;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 900;
-  text-align: left;
-  max-width: 700px;
-  line-height: 1.1;
-  margin-left: 2rem;
-  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.tim-container {
-  position: relative;
-  max-width: 1400px;
-  margin: 0 auto;
-  height: 600px;
-}
-
-.tim-member {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-/* Abim - Bottom Left */
-.tim-member.abim {
-  bottom: 0;
-  left: 0;
-  flex-direction: row;
-}
-
-/* Endang - Top Right */
-.tim-member.endang {
-  top: 0;
-  right: 0;
-  flex-direction: row-reverse;
-}
-
-.member-photo {
-  width: 300px;
-  height: 400px;
-  border-radius: 20px;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: #e2e8f0;
-  box-shadow: 0 4px 10px rgba(180, 180, 180, 0.1);
-}
-
-.member-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.member-info {
-  max-width: 350px;
-}
-
-.member-quote {
-  background: #f8f9fb;
-  position: relative;
-  font-style: italic;
-  color: #4a5568;
-  line-height: 1.6;
-  font-size: 0.9rem;
-  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.member-quote::before {
-  content: '"';
-  font-size: 4rem;
-  color: #cbd5e0;
-  position: absolute;
-  top: -15px;
-  left: 15px;
-  font-family: serif;
-}
-
-.member-quote::after {
-  content: '"';
-  font-size: 4rem;
-  color: #cbd5e0;
-  position: absolute;
-  bottom: -25px;
-  right: 15px;
-  font-family: serif;
-}
-
-.member-name {
-  font-size: 3rem;
-  font-weight: 900;
-  color: #184481;
-  margin-bottom: 0.5rem;
-  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.member-position {
-  color: #4a5568;
-  font-size: 1.1rem;
-  font-weight: 500;
-  font-style: italic;
-  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .tim-container {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-  }
-  
-  .tim-member {
-    position: relative !important;
-    top: auto !important;
-    bottom: auto !important;
-    left: auto !important;
-    right: auto !important;
-  }
-  
-  .tim-member.endang {
-    flex-direction: row;
-  }
-}
-
-@media (max-width: 768px) {
-  .tim-section h2 {
-    text-align: center;
-    max-width: 100%;
-    margin-left: 0;
-  }
-  
-  .tim-member {
-    flex-direction: column !important;
-    text-align: center;
-  }
-  
-  .member-photo {
-    width: 250px;
-    height: 320px;
-  }
-  
-  .member-name {
-    font-size: 2.5rem;
-  }
-  
-  .member-info {
-    max-width: 100%;
-  }
-}
-
-/* Animation */
-.tim-member {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-.tim-member.endang {
-  animation-delay: 0.3s;
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Hover effects */
-.member-photo {
-  transition: transform 0.3s ease;
-}
-
-.tim-member:hover .member-photo {
-  transform: translateY(-10px);
-}
-
-.member-quote {
-  transition: box-shadow 0.3s ease;
-}
 
 /* === TESTIMONI SECTION === */
 .testimoni-section {
@@ -916,7 +709,7 @@
 }
 
 .testimoni-header h2 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: 3.5rem;
   color: #fff;
   font-weight: 900;
   text-align: center;
@@ -1116,6 +909,17 @@
   .testimoni-header h2 {
     font-size: 2.2rem;
   }
+
+  .testimoni-header p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-style: italic;
+  line-height: 1.5;
+}
   
   .testimoni-btn {
     padding: 0.7rem 1.3rem;
@@ -1148,7 +952,7 @@
   }
   
   .quote {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 1.2rem;
   }
   
@@ -1164,7 +968,18 @@
   }
   
   .testimoni-header h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
+  }
+
+  .testimoni-header p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-style: italic;
+  line-height: 1.5;
   }
   
   .testimoni-btn {
@@ -1190,7 +1005,7 @@
   }
   
   .quote {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
   }
   
@@ -1237,8 +1052,8 @@
 
  /* === LOKASI SECTION === */
 .lokasi-section {
-  background: #184481;
-  padding: 4rem 1rem;
+  background: linear-gradient(135deg, #184481, #00529C);
+  padding: 3rem 1rem 7rem 1rem;
   color: #fff;
   text-align: center;
   position: relative;
@@ -1246,7 +1061,7 @@
   }
 
   .lokasi-section::before {
-  content: '';
+    content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -1255,7 +1070,7 @@
   background: 
     radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.04) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.04) 0%, transparent 50%);
-  animation: lokasiFloat 12s ease-in-out infinite;
+  animation: backgroundMove 20s ease-in-out infinite;
   }
 
   @keyframes lokasiFloat {

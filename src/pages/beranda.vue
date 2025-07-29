@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="background-image-section" :style="{ backgroundImage: `url(${tuguMuda})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
+    <section class="background-image-section" :style="{ backgroundImage: `url(${hero})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
       <div class="overlay">
         <div class="logo-sequence">
           <img src="/logobumnsemarang.png" alt="Logo BUMN Semarang" class="background-logo-seq" />
@@ -13,6 +13,7 @@
 
     <section class="carousel-section scroll-anim">
       <h2 class="carousel-title">Galeri Kegiatan</h2>
+      <button class="button-gallery" @click="goToGallery">Lihat Semua Galeri</button>
       <div class="stage">
         <div class="container">
           <div class="ring" ref="ring">
@@ -122,9 +123,9 @@
     </section>
 
         <!-- FAQ SECTION -->
-<section class="faq-section scroll-anim">
-  <h2 class="lokasi-title">Frequently Asked Questions</h2>
-  <div class="faq-container">
+    <section class="faq-section scroll-anim">
+    <h2 class="lokasi-title">Pertanyaan yang Sering Muncul</h2>
+    <div class="faq-container">
     <div 
       v-for="(faq, index) in faqList" 
       :key="index" 
@@ -238,21 +239,19 @@ import { ref, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
 import gsap from 'gsap' // Import GSAP
 
 // Import assets
-import foto1 from '@/assets/beranda/foto1.jpg'
-import foto2 from '@/assets/beranda/foto2.jpg'
 import iconUmkm from '@/assets/beranda/icon-umkm.svg'
 import iconEvent from '@/assets/beranda/icon-event.svg'
 import iconBooking from '@/assets/beranda/icon-booking.svg'
 import orang1 from '@/assets/beranda/orang1.png'
 import iconLinkedin from '@/assets/beranda/icon-linkedin.png'
 import iconEmail from '@/assets/beranda/icon-email.jpg'
-import tuguMuda from '@/assets/beranda/tugu muda.jpg'
+import hero from '@/assets/beranda/hero background.jpg'
 
 // Import carousel images
 import carouselImage1 from '@/assets/carousel_image/carousel_image1.jpg'
 import carouselImage2 from '@/assets/carousel_image/carousel_image2.jpg'
 import carouselImage3 from '@/assets/carousel_image/carousel_image3.jpg'
-import carouselImage4 from '@/assets/carousel_image/carousel_image4.jpg'
+import carouselImage4 from '@/assets/carousel_image/carousel_image4.png'
 import carouselImage5 from '@/assets/carousel_image/carousel_image5.jpg'
 import carouselImage6 from '@/assets/carousel_image/carousel_image6.jpg'
 import carouselImage7 from '@/assets/carousel_image/carousel_image7.jpg'
@@ -287,8 +286,9 @@ let dragHandler = null
 // Carousel specific function
 const getBgPos = (i) => {
   const rotY = gsap.getProperty(ring.value, 'rotationY')
-  return `${100 - ((rotY - 180 - i * 36) % 360) / 360 * 500}px 0px`
-}
+  const angle = (i * 36 + rotY) * (Math.PI / 180) // 360 degrees / 10 images = 36 degrees per image
+  const radius = 500 // Adjust radius as needed 
+  }
 
 // Enhanced fitur list with actions
 const fiturList = ref([
@@ -419,6 +419,10 @@ const testimoniList = ref([
 ])
 
 // Methods
+const goToGallery = () => {
+  window.location.href = '/galeri'
+}
+
 const toggleFab = () => {
   fabOpen.value = !fabOpen.value
 }
@@ -668,34 +672,59 @@ onUnmounted(() => {
 /* NEW Carousel Section Styling */
 .carousel-section {
   width: 100%;
-  height: 110vh; /* Increased height to accommodate full images */
+  height: 110vh;
   padding-top: 40px;
-  background: #f8f9fb;
+  background:
+  radial-gradient(900px circle at top left, #ddf0ff, transparent 70%),
+  radial-gradient(900px circle at bottom right, #ddf0ff, transparent 70%);
+  background-repeat: repeat;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow: hidden; /* Changed from hidden */
+  overflow: hidden;
   position: relative;
   z-index: 1;
 }
 
+
+.button-gallery {
+  display: inline-block;
+  padding: 0.7rem 1rem;
+  background-color: #fff;
+  color: #00529C;
+  font-size: 1rem;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  border: 2px solid #00529C;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-gallery:hover {
+  background-color: #00529C;
+  box-shadow: 0 10px 10px rgba(136, 136, 136, 0.2);
+  color: #fff;
+}
+
 .carousel-title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: 3.5rem;
   font-weight: 900;
-  margin-bottom: 3rem;
+  margin-bottom: 24px;
+  margin-top: 2rem;
   z-index: 2;
-  color: #184481;
+  color: #00529C;
   font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;
+  text-align: center;
 }
 
 .stage {
-  overflow:hidden; /* Changed from hidden to visible */
-  background: #f8f9fb;
+  overflow:hidden;
   position: relative;
   width: 100%;
-  height: 80vh; /* Increased height */
+  height: 80vh; 
   padding-top: 20px;
   transform-style: preserve-3d;
   margin-bottom: 5rem;
