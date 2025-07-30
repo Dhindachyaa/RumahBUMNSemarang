@@ -4,16 +4,24 @@
   gap: 2.5rem;
   align-items: start;
   max-width: 1400px;
-  margin: 0 0 5rem 5rem;
+  margin-bottom: 5rem;
   padding: 0 2rem;
   justify-content: flex-start;
   padding-left: 2rem;
 }
 
+@media (max-width: 480px) {
+  .faq-container {
+    grid-template-columns: 1fr;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 .faq-section h2 {
   font-size: 3.5rem;
   font-weight: 900;
-  margin: 7rem auto 2rem auto;
+  margin: 4rem auto 2rem auto;
   z-index: 2;
   color: #184481;
   font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
