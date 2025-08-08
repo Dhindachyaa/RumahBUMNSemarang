@@ -1,14 +1,15 @@
 <template>
-    <div class="news-page">
-    <!-- Header Section -->
+  <div class="news-page">
+    <!-- Header -->
     <header class="gallery-header">
       <div class="container">
         <h1 class="animate-fade-in">GALERI</h1>
       </div>
     </header>
+
     <!-- Gallery Section -->
     <section class="gallery-content">
-      <div class="right-gallery full-width no-left-text">
+      <div class="right-gallery full-width no-left-text" v-if="galleryItems.length">
         <div
           v-for="(item, index) in galleryItems"
           :key="index"
@@ -16,100 +17,118 @@
           @click="openModal(item)"
           :style="{ '--animation-delay': `${index * 0.1}s` }"
         >
-          <img :src="item.src" :alt="item.alt" class="gallery-img" />
+          <img
+            :src="item.src"
+            :alt="item.alt"
+            class="gallery-img"
+            style="height: 100%; width: 100%; object-fit: cover"
+            @error="onImageError"
+          />
           <div class="caption">
             <strong>{{ item.title }}</strong>
             <div class="caption-desc">{{ item.caption }}</div>
           </div>
         </div>
       </div>
-        
-      <div v-if="showModal" class="modal" @click.self="closeModal">
-        <div class="modal-content-wrapper">
-          <img class="modal-content" :src="modalImage" />
-          <div class="modal-caption">{{ modalCaption }}</div>
+
+      <!-- Jika kosong -->
+      <div v-else class="no-data-msg">Galeri kosong.</div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
+
+        <button
+          v-for="page in totalPages"
+          :key="`page-${page}`"
+          @click="goToPage(page)"
+          :class="{ active: page === currentPage }"
+        >
+          {{ page }}
+        </button>
+
+        <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
+      </div>
+
+      <!-- Modal -->
+      <div v-if="showModal" class="galeri-modal" @click.self="closeModal">
+        <div class="galeri-modal-content-wrapper">
+          <img class="galeri-modal-content" :src="modalImage" />
+          <div class="galeri-modal-caption">{{ modalCaption }}</div>
         </div>
-        <span class="close" @click="closeModal">&times;</span>
+        <span class="galeri-close" @click="closeModal">&times;</span>
       </div>
     </section>
-    <footer-component />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
+import axios from 'axios'
 
-// Modal state
+const galleryItems = ref([])
 const showModal = ref(false)
 const modalImage = ref('')
 const modalCaption = ref('')
 
-// Gallery items
-const galleryItems = [
-  {
-    src: new URL('@/assets/galeri/foto1.jpg', import.meta.url).href,
-    alt: 'Gallery Image 1',
-    title: 'RKB Kab. Nunukan',
-    caption:
-      'Des 2024 Kegiatan gerakan Nasional Cerdas Keuangan bersama Bank BNI Nunukan yang dihadiri 21 UMKM Binaan Rumah BUMN Nunukan',
-  },
-  {
-    src: new URL('@/assets/galeri/foto2.jpg', import.meta.url).href,
-    alt: 'Gallery Image 2',
-    title: 'RKB Kab. Nunukan',
-    caption:
-      'Des 2024 Kunjungan Bank BNI Nunukan ke Rumah BUMN Nunukan Membahas Terkait kegiatan Pelatihan untuk UMKM',
-  },
-  {
-    src: new URL('@/assets/galeri/foto3.jpg', import.meta.url).href,
-    alt: 'Foto 3',
-    title: 'Foto 3',
-    caption: 'Cooking Class hantaran menyambut Hari Raya Idul Fitri',
-  },
-  {
-    src: new URL('@/assets/galeri/foto4.webp', import.meta.url).href,
-    alt: 'Foto 4',
-    title: 'Foto 4',
-    caption:
-      'Pelatihan Pengelolaan Inventory untuk Mendukung Pertumbuhan UMKM',
-  },
-  {
-    src: new URL('@/assets/galeri/foto5.webp', import.meta.url).href,
-    alt: 'Foto 5',
-    title: 'Foto 5',
-    caption:
-      'Pendampingan Digital Marketing bersama Binaan Dinas Kehutanan Provinsi Jawa Tengah',
-  },
-  {
-    src: new URL('@/assets/galeri/foto6.jpg', import.meta.url).href,
-    alt: 'Foto 6',
-    title: 'Foto 6',
-    caption:
-      'Pembuatan foto produk dan desain bawang goreng bu nur owner @sambalaku_smg',
-  },
-  {
-    src: new URL('@/assets/galeri/foto7.webp', import.meta.url).href,
-    alt: 'Foto 7',
-    title: 'Foto 7',
-    caption:
-      'Program Immersion Pitch Deck Wirausaha Merdeka bersama @promotein.yuk dan @unissula_semarang @udinusofficial',
-  },
-  {
-    src: new URL('@/assets/galeri/foto8.webp', import.meta.url).href,
-    alt: 'Foto 8',
-    title: 'Foto 8',
-    caption:
-      'Program Immersion Pitch deck Wirausaha Merdeka bersama @promotein.yuk dan @universitasaki @udinusofficial',
-  },
-  {
-    src: new URL('@/assets/galeri/foto9.webp', import.meta.url).href,
-    alt: 'Foto 9',
-    title: 'Foto 9',
-    caption: 'Partnership bersama Karagen Indonesia',
-  },
-]
+// Pagination states
+const currentPage = ref(1)
+const totalPages = ref(1)
+const itemsPerPage = 20
 
-// Modal open/close functions
+// Fetch gallery with pagination
+const fetchGallery = async () => {
+  try {
+    const limit = itemsPerPage
+    const offset = (currentPage.value - 1) * limit
+
+    const res = await axios.get('http://localhost:3000/api/galeri/paginate', {
+      params: { limit, offset }
+    })
+
+    const data = res.data.data || []
+    totalPages.value = res.data.pagination?.totalPages || 1
+
+    galleryItems.value = data.map((item, i) => {
+    const imagePath = item.gambar
+  ? `http://localhost:3000/images/galeri/${item.gambar}`
+  : 'http://localhost:3000/images/umkm/rumah-bumn.png'
+
+      return {
+        src: imagePath,
+        alt: item.judul || 'Gambar Galeri',
+        title: item.judul || 'Tanpa Judul',
+        caption: item.deskripsi || ''
+      }
+    })
+
+    await nextTick()
+    const obs = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.1 })
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      obs.observe(el)
+    })
+  } catch (err) {
+    console.error('Gagal mengambil galeri:', err)
+  }
+}
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
+
+watch(currentPage, fetchGallery)
+
 const openModal = (item) => {
   modalImage.value = item.src
   modalCaption.value = `${item.title} - ${item.caption}`
@@ -120,20 +139,11 @@ const closeModal = () => {
   showModal.value = false
 }
 
-// Scroll animation setup
-onMounted(() => {
-  const obs = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
+const onImageError = (e) => {
+  e.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
+}
 
-  // Observe all animate-on-scroll elements
-  document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el));
-});
+onMounted(fetchGallery)
 </script>
 
-<style scoped src="../assets/css/galeri.css"></style>
+<style src="../assets/css/galeri.css"></style>

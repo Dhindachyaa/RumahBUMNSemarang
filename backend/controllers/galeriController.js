@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const db = require('../config/db');
 
-// Ambil semua galeri
+// ✅ Ambil semua galeri (tanpa pagination)
 exports.getAllGaleri = (req, res) => {
   Galeri.getAll((err, result) => {
     if (err) return res.status(500).json({ message: 'Gagal mengambil data galeri' });
@@ -11,7 +11,34 @@ exports.getAllGaleri = (req, res) => {
   });
 };
 
-// Ambil jumlah total galeri
+// ✅ Ambil galeri dengan pagination
+exports.getPaginatedGaleri = (req, res) => {
+  const limit = parseInt(req.query.limit) || 9;
+  const offset = parseInt(req.query.offset) || 0;
+
+  Galeri.getPaginated(limit, offset, (err, data) => {
+    if (err) return res.status(500).json({ message: 'Gagal mengambil data galeri' });
+
+    Galeri.countAll((err, countResult) => {
+      if (err) return res.status(500).json({ message: 'Gagal menghitung data galeri' });
+
+      const totalItems = countResult[0].total;
+      const totalPages = Math.ceil(totalItems / limit);
+      const currentPage = Math.floor(offset / limit) + 1;
+
+      res.json({
+        data,
+        pagination: {
+          totalItems,
+          totalPages,
+          currentPage,
+        },
+      });
+    });
+  });
+};
+
+// ✅ Ambil jumlah total galeri
 exports.getGaleriCount = (req, res) => {
   db.query('SELECT COUNT(*) AS total FROM galeri', (err, result) => {
     if (err) return res.status(500).json({ message: 'Gagal menghitung galeri' });
@@ -19,7 +46,7 @@ exports.getGaleriCount = (req, res) => {
   });
 };
 
-// Tambah galeri baru
+// ✅ Tambah galeri baru
 exports.addGaleri = (req, res) => {
   const { judul, deskripsi } = req.body;
   const gambar = req.file?.filename;
@@ -34,7 +61,7 @@ exports.addGaleri = (req, res) => {
   });
 };
 
-// Update galeri (judul, deskripsi, gambar opsional)
+// ✅ Update galeri (judul, deskripsi, gambar opsional)
 exports.updateGaleri = (req, res) => {
   const { judul, deskripsi } = req.body;
   const id = req.params.id;
@@ -67,7 +94,7 @@ exports.updateGaleri = (req, res) => {
   });
 };
 
-// Hapus galeri
+// ✅ Hapus galeri
 exports.deleteGaleri = (req, res) => {
   const id = req.params.id;
 

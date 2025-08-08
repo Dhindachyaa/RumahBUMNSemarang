@@ -24,7 +24,10 @@
               <td>{{ index + 1 }}</td>
               <td>{{ berita.judul }}</td>
               <td>{{ formatTanggal(berita.tanggal) }}</td>
-              <td class="wrap-text" v-html="berita.isi"></td>
+              <td class="wrap-text">
+  <span>{{ getPreview(berita.isi) }}</span>
+</td>
+
               <td>
                 <img :src="getImage(berita.gambar)" alt="gambar" />
               </td>
@@ -51,16 +54,16 @@
             <input v-model="beritaForm.judul" placeholder="Judul Berita" required />
             <input type="date" v-model="beritaForm.tanggal" required />
 
-      
             <div
-  id="isi"
-  contenteditable="true"
-  class="editable-div"
-  v-html="beritaForm.isi"
-  @input="updateIsi"
-  data-placeholder="Tulis isi berita di sini..."
-></div>
-
+              ref="isiEditor"
+              contenteditable="true"
+              class="editable-div"
+              v-html="beritaForm.isi"
+              @input="sanitizeContent"
+              @paste.prevent="handlePaste"
+              @focus="forceLTR"
+              data-placeholder="Tulis isi berita di sini..."
+            ></div>
 
             <input type="file" @change="handleFileUpload" />
             <img v-if="previewGambar" :src="previewGambar" class="preview-img" />
@@ -99,9 +102,50 @@ export default {
     }
   },
   methods: {
-    updateIsi(e) {
-      this.beritaForm.isi = e.target.innerHTML
+    forceLTR() {
+  const el = this.$refs.isiEditor
+  if (!el) return
+
+  // Paksa atribut utama
+  el.setAttribute('dir', 'ltr')
+  el.style.direction = 'ltr'
+  el.style.textAlign = 'left'
+
+  // Hapus karakter kontrol bidi yang tidak terlihat
+  el.innerHTML = this.removeBidiControlChars(el.innerHTML)
+
+  // Hapus atribut dir/style dari semua child
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT)
+  while (walker.nextNode()) {
+    const node = walker.currentNode
+    node.removeAttribute('dir')
+    node.removeAttribute('style')
+  }
+
+      const cleanHTML = this.removeBidiControlChars(el.innerHTML)
+      el.innerHTML = cleanHTML
+      this.beritaForm.isi = cleanHTML
     },
+
+    handlePaste(e) {
+      const text = e.clipboardData.getData('text/plain')
+      const cleaned = this.removeBidiControlChars(text)
+      const el = this.$refs.isiEditor
+      if (el) {
+        document.execCommand('insertText', false, cleaned)
+      }
+    },
+
+    removeBidiControlChars(text) {
+      return text.replace(/[\u202A-\u202E\u200E\u200F]/g, '')
+    },
+getPreview(htmlContent) {
+  // Hapus semua tag HTML, lalu ambil 150 karakter pertama
+  const plainText = htmlContent.replace(/<[^>]+>/g, '')
+  return plainText.length > 150
+    ? plainText.slice(0, 150).trim() + '...'
+    : plainText
+}, 
     getImage(path) {
       return path
         ? `http://localhost:3000/images/berita/${path}`
@@ -117,6 +161,7 @@ export default {
     openModal() {
       this.resetForm()
       this.showModal = true
+      this.$nextTick(() => this.forceLTR())
     },
     closeModal() {
       this.showModal = false
@@ -132,6 +177,7 @@ export default {
       }
       this.previewGambar = this.getImage(berita.gambar)
       this.showModal = true
+      this.$nextTick(() => this.forceLTR())
     },
     handleFileUpload(e) {
       const file = e.target.files[0]
@@ -146,37 +192,42 @@ export default {
         console.error(err)
       }
     },
-    async submitForm() {
-      const formData = new FormData()
-      formData.append('judul', this.beritaForm.judul)
-      formData.append('tanggal', this.beritaForm.tanggal)
-      formData.append('isi', this.beritaForm.isi)
-      if (this.beritaForm.gambar) {
-        formData.append('gambar', this.beritaForm.gambar)
-      }
+async submitForm() {
+  const el = this.$refs.isiEditor
+  if (el) {
+    this.beritaForm.isi = el.innerHTML.trim()
+  }
 
-      try {
-        if (this.beritaForm.id) {
-          await axios.post(
-            `http://localhost:3000/api/berita/${this.beritaForm.id}`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                'X-HTTP-Method-Override': 'PUT',
-              },
-            }
-          )
-        } else {
-          await axios.post('http://localhost:3000/api/berita', formData)
+  const formData = new FormData()
+  formData.append('judul', this.beritaForm.judul)
+  formData.append('tanggal', this.beritaForm.tanggal)
+  formData.append('isi', this.beritaForm.isi)
+  if (this.beritaForm.gambar) {
+    formData.append('gambar', this.beritaForm.gambar)
+  }
+
+  try {
+    if (this.beritaForm.id) {
+      await axios.post(
+        `http://localhost:3000/api/berita/${this.beritaForm.id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'X-HTTP-Method-Override': 'PUT',
+          },
         }
+      )
+    } else {
+      await axios.post('http://localhost:3000/api/berita', formData)
+    }
 
-        this.fetchBerita()
-        this.closeModal()
-      } catch (err) {
-        alert('Gagal menyimpan berita')
-      }
-    },
+    this.fetchBerita()
+    this.closeModal()
+  } catch (err) {
+    alert('Gagal menyimpan berita')
+  }
+}, 
     async hapusBerita(id) {
       if (confirm('Yakin ingin menghapus berita ini?')) {
         try {

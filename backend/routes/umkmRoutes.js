@@ -1,37 +1,38 @@
-const express = require('express')
-const router = express.Router()
-const umkmController = require('../controllers/umkmController')
-const multer = require('multer')
-const path = require('path')
+const express = require('express');
+const router = express.Router();
+const umkmController = require('../controllers/umkmController');
+const uploadUmkm = require('../middleware/uploadUmkm');
 
-// Konfigurasi multer: upload ke public/images
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'public/images'),
-  filename: (req, file, cb) => {
-    const uniqueName = Date.now() + '-' + file.originalname
-    cb(null, uniqueName)
+// ✅ Route khusus: hitung total UMKM untuk dashboard
+router.get('/count/dashboard', umkmController.getUmkmCount);
+
+// ✅ Upload gambar UMKM (opsional digunakan saat upload manual)
+router.post('/upload', uploadUmkm.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
   }
-})
-const upload = multer({ storage })
 
-/* -------------------------------
-  Upload Gambar UMKM (pindah ke atas biar tidak tabrakan dengan :id)
---------------------------------- */
-router.post('/upload', upload.single('image'), (req, res) => {
-  if (!req.file) return res.status(400).json({ message: 'No file uploaded' })
   res.json({
     message: 'Upload berhasil',
-    imagePath: `images/${req.file.filename}`
-  })
-})
+    imagePath: `images/umkm/${req.file.filename}`
+  });
+});
 
-/* -------------------------------
-  CRUD UMKM
---------------------------------- */
-router.get('/', umkmController.getAll)
-router.post('/', umkmController.create)
-router.put('/:id', umkmController.update)
-router.delete('/:id', umkmController.remove)
-router.get('/:id', umkmController.getById)
+// ✅ Route paginasi dan pencarian
+router.get('/paginate', umkmController.getPagedUMKM);
 
-module.exports = router
+// ✅ CRUD UMKM
+router.get('/', umkmController.getAll); // Ambil semua UMKM
+router.post('/', uploadUmkm.single('image'), umkmController.create); // Tambah UMKM
+
+// ✅ PUT via PUT atau POST override
+router.put('/:id', uploadUmkm.single('image'), umkmController.update);
+router.post('/:id', uploadUmkm.single('image'), umkmController.update);
+
+// ✅ Hapus UMKM
+router.delete('/:id', umkmController.remove);
+
+// ✅ Route detail UMKM (diletakkan paling akhir agar tidak menabrak route lain)
+router.get('/:id', umkmController.getById);
+
+module.exports = router;

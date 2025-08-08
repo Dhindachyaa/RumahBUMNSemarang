@@ -11,7 +11,9 @@
 body {
   font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
-  background-color: #f8f9fa;
+  background:
+    radial-gradient(1000px circle at top left, #00539c85, #ffffff, transparent 100%),
+    radial-gradient(1000px circle at top right, #75ffc685, #ffffff, transparent 100%);
   color: #1c1c1c;
   line-height: 1.6;
 }
@@ -24,15 +26,16 @@ body {
 
 /* ===== RESPONSIVE GALLERY CONTENT ===== */
 .gallery-content {
-  padding: 3rem 2rem;
+  padding: 0 2rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  background-color: transparent;
 }
 
 .gallery-header {  
-  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
-  color: white;
+  background: transparent; 
+  color: #00529C;
   padding: 8rem 0 2rem;
   text-align: center;
   position: relative;
@@ -224,7 +227,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ===== MODAL STYLES ===== */
 
-.modal {
+.galeri-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -244,9 +247,8 @@ h1, h2, h3, h4, h5, h6 {
   to { opacity: 1; }
 }
 
-.modal-content-wrapper {
+.galeri-modal-content-wrapper {
   position: relative;
-  max-width: 90vw;
   max-height: 90vh;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
@@ -269,7 +271,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.modal-content {
+.galeri-modal-content {
   width: 100%;
   height: auto;
   display: block;
@@ -277,7 +279,7 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 70vh;
 }
 
-.modal-caption {
+.galeri-modal-caption {
   margin: 10px auto 20px auto;
   display: block;
   width: 100%;
@@ -295,7 +297,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.4;
 }
 
-.close {
+.galeri-close {
   position: absolute;
   top: 15px;
   right: 20px;
@@ -316,7 +318,7 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(10px);
 }
 
-.close:hover {
+.galeri-close:hover {
   color: #ff4444;
   background: rgba(255, 68, 68, 0.2);
 }
@@ -339,7 +341,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Desktop Large (1200px+) */
 @media (min-width: 1200px) {
   .gallery-content {
-    padding: 3rem 1rem;
+    padding: 0 3rem 1rem;
   }
   
   .right-gallery {
@@ -421,12 +423,12 @@ h1, h2, h3, h4, h5, h6 {
     height: 2.6em;
   }
   
-  .modal-content-wrapper {
+  .galeri-modal-content-wrapper {
     max-width: 95vw;
     max-height: 95vh;
   }
   
-  .close {
+  .galeri-close {
     top: 10px;
     right: 15px;
     font-size: 28px;
@@ -458,7 +460,6 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   .right-gallery {
-    grid-template-columns: 1fr;
     gap: 1rem;
     padding: 0 0.5rem;
   }
@@ -481,7 +482,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 2.6em;
   }
   
-  .modal-caption {
+  .galeri-modal-caption {
     font-size: 0.9rem;
     padding: 10px 15px;
   }
@@ -505,9 +506,9 @@ h1, h2, h3, h4, h5, h6 {
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   .gallery-item,
-  .modal,
-  .modal-content-wrapper,
-  .close,
+  .galeri-modal,
+  .galeri-modal-content-wrapper,
+  .galeri-close,
   .animate-on-scroll,
   .gallery-header h1 {
     transition: none;
@@ -520,7 +521,7 @@ h1, h2, h3, h4, h5, h6 {
     border: 2px solid #000;
   }
   
-  .close {
+  .galeri-close {
     border: 2px solid #fff;
   }
 }
@@ -557,4 +558,47 @@ h1, h2, h3, h4, h5, h6 {
   .gallery-item {
     height: 160px;
   }
+}
+/* ======================= PAGINATION ======================= */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  font-size: 1rem;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  background-color: #00529b;
+  color: rgb(151, 151, 151);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: #ffffff;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #002227;
+}
+/* ===== FIX: HILANGKAN RUANG KOSONG DI BAWAH GALERI ===== */
+.gallery-content {
+  padding-bottom: 0 !important;
+  margin-bottom: 2rem !important;
+}
+
+.pagination {
+  margin-bottom: 2rem !important;
+}
+
+.news-page {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }

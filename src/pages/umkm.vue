@@ -1,74 +1,190 @@
 <template>
   <section class="umkm-section">
-    <h2 class="animate-on-scroll">UMKM BINAAN</h2>
+    <!-- Header -->
+    <header class="umkm-header">
+      <div class="container">
+        <h1 class="animate-fade-in">UMKM BINAAN</h1>
+      </div>
+    </header>
 
-    <form @submit.prevent class="umkm-search animate-on-scroll">
-      <input v-model="search" placeholder="Cari UMKM ..." class="search-input" />
-      <select v-model="category" class="category-select">
-        <option value="">Semua Kategori</option>
-        <option value="Perdagangan">Perdagangan</option>
-        <option value="Craft/Kerajinan Tangan">Craft/Kerajinan Tangan</option>
-        <option value="Fashion/Busana">Fashion/Busana</option>
-        <option value="Makanan & Minuman">Makanan & Minuman</option>
-      </select>
-      <button class="search-btn">Cari</button>
+    <!-- Search -->
+    <form @submit.prevent="submitSearch" class="umkm-search-wrapper animate-on-scroll">
+      <div class="umkm-search">
+        <input v-model="search" placeholder="Cari UMKM ..." class="search-input" />
+<select v-model="category" class="category-select">
+  <option value="">Semua Kategori</option>
+  <option value="Perdagangan">Perdagangan</option>
+  <option value="Craft/Kerajinan Tangan">Craft/Kerajinan Tangan</option>
+  <option value="Fashion/Busana">Fashion/Busana</option>
+  <option value="Makanan & Minuman">Makanan & Minuman</option>
+  <option value="Kecantikan">Kecantikan</option>
+</select>
+
+        <button type="submit" class="search-btn">Cari</button>
+      </div>
     </form>
 
+    <!-- UMKM Cards -->
     <div class="umkm-list">
       <router-link
-        v-for="(umkm, i) in filteredUMKM"
+        v-for="(umkm, i) in umkmList"
         :key="umkm.id"
         :to="`/umkm/${umkm.id}`"
-        class="umkm-card animate-on-scroll"
-        :style="{ '--animation-delay': `${i * 0.1}s` }"
+        class="umkm-card-link"
       >
-        <img :src="umkm.img" :alt="umkm.nama" />
-        <h3>{{ umkm.nama }}</h3>
-        <p>{{ umkm.kategori }}</p>
+        <div
+          class="umkm-card animate-on-scroll"
+          :style="{ '--animation-delay': `${i * 0.1}s` }"
+        >
+          <img
+            :src="umkm.img"
+            :alt="umkm.nama"
+            class="popup-image"
+            @click.stop="openPopup(umkm.img)"
+          />
+          <div class="umkm-info">
+            <h3>{{ umkm.nama }}</h3>
+            <p>{{ umkm.kategori }}</p>
+          </div>
+        </div>
       </router-link>
+    </div>
+
+    <!-- Tampilkan jika tidak ada data -->
+    <div v-if="umkmList.length === 0" class="no-data-msg">
+      Tidak ada UMKM ditemukan.
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
+
+      <button
+        v-for="page in totalPages"
+        :key="'page-' + page"
+        @click="goToPage(page)"
+        :class="{ active: page === currentPage }"
+      >
+        {{ page }}
+      </button>
+
+      <button @click="goToPage(currentPage + 1)" :disabled="currentPage >= totalPages">Next</button>
+    </div>
+
+    <!-- Image Popup -->
+    <div :class="['image-popup-overlay', popupImage ? 'active' : '']" @click.self="closePopup">
+      <img v-if="popupImage" :src="popupImage" alt="Popup" />
+      <span class="popup-close" v-if="popupImage" @click.stop="closePopup">&times;</span>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import axios from 'axios'
 import '@/assets/css/umkm.css'
 
 const search = ref('')
 const category = ref('')
 const umkmList = ref([])
+const popupImage = ref(null)
 
-const filteredUMKM = computed(() =>
-  umkmList.value.filter(u =>
-    u.nama.toLowerCase().includes(search.value.toLowerCase()) &&
-    (category.value === '' || u.kategori.toLowerCase().includes(category.value.toLowerCase()))
-  )
-)
+const currentPage = ref(1)
+const totalPages = ref(1)
+const itemsPerPage = 20
 
-onMounted(async () => {
+const openPopup = (img) => {
+  popupImage.value = img
+}
+const closePopup = () => {
+  popupImage.value = null
+}
+
+const fetchUMKM = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/umkm')
-    console.log('Data dari backend:', res.data)
-    umkmList.value = res.data.data.map(u => ({
-      ...u,
-      img: `http://localhost:3000/${u.image_path}`
-    }))
-  } catch (err) {
-    console.error('Gagal load UMKM:', err)
-  }
+    const limit = itemsPerPage
+    const offset = (currentPage.value - 1) * limit
 
-  await nextTick() // pastikan DOM siap sebelum observer
-
-  const obs = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show')
-        observer.unobserve(entry.target)
+    const res = await axios.get('http://localhost:3000/api/umkm/paginate', {
+      params: {
+        limit,
+        offset,
+        search: search.value,
+        kategori: category.value
       }
     })
-  }, { threshold: 0.1 })
 
-  document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el))
+    umkmList.value = res.data.data.map((u) => ({
+      ...u,
+      img: u.image_path
+        ? `http://localhost:3000/images/${u.image_path.replace(/^\/?/, '')}`
+        : '/rumah-bumn.png'
+    }))
+
+    totalPages.value = res.data.pagination?.totalPages || 1
+
+    // ⏳ Tunggu DOM render
+    await nextTick()
+
+    // ✅ Baru jalankan animasi setelah elemen siap
+    const obs = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.1 })
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => obs.observe(el))
+
+  } catch (err) {
+    console.error('Gagal fetch UMKM:', err)
+  }
+}
+
+
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+
+    // 👇 Scroll ke atas setelah pindah halaman
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+}
+
+
+const submitSearch = () => {
+  currentPage.value = 1
+  fetchUMKM()
+}
+
+// Trigger fetch jika page berubah
+watch(currentPage, fetchUMKM)
+watch(category, () => {
+  currentPage.value = 1
+  fetchUMKM()
+})
+
+
+onMounted(() => {
+  fetchUMKM()
+
+  nextTick(() => {
+    const obs = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.1 })
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => obs.observe(el))
+  })
 })
 </script>

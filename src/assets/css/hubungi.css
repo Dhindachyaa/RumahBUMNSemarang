@@ -33,7 +33,7 @@ body, html {
 /* === TEKS DENGAN PADDING === */
 .hubungi-container {
   flex: 1 1 60%;
-  padding: 3rem 2rem 10rem 2rem; 
+  padding: 0 2rem 10rem 2rem; 
   max-width: 1200px;
   margin: 0 auto; /* Center container */
   box-sizing: border-box;
@@ -42,8 +42,7 @@ body, html {
 
 /* === HEADER STYLING === */
 .hubungi-header {
-  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
-  color: white;
+  color: #00529C;
   padding: 8rem 0 2rem; /* Exact same as news-header */
   text-align: center;
   position: relative;
