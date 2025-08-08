@@ -39,7 +39,7 @@
                 <span class="icon" style="font-size: 1.2rem; color: #0E3B4F;">
                   <i class="fas fa-clock"></i>
                 </span>
-                <span>Senin - Jumat 08.00 - 16.00</span>
+                <span>Senin - Jumat 07.30 - 16.00</span>
               </li>
             </ul>
           </div>

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- NEW BACKGROUND IMAGE SECTION -->
-    <section class="background-image-section" :style="{ backgroundImage: `url(${tuguMuda})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
+    <section class="background-image-section" :style="{ backgroundImage: `url(${hero})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
       <div class="overlay">
         <div class="logo-sequence">
           <img src="/logobumnsemarang.png" alt="Logo BUMN Semarang" class="background-logo-seq" />
@@ -12,91 +11,82 @@
       </div>
     </section>
 
-    <!-- HERO -->
-    <section class="fitur-cards scroll-anim" id="hero">
-      <div class="hero-container">
-        <div class="hero-left hero-heading" style="color:#0E3B4F; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 96px;">
-          <h1>
-            <span class="bold-line" style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 96px;">RUMAH</span><br />
-            <span class="bold-line" style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 96px;">BUMN</span><br />
-            <span class="italic-line" style="font-family: 'Bona Nova', serif; font-size: 96px; font-style: italic;">Semarang</span>
-          </h1>
-        </div>
-        <div class="hero-right">
-          <div class="image-scroll">
-            <img :src="foto1" alt="Foto 1" />
-            <img :src="foto2" alt="Foto 2" />
-            <img :src="foto1" alt="Foto 3" />
-            <img :src="foto2" alt="Foto 4" />
+    <section class="carousel-section scroll-anim">
+      <h2 class="carousel-title">Galeri Kegiatan</h2>
+      <button class="btn-gallery" @click="goToGallery">Lihat Semua Galeri</button>
+      <div class="stage">
+        <div class="container">
+          <div class="ring" ref="ring">
+            <div
+              class="img"
+              v-for="(img, index) in images"
+              :key="index"
+              :ref="el => imgRefs[index] = el"
+            ></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FITUR CARDS SECTION -->
-  <section class="fitur-section scroll-anim" id="fitur">
-    <div class="fitur-cards">
-      <div 
-        class="card" 
-        v-for="(fitur, index) in fiturList" 
-        :key="index"
-        :style="{ '--animation-delay': `${index * 0.2}s` }"
-      >
-        <div class="card-icon">
-          <img :src="fitur.icon" :alt="fitur.alt" />
+     <section class="fitur-section scroll-anim" id="fitur">
+      <div class="fitur-cards">
+        <div 
+          class="card" 
+          v-for="(fitur, index) in fiturList" 
+          :key="index"
+          :style="{ '--animation-delay': `${index * 0.2}s` }"
+        >
+          <div class="card-icon">
+            <img :src="fitur.icon" :alt="fitur.alt" />
+          </div>
+          <h3>{{ fitur.title }}</h3>
+          <p>{{ fitur.desc }}</p>
+          <a href="#" class="btn" @click.prevent="handleButtonClick(fitur.action)">
+            {{ fitur.btn }}
+          </a>
         </div>
-        <h3>{{ fitur.title }}</h3>
-        <p>{{ fitur.desc }}</p>
-        <a href="#" class="btn" @click.prevent="handleButtonClick(fitur.action)">
-          {{ fitur.btn }}
-        </a>
       </div>
-    </div>
-  </section>
+    </section>
 
-    <!-- TIM SECTION -->
     <section class="tim-section scroll-anim">
       <h2>Kreativitas di Balik Rumah BUMN</h2>
       <div class="tim-container">
-        <!-- Abim - Bottom Left -->
         <div class="tim-member abim">
-          <div class="member-photo">
-            <img 
-              :src="timList[0].foto || generateAvatar(timList[0].nama)" 
-              :alt="timList[0].nama"
-              @error="handleImageError"
-            />
-          </div>
-          <div class="member-info">
-            <div class="member-quote">
-              {{ timList[0].quote }}
-            </div>
-            <h3 class="member-name">{{ timList[0].nama }}</h3>
-            <p class="member-position">{{ timList[0].jabatan }}</p>
-          </div>
+        <div class="member-photo">
+        <img 
+        :src="timList[0].foto || generateAvatar(timList[0].nama)" 
+        :alt="timList[0].nama"
+        @error="handleImageError"
+        />
         </div>
+        <div class="member-info">
+        <div class="member-quote">
+        {{ timList[0].quote }}
+        </div>
+        <h3 class="member-name">{{ timList[0].nama }}</h3>
+        <p class="member-position">{{ timList[0].jabatan }}</p>
+      </div>
+    </div>
 
-        <!-- Endang - Top Right -->
         <div class="tim-member endang">
-          <div class="member-photo">
-            <img 
-              :src="timList[1].foto || generateAvatar(timList[1].nama)" 
-              :alt="timList[1].nama"
-              @error="handleImageError"
-            />
-          </div>
-          <div class="member-info">
-            <div class="member-quote">
-              {{ timList[1].quote }}
-            </div>
-            <h3 class="member-name">{{ timList[1].nama }}</h3>
-            <p class="member-position">{{ timList[1].jabatan }}</p>
-          </div>
+        <div class="member-photo">
+        <img 
+        :src="timList[1].foto || generateAvatar(timList[1].nama)" 
+        :alt="timList[1].nama"
+        @error="handleImageError"
+        />
+        </div>
+        <div class="member-info">
+        <div class="member-quote">
+        {{ timList[1].quote }}
+        </div>
+        <h3 class="member-name">{{ timList[1].nama }}</h3>
+        <p class="member-position">{{ timList[1].jabatan }}</p>
+        </div>
         </div>
       </div>
     </section>
 
-    <!-- TESTIMONI SECTION -->
     <section class="testimoni-section scroll-anim">
       <div class="testimoni-header">
         <h2>Suara UMKM Binaan</h2>
@@ -104,7 +94,7 @@
       </div>
       <div class="testimoni-card">
         <button class="testimoni-nav-btn left-btn" @click="prevTestimoni" :disabled="currentTestimoni === 0">
-          &#10094;
+          ❮
         </button>
         <div class="testimoni-content">
           <p class="quote">
@@ -118,7 +108,7 @@
           </p>
         </div>
         <button class="testimoni-nav-btn right-btn" @click="nextTestimoni" :disabled="currentTestimoni === testimoniList.length - 1">
-          &#10095;
+          ❯
         </button>
       </div>
       <div class="testimoni-dots">
@@ -132,7 +122,33 @@
       </div>
     </section>
 
-    <!-- LOKASI SECTION -->
+    <!-- FAQ SECTION -->
+    <section class="faq-section scroll-anim">
+    <h2 class="faq-section h2">Pertanyaan yang Sering Muncul</h2>
+    <div class="faq-container">
+    <div 
+      v-for="(faq, index) in faqList" 
+      :key="index" 
+      class="faq-item" 
+      :class="{ expanded: expandedFaqs.includes(index) }"
+    >
+      <!-- Bagian pertanyaan -->
+      <div class="faq-question" @click="toggleFaq(index)">
+        <span class="faq-sign">{{ expandedFaqs.includes(index) ? '-' : '+' }}</span>
+        {{ faq.question }}
+      </div>
+
+      <!-- Bagian jawaban -->
+      <div
+        v-if="expandedFaqs.includes(index)"
+        class="faq-answer"
+        v-html="faq.answer"
+      ></div>
+    </div>
+    </div>
+  </section>
+
+
     <section class="lokasi-section scroll-anim">
       <h2 class="lokasi-title">Lokasi Kami</h2>
       <div class="lokasi-container">
@@ -145,7 +161,7 @@
             </div>
             <div class="info-content">
               <h4>Alamat</h4>
-              <p>Jl. Sultan Syarif Qasim No.138, Semarang, Jawa Tengah</p>
+              <p>Jl. Sultan Agung No.108, Wonotingal, Kec. Candisari, Kota Semarang, Jawa Tengah</p>
             </div>
           </div>
           <div class="info-item">
@@ -188,7 +204,6 @@
       </div>
     </section>
 
-    <!-- FLOATING ACTION BUTTON -->
     <div class="floating-actions">
       <button class="fab main-fab" @click="toggleFab" :class="{ active: fabOpen }">
         <svg class="fab-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -220,22 +235,60 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+import gsap from 'gsap' // Import GSAP
 
 // Import assets
-import foto1 from '@/assets/beranda/foto1.jpg'
-import foto2 from '@/assets/beranda/foto2.jpg'
 import iconUmkm from '@/assets/beranda/icon-umkm.svg'
 import iconEvent from '@/assets/beranda/icon-event.svg'
 import iconBooking from '@/assets/beranda/icon-booking.svg'
 import orang1 from '@/assets/beranda/orang1.png'
 import iconLinkedin from '@/assets/beranda/icon-linkedin.png'
 import iconEmail from '@/assets/beranda/icon-email.jpg'
-import tuguMuda from '@/assets/beranda/tugu muda.jpg'
+import hero from '@/assets/beranda/hero background.jpg'
+
+// Import carousel images
+import carouselImage1 from '@/assets/carousel_image/carousel_image1.jpg'
+import carouselImage2 from '@/assets/carousel_image/carousel_image2.jpg'
+import carouselImage3 from '@/assets/carousel_image/carousel_image3.jpg'
+import carouselImage4 from '@/assets/carousel_image/carousel_image4.png'
+import carouselImage5 from '@/assets/carousel_image/carousel_image5.jpg'
+import carouselImage6 from '@/assets/carousel_image/carousel_image6.jpg'
+import carouselImage7 from '@/assets/carousel_image/carousel_image7.jpg'
+import carouselImage8 from '@/assets/carousel_image/carousel_image8.jpg'
+import carouselImage9 from '@/assets/carousel_image/carousel_image9.jpg'
+import carouselImage10 from '@/assets/carousel_image/carousel_image10.jpg'
 
 // Reactive data
 const fabOpen = ref(false)
 const currentTestimoni = ref(0)
+
+// Carousel specific refs and data
+const ring = ref(null)
+const imgRefs = []
+const images = Array.from({ length: 10 }) // For 10 images in the carousel
+const carouselImages = [
+  carouselImage1,
+  carouselImage2,
+  carouselImage3,
+  carouselImage4,
+  carouselImage5,
+  carouselImage6,
+  carouselImage7,
+  carouselImage8,
+  carouselImage9,
+  carouselImage10
+]
+
+let xPos = 0
+let dragHandler = null
+
+// Carousel specific function
+const getBgPos = (i) => {
+  const rotY = gsap.getProperty(ring.value, 'rotationY')
+  const angle = (i * 36 + rotY) * (Math.PI / 180) // 360 degrees / 10 images = 36 degrees per image
+  const radius = 500 // Adjust radius as needed 
+  }
 
 // Enhanced fitur list with actions
 const fiturList = ref([
@@ -287,6 +340,65 @@ const timList = ref([
   }
 ])
 
+const faqList = ref([
+  {
+    question: 'Apakah itu Rumah BUMN?',
+    answer: 'Rumah BUMN adalah sebuah fasilitas atau wadah yang disediakan oleh Badan Usaha Milik Negara (BUMN) sebagai pusat pengembangan kewirausahaan UMKM (Usaha Mikro, Kecil, dan Menengah). Rumah BUMN bertujuan untuk memberdayakan pelaku UMKM agar naik kelas melalui pelatihan, pendampingan, dan akses ke pasar maupun digitalisasi.'
+  },
+  {
+    question: 'Caranya gabung UMKM bagaimana?',
+    answer: `
+      <ul>
+        <li>Mengisi formulir pendaftaran secara offline atau online melalui website resmi Rumah BUMN setempat.</li>
+        <li>Melampirkan dokumen seperti KTP, NPWP (jika ada), dan data usaha (misalnya foto produk, legalitas usaha, dll).</li>
+        <li>Setelah itu, akan dilakukan verifikasi dan UMKM bisa mengikuti program pembinaan.</li>
+      </ul>`
+  },
+  {
+    question: 'Cara agar bisa magang di Rumah BUMN?',
+    answer: `
+      <ul>
+        <li>Mengirim surat permohonan magang dari instansi pendidikan ke Rumah BUMN yang dituju.</li>
+        <li>Melampirkan CV dan dokumen pendukung.</li>
+        <li>Jika disetujui, akan diberikan penempatan dan jadwal sesuai kebutuhan operasional Rumah BUMN tersebut.</li>
+      </ul>`
+  },
+  {
+    question: 'Cara booking tempat di Rumah BUMN bagaimana ya?',
+    answer: `
+      <ul>
+        <li>Hubungi pengelola Rumah BUMN secara langsung (datang ke lokasi atau melalui kontak yang tersedia).</li>
+        <li>Beberapa Rumah BUMN juga menyediakan sistem booking online melalui website atau WhatsApp resmi.</li>
+        <li>Pemesanan biasanya bersifat gratis untuk UMKM binaan, namun tetap perlu penjadwalan dan konfirmasi.</li>
+      </ul>`
+  },
+  {
+    question: 'Layanan apa yang biasanya diberikan oleh Rumah BUMN?',
+    answer: `
+      <ul>
+        <li>Pelatihan kewirausahaan dan digital marketing</li>
+        <li>Pendampingan legalitas dan sertifikasi produk</li>
+        <li>Fasilitasi akses permodalan dan perbankan</li>
+        <li>Ruang kerja bersama (co-working space)</li>
+        <li>Pameran produk dan promosi melalui marketplace</li>
+      </ul>`
+  },
+  {
+    question: 'Apa tujuan utama Rumah BUMN bagi pelaku UMKM?',
+    answer:'Tujuan utamanya adalah untuk membantu UMKM naik kelas, yaitu agar mereka lebih siap bersaing di pasar nasional dan global melalui pelatihan, digitalisasi, pembiayaan, serta jaringan pemasaran yang lebih luas.'
+  }
+])
+
+const expandedFaqs = ref([])
+
+const toggleFaq = (index) => {
+  if (expandedFaqs.value.includes(index)) {
+    expandedFaqs.value = []
+  } else {
+    expandedFaqs.value = [index]
+  }
+}
+
 // Testimoni list
 const testimoniList = ref([
   {
@@ -307,6 +419,10 @@ const testimoniList = ref([
 ])
 
 // Methods
+const goToGallery = () => {
+  window.location.href = '/galeri'
+}
+
 const toggleFab = () => {
   fabOpen.value = !fabOpen.value
 }
@@ -355,6 +471,40 @@ const scrollToTop = () => {
   })
 }
 
+// Carousel drag functions
+function dragStart(e) {
+  if (e.touches) e.clientX = e.touches[0].clientX
+  xPos = Math.round(e.clientX)
+  gsap.set(ring.value, { cursor: 'grabbing' })
+
+  dragHandler = (event) => drag(event)
+  window.addEventListener('mousemove', dragHandler)
+  window.addEventListener('touchmove', dragHandler)
+}
+
+function drag(e) {
+  if (e.touches) e.clientX = e.touches[0].clientX
+  const delta = (Math.round(e.clientX) - xPos) % 360
+
+  gsap.to(ring.value, {
+    rotationY: `-=${delta}`,
+    onUpdate: () => {
+      gsap.set(imgRefs, {
+        backgroundPosition: (i) => getBgPos(i)
+      })
+    }
+  })
+
+  xPos = Math.round(e.clientX)
+}
+
+function dragEnd() {
+  window.removeEventListener('mousemove', dragHandler)
+  window.removeEventListener('touchmove', dragHandler)
+  gsap.set(ring.value, { cursor: 'grab' })
+}
+
+
 // Auto-rotate testimoni
 let testimoniInterval
 
@@ -375,6 +525,59 @@ onMounted(() => {
   testimoniInterval = setInterval(() => {
     currentTestimoni.value = (currentTestimoni.value + 1) % testimoniList.value.length
   }, 5000)
+
+  // GSAP setup for carousel
+  gsap.timeline()
+    .set(ring.value, { rotationY: 180, cursor: 'grab' })
+    .set(imgRefs, {
+      rotateY: (i) => i * -36,
+      transformOrigin: '50% 50% 500px',
+      z: -500,
+      backgroundImage: (i) => `url(${carouselImages[i % carouselImages.length]})`,
+      backgroundPosition: (i) => getBgPos(i),
+      backfaceVisibility: 'hidden',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat'
+    })
+    .from(imgRefs, {
+      duration: 1.5,
+      y: 200,
+      opacity: 0,
+      stagger: 0.1,
+      ease: 'expo'
+    })
+
+  // Hover effects for carousel images
+  imgRefs.forEach((el) => {
+    el.addEventListener('mouseenter', () => {
+      gsap.to(imgRefs, {
+        opacity: (i, target) => (target === el ? 1 : 0.5),
+        ease: 'power3'
+      })
+    })
+    el.addEventListener('mouseleave', () => {
+      gsap.to(imgRefs, {
+        opacity: 1,
+        ease: 'power2.inOut'
+      })
+    })
+  })
+
+  // Drag handlers for carousel
+  window.addEventListener('mousedown', dragStart)
+  window.addEventListener('touchstart', dragStart)
+  window.addEventListener('mouseup', dragEnd)
+  window.addEventListener('touchend', dragEnd)
+})
+
+onBeforeUnmount(() => {
+  // Clear carousel event listeners
+  window.removeEventListener('mousedown', dragStart)
+  window.removeEventListener('touchstart', dragStart)
+  window.removeEventListener('mouseup', dragEnd)
+  window.removeEventListener('touchend', dragEnd)
+  window.removeEventListener('mousemove', dragHandler)
+  window.removeEventListener('touchmove', dragHandler)
 })
 
 onUnmounted(() => {
@@ -387,11 +590,43 @@ onUnmounted(() => {
 <style scoped>
 @import '@/assets/css/beranda.css';
 
+/* NEW Carousel Section Styling */
+.stage {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  user-select: none;
+}
+.container {
+  perspective: 2000px;
+  width: 300px;
+  height: 400px; /* Reduced from 500px */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  transform-style: preserve-3d;
+}
+.ring {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.img {
+  position: absolute;
+  width: 100%; /* Make images fill the container */
+  height: 100%; /* Make images fill the container */
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+
 /* Background section styles */
 .background-image-section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -401,12 +636,11 @@ onUnmounted(() => {
 }
 
 .background-image-section .overlay {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.4);
   padding: 0;
-  border-radius: 0;
   max-width: 100vw;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -435,111 +669,16 @@ onUnmounted(() => {
   max-width: 600px;
 }
 
-/* FAB Styling */
-.floating-actions {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 1000;
+@media screen and (max-width: 768px) {
+  .background-text {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  .background-logo-seq {
+  height: 140px;
+  width: auto;
+  object-fit: contain;
+  }
 }
 
-.main-fab {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
-  border: none;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 1001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.main-fab:hover {
-  transform: scale(1.1);
-  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
-}
-
-.fab-icon {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  transition: transform 0.3s ease;
-}
-
-.main-fab .fab-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.main-fab.active .fab-icon {
-  transform: rotate(45deg);
-}
-
-.fab-menu {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.fab-menu.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-80px);
-}
-
-.fab-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: none;
-  border-radius: 50px;
-  color: #1a202c;
-  text-decoration: none;
-  font-weight: 500;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.fab-item:hover {
-  transform: translateX(-10px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.fab-item.whatsapp:hover {
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  color: white;
-}
-
-.fab-item.email:hover {
-  background: linear-gradient(135deg, #ea4335, #d93025);
-  color: white;
-}
-
-.fab-item.scroll-top:hover {
-  background: linear-gradient(135deg, #2a5fab, #184481);
-  color: white;
-}
-
-.fab-text {
-  font-size: 0.9rem;
-  font-weight: 600;
-}
 </style>

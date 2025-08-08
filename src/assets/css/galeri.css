@@ -34,8 +34,8 @@ body {
 }
 
 .gallery-header {  
-  background: transparent; 
-  color: #00529C;
+  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
+  color: white;
   padding: 8rem 0 2rem;
   text-align: center;
   position: relative;

@@ -16,20 +16,22 @@
         <a href="/umkm">UMKM</a>
         <a href="/galeri">Galeri</a>
         <a href="/berita">Berita</a>
+        <a href="/hubungi">Hubungi Kami</a>
       </div>
       <div class="footer-right">
         <h4>Ikuti Kami</h4>
-        <div class="footer-social">
-          <a href="https://wa.me/6288221455037" target="_blank" rel="noopener noreferrer">
-            <img src="/whatsapp.png" alt="WhatsApp" class="social-icon" />
-          </a>
-          <a href="https://www.instagram.com/rumahbumn.semarang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
-            <img src="/instagram.png" alt="Instagram" class="social-icon" />
-          </a>
-          <a href="https://www.tiktok.com/@rumahbumn.semarang?_t=ZS-8xsVsR2mAJ5&_r=1" target="_blank" rel="noopener noreferrer">
-            <img src="/tiktok.png" alt="TikTok" class="social-icon" />
-          </a>
-        </div>
+      <div class="footer-social">
+      <a href="https://wa.me/6288221455037" class="whatsapp" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="https://www.instagram.com/rumahbumn.semarang" class="instagram" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.tiktok.com/@rumahbumn.semarang" class="tiktok" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-tiktok"></i>
+      </a>
+    </div>
+
       </div>
     <img src="/batik.svg" alt="Batik" class="footer-batik" />
     </div>
