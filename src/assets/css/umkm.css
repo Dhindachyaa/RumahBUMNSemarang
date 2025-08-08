@@ -33,7 +33,7 @@ body {
   position: relative;
   z-index: 1;
   margin: 0;
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp-360e97ee 0.6s ease-out forwards;
 }
 
 @keyframes fadeInUp {
@@ -362,26 +362,35 @@ body {
   margin: 2rem auto;
   font-size: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
+  gap: 0.2rem; /* biar ada jarak antar tombol */
 }
 
 .pagination button {
   background-color: #00529b;
-  color: rgb(151, 151, 151);
+  color: #ffffff;
   border: none;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Tombol aktif */
+.pagination button.active {
+  background-color: #00529b; /* warna untuk halaman aktif */
+  color: #fff;
+}
+
+/* Hover */
+.pagination button:hover:not(:disabled) {
+  background-color: #003f73;
+  color: #ffffff;
+}
+
+/* Disabled */
 .pagination button:disabled {
-  background-color: #ffffff;
+  background-color: #cccccc;
+  color: #666666;
   cursor: not-allowed;
 }
-
-.pagination button:hover:not(:disabled) {
-  background-color: #002227;
-}
-

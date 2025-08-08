@@ -21,7 +21,7 @@
       <div class="footer-right">
         <h4>Ikuti Kami</h4>
       <div class="footer-social">
-      <a href="https://wa.me/6288221455037" class="whatsapp" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/6285190084481" class="whatsapp" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-whatsapp"></i>
       </a>
       <a href="https://www.instagram.com/rumahbumn.semarang" class="instagram" target="_blank" rel="noopener noreferrer">

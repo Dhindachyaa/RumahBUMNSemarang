@@ -82,7 +82,7 @@ const route = useRoute()
 const umkm = ref({})
 const showContent = ref(false)
 
-const whatsappNumber = '088221455037'
+const whatsappNumber = '085190084481'
 const whatsappLink = `https://wa.me/62${whatsappNumber.replace(/^0/, '')}?text=Halo,%20saya%20tertarik%20dengan%20produk%20UMKM`
 
 onMounted(async () => {
