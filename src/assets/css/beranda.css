@@ -1,143 +1,76 @@
-.faq-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2.5rem;
-  align-items: start;
-  max-width: 1400px;
-  margin-bottom: 5rem;
-  padding: 0 2rem;
-  justify-content: flex-start;
-  padding-left: 2rem;
+/* NEW Carousel Section Styling */
+.carousel-section {
+  width: 100%;
+  height: 110vh;
+  padding-top: 40px;
+  background:
+  radial-gradient(900px circle at top left, #ddf0ff, transparent 70%),
+  radial-gradient(900px circle at bottom right, #ddf0ff, transparent 70%);
+  background-repeat: repeat;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (max-width: 480px) {
-  .faq-container {
-    grid-template-columns: 1fr;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+.btn-gallery {
+  display: inline-block;
+  max-width: max-content;
+  padding: 0.7rem 1rem;
+  background-color: #fff;
+  color: #00529C;
+  font-size: 1rem;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  border: 2px solid #00529C;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 auto
 }
 
-.faq-section h2 {
+.btn-gallery:hover {
+  background-color: #00529C;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+  color: #fff;
+}
+
+.carousel-title {
   font-size: 3.5rem;
   font-weight: 900;
-  margin: 4rem auto 2rem auto;
+  margin-bottom: 24px;
+  margin-top: 2rem;
   z-index: 2;
-  color: #184481;
+  color: #00529C;
   font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;
   text-align: center;
-  max-width: 1200px;
 }
 
-.faq-item {
-  min-height: 220px;
-  max-height: 220px;
-}
-
-.faq-item {
+.stage {
+  overflow:hidden;
   position: relative;
-  background: white;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 1rem;
-  user-select: none;
   width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  text-align: justify;
+  height: 80vh; 
+  padding-top: 20px;
+  transform-style: preserve-3d;
+  margin-bottom: 5rem;
 }
 
-.faq-item.expanded {
-  max-height: none; /* ❗ biar tinggi mengikuti konten */
-  overflow: visible; /* ❗ biar tidak muncul scrollbar */
+/*Responsive Gallery*/
+@media (max-width: 768px) {
+.carousel-title {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
 }
-.faq-question {
+
+.stage {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-}
-.faq-answer {
-  margin-top: 0.75rem;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #2d3748;
-  padding-left: 2.5rem;
-  padding-right: 0.5rem;
-  text-indent: -1rem;
-  line-height: 1.5;
 }
 
-.faq-item {
-  background: white;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  cursor: pointer;
-  transition: box-shadow 0.3s ease;
-  margin-bottom: 1rem;
-  user-select: none;
-  display: block;
-  min-height: 90px;
-  text-align: justify;
-}
-
-.faq-item span {
-  flex-shrink: 0;
-  font-weight: 900;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: #184481;
-  display: inline-flex;
-  align-items: center;
-  margin-right: 0.6rem;
-}
-
-.faq-item strong {
-  flex-grow: 1;
-  font-weight: 700;
-  line-height: 1.3;
-  white-space: pre-line;
-  display: inline-block;
-  padding-left: 0;
-  margin-left: -0.4rem;
-  text-indent: 0;
-  margin-bottom: 2rem;
-}
-
-.faq-item.expanded {
-  background-color: #f0f4ff;
-  box-shadow: 0 6px 20px rgba(24, 68, 129, 0.3);
-}
-
-.faq-answer {
-  margin-top: 8rem !important;
-  font-weight: 400;
-  font-size: 1rem;
-  color: #2d3748;
-  cursor: grab;
-  overflow: visible;
-  transition: max-height 0.3s ease;
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  transform: none !important;
-  margin: 0 !important;
-  z-index: auto !important;
-  padding-left: 1.7rem !important;
-  padding-right: 0 !important;
-  text-indent: 0 !important;
-  text-align: justify !important;
-}
-
+/* Hero Section */
 .hero-logo {
   width: 300px;
   margin-bottom: 10px;
@@ -233,7 +166,7 @@
 
 /* === FITUR SECTION === */
 .fitur-section {
-  background: linear-gradient(135deg, #184481, #00529C);
+  background: linear-gradient(135deg, #00529C, #00529C);
   padding: 3rem 2rem 3rem 2rem;
   position: relative;
   overflow: hidden;
@@ -495,7 +428,7 @@
 }
 
 .tim-section h2 {
-  color: #184481;
+  color: #00529C;
   font-size: 3.5rem;
   font-weight: 900;
   margin-bottom: 1rem;
@@ -555,10 +488,9 @@
 }
 
 .member-quote {
-  background: #f8f9fb;
+  background: none;
   padding: 2rem;
   border-radius: 15px;
-  margin-bottom: 2rem;
   position: relative;
   font-style: italic;
   color: #4a5568;
@@ -590,8 +522,9 @@
 .member-name {
   font-size: 2rem;
   font-weight: 900;
-  color: #184481;
+  color: #00529C;
   margin-bottom: 0.5rem;
+  margin-left: 2rem;
   font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -601,6 +534,7 @@
   font-weight: 500;
   font-style: italic;
   font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-left: 2rem;
 }
 
 /* Responsive Design */
@@ -630,6 +564,7 @@
     text-align: center;
     max-width: 100%;
     margin-left: 0;
+    font-size: 2rem;
   }
   
   .tim-member {
@@ -643,7 +578,13 @@
   }
   
   .member-name {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+    margin-left: 0;
+  }
+
+  .member-position {
+    font-size: 1.2rem;
+    margin-left: 0;
   }
   
   .member-info {
@@ -677,7 +618,7 @@
 
 /* === TESTIMONI SECTION === */
 .testimoni-section {
-  background: linear-gradient(135deg, #184481, #00529C);
+  background: linear-gradient(135deg, #00529C, #00529C);
   padding: 5rem 2rem 6rem 2rem;
   text-align: center;
   font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -960,7 +901,7 @@
   }
   
   .quote {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 1.2rem;
   }
   
@@ -1013,7 +954,7 @@
   }
   
   .quote {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 1rem;
   }
   
@@ -1034,33 +975,171 @@
   }
 }
 
-/* Extra small screens */
-@media (max-width: 320px) {
-  .testimoni-section {
-    padding: 2rem 0.75rem;
+/* === FAQ SECTION === */
+.faq-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  max-width: 1400px;
+  margin-bottom: 5rem;
+  padding: 0 2rem;
+  justify-content: flex-start;
+  padding-left: 2rem;
+}
+
+.faq-section h2 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin: 5rem auto 3rem auto;
+  z-index: 2;
+  color: #00529C;
+  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  position: relative;
+  text-align: center;
+  max-width: 1200px;
+}
+
+.faq-item {
+  min-height: 220px;
+  max-height: 220px;
+}
+
+.faq-item {
+  position: relative;
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  user-select: none;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: justify;
+  vertical-align: top;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.faq-item.expanded {
+  max-height: none; 
+  overflow: visible; 
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+.faq-answer {
+  margin-top: 0.75rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #2d3748;
+  padding-left: 2.5rem;
+  padding-right: 0.5rem;
+  text-indent: -1rem;
+  line-height: 1.5;
+}
+
+.faq-item {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+  user-select: none;
+  display: block;
+  min-height: 90px;
+  text-align: justify;
+}
+
+.faq-item span {
+  flex-shrink: 0;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #00529C;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.6rem;
+}
+
+.faq-item strong {
+  flex-grow: 1;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: pre-line;
+  display: inline-block;
+  padding-left: 0;
+  margin-left: -0.4rem;
+  text-indent: 0;
+  margin-bottom: 2rem;
+}
+
+.faq-item.expanded {
+  box-shadow: 0 6px 20px rgba(75, 122, 188, 0.128);
+}
+
+.faq-answer {
+  margin-top: 8rem !important;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #2d3748;
+  cursor: grab;
+  overflow: visible;
+  transition: max-height 0.3s ease;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: auto !important;
+  padding-left: 1.7rem !important;
+  padding-right: 0 !important;
+  text-indent: 0 !important;
+  text-align: justify !important;
+}
+
+.faq-answer :deep(ul) {
+  padding-left: 1.2rem;
+  list-style: disc;
+  margin-top: 0.5rem;
+}
+
+.faq-answer :deep(li) {
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #2d3748;
+}
+
+@media (max-width: 768px) {
+  .faq-container {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
-  
-  .testimoni-card {
-    padding: 1.5rem 1rem;
-  }
-  
-  .testimoni-header h2 {
-    font-size: 1.6rem;
-  }
-  
-  .quote {
-    font-size: 1rem;
-  }
-  
-  .quote-icon {
+
+  .faq-section h2 {
     font-size: 2rem;
+    margin: 3rem auto 1.5rem auto;
   }
 }
 
-
  /* === LOKASI SECTION === */
 .lokasi-section {
-  background: linear-gradient(135deg, #184481, #00529C);
+  background: linear-gradient(#00529C, #ffffff);
   padding: 3rem 1rem 7rem 1rem;
   color: #fff;
   text-align: center;
@@ -1068,17 +1147,13 @@
   overflow: hidden;
   }
 
-  .lokasi-section::before {
-    content: '';
+.lokasi-section::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.04) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.04) 0%, transparent 50%);
-  animation: backgroundMove 20s ease-in-out infinite;
   }
 
   @keyframes lokasiFloat {
@@ -1087,7 +1162,7 @@
   }
 
 .lokasi-title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: 3.5rem;
   font-weight: 900;
   margin-bottom: 3rem;
   z-index: 2;
@@ -1150,7 +1225,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #184481, #00529C);
+  background: linear-gradient(135deg, #00529C, #00529C);
   border-radius: 50%;
   color: white;
   margin-right: 1rem;
@@ -1181,7 +1256,7 @@
   .btn-maps {
   display: inline-block;
   margin-top: 1.5rem;
-  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
+  background: #00529C;
   color: white;
   text-decoration: none;
   border-radius: 50px;
@@ -1266,6 +1341,10 @@
   @media (max-width: 480px) {
   .lokasi-section {
   padding: 2rem 0.5rem;
+  }
+
+  .lokasi-title {
+  font-size: 2rem;
   }
 
   .lokasi-container {
@@ -1368,10 +1447,6 @@
 }
 
 @media (max-width: 480px) {
-  .lokasi-title {
-    font-size: 2rem;
-  }
-  
   .fab-item {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
@@ -1400,7 +1475,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #184481, #00529C);
+  background: linear-gradient(135deg, #00529C, #00529C);
   border: none;
   color: white;
   font-size: 2rem;
@@ -1473,7 +1548,7 @@
 }
 
 .fab-item.scroll-top:hover {
-  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
+  background: linear-gradient(135deg, #00529Ccd 0%, #00529C 100%);
   color: white;
 }
 
@@ -1561,7 +1636,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #184481cd 0%, #184481 100%);
+  background: linear-gradient(135deg, #00529Ccd 0%, #00529C 100%);
   border: none;
   color: white;
   cursor: pointer;
@@ -1648,7 +1723,7 @@
 }
 
 .fab-item.scroll-top:hover {
-  background: linear-gradient(135deg, #2a5fab, #184481);
+  background: linear-gradient(135deg, #2a5fab, #00529C);
   color: white;
 }
 

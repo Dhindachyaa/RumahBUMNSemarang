@@ -13,7 +13,7 @@
 
     <section class="carousel-section scroll-anim">
       <h2 class="carousel-title">Galeri Kegiatan</h2>
-      <button class="button-gallery" @click="goToGallery">Lihat Semua Galeri</button>
+      <button class="btn-gallery" @click="goToGallery">Lihat Semua Galeri</button>
       <div class="stage">
         <div class="container">
           <div class="ring" ref="ring">
@@ -122,9 +122,9 @@
       </div>
     </section>
 
-        <!-- FAQ SECTION -->
+    <!-- FAQ SECTION -->
     <section class="faq-section scroll-anim">
-    <h2 class="lokasi-title">Pertanyaan yang Sering Muncul</h2>
+    <h2 class="faq-section h2">Pertanyaan yang Sering Muncul</h2>
     <div class="faq-container">
     <div 
       v-for="(faq, index) in faqList" 
@@ -346,7 +346,7 @@ const faqList = ref([
     answer: 'Rumah BUMN adalah sebuah fasilitas atau wadah yang disediakan oleh Badan Usaha Milik Negara (BUMN) sebagai pusat pengembangan kewirausahaan UMKM (Usaha Mikro, Kecil, dan Menengah). Rumah BUMN bertujuan untuk memberdayakan pelaku UMKM agar naik kelas melalui pelatihan, pendampingan, dan akses ke pasar maupun digitalisasi.'
   },
   {
-    question: 'Caranya gabung UMMKM bagaimana?',
+    question: 'Caranya gabung UMKM bagaimana?',
     answer: `
       <ul>
         <li>Mengisi formulir pendaftaran secara offline atau online melalui website resmi Rumah BUMN setempat.</li>
@@ -621,11 +621,12 @@ onUnmounted(() => {
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
+
 /* Background section styles */
 .background-image-section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -635,12 +636,11 @@ onUnmounted(() => {
 }
 
 .background-image-section .overlay {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.4);
   padding: 0;
-  border-radius: 0;
   max-width: 100vw;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -669,78 +669,16 @@ onUnmounted(() => {
   max-width: 600px;
 }
 
-/* NEW Carousel Section Styling */
-.carousel-section {
-  width: 100%;
-  height: 110vh;
-  padding-top: 40px;
-  background:
-  radial-gradient(900px circle at top left, #ddf0ff, transparent 70%),
-  radial-gradient(900px circle at bottom right, #ddf0ff, transparent 70%);
-  background-repeat: repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
+@media screen and (max-width: 768px) {
+  .background-text {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  .background-logo-seq {
+  height: 140px;
+  width: auto;
+  object-fit: contain;
+  }
 }
-
-
-.button-gallery {
-  display: inline-block;
-  padding: 0.7rem 1rem;
-  background-color: #fff;
-  color: #00529C;
-  font-size: 1rem;
-  font-family: 'Manrope', sans-serif;
-  font-weight: 700;
-  border: 2px solid #00529C;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.button-gallery:hover {
-  background-color: #00529C;
-  box-shadow: 0 10px 10px rgba(136, 136, 136, 0.2);
-  color: #fff;
-}
-
-.carousel-title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  margin-bottom: 24px;
-  margin-top: 2rem;
-  z-index: 2;
-  color: #00529C;
-  font-family: 'Funnel Display', 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  position: relative;
-  text-align: center;
-}
-
-.stage {
-  overflow:hidden;
-  position: relative;
-  width: 100%;
-  height: 80vh; 
-  padding-top: 20px;
-  transform-style: preserve-3d;
-  margin-bottom: 5rem;
-}
-.faq-answer :deep(ul) {
-  padding-left: 1.2rem;
-  list-style: disc;
-  margin-top: 0.5rem;
-}
-
-.faq-answer :deep(li) {
-  margin-bottom: 0.5rem;
-  font-weight: 400;
-  font-size: 1rem;
-  color: #2d3748;
-}
-
 
 </style>
