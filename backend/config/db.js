@@ -1,16 +1,19 @@
 import mysql from 'mysql2';
 
 const db = mysql.createConnection({
-  host: 'bu6wesetu8gdk6zfb75j-mysql.services.clever-cloud.com',
-  user: 'ugcsmhaklusqufzh',
-  password: '7D6zKBWKI3MLDlO899Zo',
-  database: 'bu6wesetu8gdk6zfb75j',
-  port: 3306
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306
 });
 
 db.connect(err => {
-  if (err) throw err;
-  console.log('✅ MySQL Connected to Clever Cloud!');
+  if (err) {
+    console.error('❌ MySQL connection error:', err);
+  } else {
+    console.log('✅ MySQL Connected!');
+  }
 });
 
 export default db;

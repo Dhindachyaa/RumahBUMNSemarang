@@ -5,27 +5,38 @@ const path = require('path')
 const app = express()
 
 require('./config/db')
+
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('/images', (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+
+app.use((req, res, next) => {
+  console.log('Request masuk:', req.method, req.url)
   next()
-}, express.static(path.join(__dirname, 'public/images')))
+})
 
-app.use(methodOverride((req, res) => {
-  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-    const method = req.body._method
-    delete req.body._method
-    return method
-  }
-  if (req.originalUrl.includes('_method=PUT')) {
-    return 'PUT'
-  }
-}))
+app.use(
+  '/images',
+  (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+    next()
+  },
+  express.static(path.join(__dirname, 'public/images'))
+)
 
-app.use('/images', express.static(path.join(__dirname, 'public/images')))
+app.use(
+  methodOverride((req, res) => {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      const method = req.body._method
+      delete req.body._method
+      return method
+    }
+    if (req.originalUrl.includes('_method=PUT')) {
+      return 'PUT'
+    }
+  })
+)
 
 const adminRoutes = require('./routes/adminRoutes')
 const umkmRoutes = require('./routes/umkmRoutes')
@@ -36,7 +47,9 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/umkm', umkmRoutes)
 app.use('/api/galeri', galeriRoutes)
 app.use('/api/berita', beritaRoutes)
+
 app.get('/', (req, res) => res.send('🚀 Server is up & running ⚡️'))
+
 app.use((req, res) => {
   res.status(404).json({ message: 'Endpoint tidak ditemukan' })
 })
@@ -48,5 +61,5 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
-  console.log(`🚀 Server berjalan di http://localhost:${PORT}`)
+  console.log(`🚀 Server berjalan di port ${PORT}`)
 })
