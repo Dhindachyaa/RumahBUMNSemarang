@@ -1,16 +1,12 @@
 <template>
   <div class="news-page">
-    <!-- Header Section -->
     <header class="news-header">
       <div class="container">
         <h1 class="animate-fade-in">BERITA TERKINI</h1>
       </div>
     </header>
-
-    <!-- News Content -->
     <main class="news-content">
       <div class="container">
-        <!-- Featured Article -->
         <section class="featured-section" v-if="featuredArticle">
           <router-link 
             :to="{ name: 'BeritaDetail', params: { id: featuredArticle.id } }"
@@ -36,7 +32,6 @@
           </router-link>
         </section>
 
-        <!-- News Grid -->
         <section class="news-grid" v-if="paginatedNews.length > 0">
           <router-link
             v-for="(berita, index) in paginatedNews"
@@ -66,13 +61,10 @@
           </router-link>
         </section>
 
-        <!-- No Results -->
         <section v-else class="no-results animate-fade-in">
           <i class="fas fa-newspaper"></i>
           <p>Tidak ada berita yang ditemukan.</p>
         </section>
-
-        <!-- Load More Button -->
         <section class="load-more-section" v-if="hasMoreNews">
           <button 
             class="load-more-btn" 
@@ -92,7 +84,6 @@
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import axios from 'axios'
 
-// State
 const allNews = ref([])
 const searchQuery = ref('')
 const currentPage = ref(1)
@@ -100,7 +91,6 @@ const itemsPerPage = 6
 const isLoading = ref(false)
 const searchTimeout = ref(null)
 
-// Fetch data
 const fetchBerita = async () => {
   try {
     const res = await axios.get('http://localhost:3000/api/berita')
@@ -120,7 +110,6 @@ const fetchBerita = async () => {
   }
 }
 
-// Utils
 const stripHtml = html => {
   const tmp = document.createElement("DIV")
   tmp.innerHTML = html
@@ -144,7 +133,6 @@ const handleImageError = e => {
   e.target.src = getPlaceholderImage()
 }
 
-// Computed
 const featuredArticle = computed(() => allNews.value[0] || null)
 
 const filteredNews = computed(() => {
@@ -167,7 +155,6 @@ const hasMoreNews = computed(() =>
   paginatedNews.value.length < filteredNews.value.length
 )
 
-// Load more
 const loadMore = async () => {
   if (isLoading.value || !hasMoreNews.value) return
   isLoading.value = true
@@ -179,14 +166,12 @@ const loadMore = async () => {
   }, 500)
 }
 
-// Search debounce
 const handleSearch = () => (currentPage.value = 1)
 watch(searchQuery, () => {
   if (searchTimeout.value) clearTimeout(searchTimeout.value)
   searchTimeout.value = setTimeout(() => handleSearch(), 300)
 })
 
-// Animation init
 const initScrollAnimations = () => {
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {

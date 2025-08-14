@@ -53,12 +53,12 @@
       <h2>Kreativitas di Balik Rumah BUMN</h2>
       <div class="tim-container">
         <div class="tim-member endang">
-  <div class="member-photo">
-  <img 
-  src="@/assets/beranda/Bu-Endang.png"
-  alt="Bu Endang"
-  />
-</div>
+        <div class="member-photo">
+      <img 
+      src="@/assets/beranda/Bu-Endang.png"
+      alt="Bu Endang"
+      />
+      </div>
         <div class="member-info">
         <div class="member-quote">
         {{ timList[0].quote }}
@@ -67,12 +67,11 @@
         <p class="member-position">{{ timList[0].jabatan }}</p>
       </div>
     </div>
-
-        <div class="tim-member abim">
-  <div class="member-photo">
-  <img 
-  src="@/assets/beranda/Abim.png"
-  alt="Bu Endang"
+     <div class="tim-member abim">
+     <div class="member-photo">
+     <img 
+      src="@/assets/beranda/Abim.png"
+      alt="Bu Endang"
         />
         </div>
         <div class="member-info">
@@ -121,7 +120,6 @@
       </div>
     </section>
 
-    <!-- FAQ SECTION -->
     <section class="faq-section scroll-anim">
     <h2 class="faq-section h2">Pertanyaan yang Sering Muncul</h2>
     <div class="faq-container">
@@ -131,13 +129,10 @@
       class="faq-item" 
       :class="{ expanded: expandedFaqs.includes(index) }"
     >
-      <!-- Bagian pertanyaan -->
       <div class="faq-question" @click="toggleFaq(index)">
         <span class="faq-sign">{{ expandedFaqs.includes(index) ? '-' : '+' }}</span>
         {{ faq.question }}
       </div>
-
-      <!-- Bagian jawaban -->
       <div
         v-if="expandedFaqs.includes(index)"
         class="faq-answer"
@@ -146,7 +141,6 @@
     </div>
     </div>
   </section>
-
 
     <section class="lokasi-section scroll-anim">
       <h2 class="lokasi-title">Lokasi Kami</h2>
@@ -235,18 +229,16 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
-import gsap from 'gsap' // Import GSAP
+import gsap from 'gsap' 
 
-// Import assets
 import iconUmkm from '@/assets/beranda/icon-umkm.svg'
 import iconEvent from '@/assets/beranda/icon-event.svg'
 import iconBooking from '@/assets/beranda/icon-booking.svg'
-import orang1 from '@/assets/beranda/orang1.png'
+import orang1 from '@/assets/beranda/orang1.webp'
 import iconLinkedin from '@/assets/beranda/icon-linkedin.png'
 import iconEmail from '@/assets/beranda/icon-email.jpg'
 import hero from '@/assets/beranda/hero background.jpg'
 
-// Import carousel images
 import carouselImage1 from '@/assets/carousel_image/1.png'
 import carouselImage2 from '@/assets/carousel_image/2.png'
 import carouselImage3 from '@/assets/carousel_image/3.png'
@@ -258,14 +250,11 @@ import carouselImage8 from '@/assets/carousel_image/8.png'
 import carouselImage9 from '@/assets/carousel_image/9.png'
 import carouselImage10 from '@/assets/carousel_image/10.png'
 
-// Reactive data
 const fabOpen = ref(false)
 const currentTestimoni = ref(0)
-
-// Carousel specific refs and data
 const ring = ref(null)
 const imgRefs = []
-const images = Array.from({ length: 10 }) // For 10 images in the carousel
+const images = Array.from({ length: 10 }) 
 const carouselImages = [
   carouselImage1,
   carouselImage2,
@@ -282,14 +271,12 @@ const carouselImages = [
 let xPos = 0
 let dragHandler = null
 
-// Carousel specific function
 const getBgPos = (i) => {
   const rotY = gsap.getProperty(ring.value, 'rotationY')
-  const angle = (i * 36 + rotY) * (Math.PI / 180) // 360 degrees / 10 images = 36 degrees per image
-  const radius = 500 // Adjust radius as needed 
+  const angle = (i * 36 + rotY) * (Math.PI / 180) 
+  const radius = 500 
   }
 
-// Enhanced fitur list with actions
 const fiturList = ref([
   {
     icon: iconUmkm,
@@ -317,7 +304,6 @@ const fiturList = ref([
   }
 ])
 
-// Enhanced tim list
 const timList = ref([
   {
     id: 1,
@@ -397,7 +383,6 @@ const toggleFaq = (index) => {
   }
 }
 
-// Testimoni list
 const testimoniList = ref([
   {
     name: 'Yuta P.',
@@ -416,7 +401,6 @@ const testimoniList = ref([
   }
 ])
 
-// Methods
 const goToGallery = () => {
   window.location.href = '/galeri'
 }
@@ -431,7 +415,6 @@ const handleButtonClick = (action) => {
       window.open('https://docs.google.com/forms/d/e/1FAIpQLSekOnFWb3ajL6d4Pmm3gxAyK3nM86cm1XbLm37wJFmSlef9lQ/viewform', '_blank')
       break
     case 'social':
-      // Redirect to social media or news page
       window.open('https://instagram.com/rumahbumn.semarang', '_blank')
       break
     case 'contact':
@@ -469,7 +452,6 @@ const scrollToTop = () => {
   })
 }
 
-// Carousel drag functions
 function dragStart(e) {
   if (e.touches) e.clientX = e.touches[0].clientX
   xPos = Math.round(e.clientX)
@@ -502,12 +484,9 @@ function dragEnd() {
   gsap.set(ring.value, { cursor: 'grab' })
 }
 
-
-// Auto-rotate testimoni
 let testimoniInterval
 
 onMounted(() => {
-  // Scroll animations
   const animatedSections = document.querySelectorAll('.scroll-anim')
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -518,13 +497,10 @@ onMounted(() => {
   }, { threshold: 0.1 })
 
   animatedSections.forEach(section => observer.observe(section))
-
-  // Auto-rotate testimoni every 5 seconds
   testimoniInterval = setInterval(() => {
     currentTestimoni.value = (currentTestimoni.value + 1) % testimoniList.value.length
   }, 5000)
 
-  // GSAP setup for carousel
   gsap.timeline()
     .set(ring.value, { rotationY: 180, cursor: 'grab' })
     .set(imgRefs, {
@@ -545,7 +521,6 @@ onMounted(() => {
       ease: 'expo'
     })
 
-  // Hover effects for carousel images
   imgRefs.forEach((el) => {
     el.addEventListener('mouseenter', () => {
       gsap.to(imgRefs, {
@@ -561,7 +536,6 @@ onMounted(() => {
     })
   })
 
-  // Drag handlers for carousel
   window.addEventListener('mousedown', dragStart)
   window.addEventListener('touchstart', dragStart)
   window.addEventListener('mouseup', dragEnd)
@@ -569,7 +543,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  // Clear carousel event listeners
   window.removeEventListener('mousedown', dragStart)
   window.removeEventListener('touchstart', dragStart)
   window.removeEventListener('mouseup', dragEnd)
@@ -587,8 +560,6 @@ onUnmounted(() => {
 
 <style scoped>
 @import '@/assets/css/beranda.css';
-
-/* NEW Carousel Section Styling */
 .stage {
   width: 100%;
   height: 100%;
@@ -599,7 +570,7 @@ onUnmounted(() => {
 .beranda-container {
   perspective: 2000px;
   width: 300px;
-  height: 400px; /* Reduced from 500px */
+  height: 400px; 
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -615,45 +586,40 @@ onUnmounted(() => {
 }
 .img {
   position: absolute;
-  width: 100%; /* Make images fill the container */
-  height: 100%; /* Make images fill the container */
+  width: 100%; 
+  height: 100%; 
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-
-/* Background section styles */
-/* Animasi dari putih → transparan */
 @keyframes fadeOverlayToNormal {
   0% {
-    background-color: white; /* awalnya putih penuh */
+    background-color: white;
   }
   100% {
-    background-color: rgba(255, 255, 255, 0); /* transparan → gambar terlihat */
+    background-color: rgba(255, 255, 255, 0); 
   }
 }
 
-/* Background section */
 .background-image-section {
   position: relative;
   width: 100%;
-  height: 100vh; /* Full height untuk desktop */
+  height: 100vh; 
   display: flex;
   justify-content: center;
   align-items: center;
   background-image: url("/src/assets/beranda-background.jpg");
-  background-size: cover; /* Menjaga gambar menutupi seluruh area tanpa distorsi */
-  background-position: center bottom; /* Menjaga gambar tetap terpusat */
+  background-size: cover; 
+  background-position: center bottom; 
   background-repeat: no-repeat;
 }
 
-/* Overlay yang memudar */
 .background-image-section .overlay {
   padding: 0;
   border-radius: 0;
   max-width: 100%;
   width: 100%;
-  height: 100%; /* Menjaga overlay menutupi seluruh area */
+  height: 100%; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -665,28 +631,25 @@ onUnmounted(() => {
   animation: fadeOverlayToNormal 2.5s ease-out forwards;
 }
 
-/* Konten logo & deskripsi */
 .background-image-section .content {
   position: relative;
-  z-index: 2; /* selalu di atas overlay */
+  z-index: 2; 
   text-align: center;
   color: black;
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
-/* Responsive untuk tablet dan mobile */
 @media (max-width: 768px) {
   .background-image-section {
-    height: 100%; /* Tetap menggunakan 100vh pada perangkat kecil */
+    height: 100%; 
     width: 100%;
-   background-size: auto 100%; /* tinggi penuh, lebar menyesuaikan */
+   background-size: auto 100%; 
     background-position: center center;
     
   }
 
-  /* Overlay menutupi seluruh konten */
   .background-image-section .overlay {
-    height: 100%; /* Overlay menyesuaikan dengan konten */
+    height: 100%; 
   }
 }
 
@@ -698,7 +661,6 @@ onUnmounted(() => {
   align-items: center;
 }
 
-/* Animasi fade + scale untuk logo */
 @keyframes fadeInScale {
   0% {
     opacity: 0;
@@ -710,7 +672,6 @@ onUnmounted(() => {
   }
 }
 
-/* Animasi fade in + geser ke atas untuk teks */
 @keyframes fadeInUpText {
   0% {
     opacity: 0;
@@ -722,7 +683,6 @@ onUnmounted(() => {
   }
 }
 
-/* Logo animasi */
 .background-logo-seq {
   height: 180px;
   width: auto;
@@ -730,7 +690,6 @@ onUnmounted(() => {
   animation: fadeInScale 0.8s ease-out forwards;
 }
 
-/* Teks animasi */
 .background-text {
   font-size: 1.2rem;
   line-height: 1.5;
@@ -750,8 +709,6 @@ onUnmounted(() => {
   height: 140px;
   width: auto;
   object-fit: contain;
-  }
-  
+  }  
 }
-
 </style>

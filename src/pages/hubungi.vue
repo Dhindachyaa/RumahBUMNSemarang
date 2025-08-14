@@ -6,7 +6,6 @@
       </div>
     </header>
 
-    <!-- Content Section -->
     <div class="hubungi-content">
       <div class="hubungi-wrapper">
         <div class="hubungi-container">
@@ -51,10 +50,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-// Tidak perlu script
-</script>
 
 <style>
 @import "@/assets/css/hubungi.css";

@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const beritaModel = require('../models/beritaModel');
 
-// ✅ Ambil semua berita
 exports.getAll = (req, res) => {
   beritaModel.getAllBerita((err, data) => {
     if (err) return res.status(500).json({ error: err });
@@ -10,7 +9,6 @@ exports.getAll = (req, res) => {
   });
 };
 
-// ✅ Ambil berita berdasarkan ID
 exports.getById = (req, res) => {
   const id = req.params.id;
   beritaModel.getBeritaById(id, (err, data) => {
@@ -20,7 +18,6 @@ exports.getById = (req, res) => {
   });
 };
 
-// ✅ Tambah berita baru
 exports.create = (req, res) => {
   const { judul, tanggal } = req.body;
   let isi = req.body.isi ? req.body.isi.replace(/\n/g, '<br>') : '';
@@ -34,7 +31,6 @@ exports.create = (req, res) => {
   });
 };
 
-// ✅ Update berita (jika ada gambar baru, hapus gambar lama)
 exports.update = (req, res) => {
   const id = req.params.id;
   const { judul, tanggal } = req.body;
@@ -52,7 +48,6 @@ exports.update = (req, res) => {
   };
 
   if (gambarBaru) {
-    // Cek dan hapus gambar lama
     beritaModel.getBeritaById(id, (err, result) => {
       if (!err && result.length > 0) {
         const gambarLama = result[0].gambar;
@@ -68,7 +63,6 @@ exports.update = (req, res) => {
   }
 };
 
-// ✅ Hapus berita dan gambar
 exports.remove = (req, res) => {
   const id = req.params.id;
 
@@ -90,7 +84,6 @@ exports.remove = (req, res) => {
   });
 };
 
-// ✅ Hitung total berita
 exports.count = (req, res) => {
   beritaModel.countBerita((err, result) => {
     if (err) return res.status(500).json({ error: err });

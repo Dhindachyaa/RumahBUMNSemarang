@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-// No script needed
 </script>
 
 <style scoped>
@@ -64,7 +63,6 @@
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-/* Placeholder icons using SVG background images or inline SVG */
 .home-icon {
   background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23000" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-4H9v4a2 2 0 0 1-2 2H3z"/></svg>');
   background-repeat: no-repeat;
@@ -118,7 +116,6 @@ p {
   background-color: #0a2a38;
 }
 
-/* Responsive for mobile */
 @media (max-width: 768px) {
   .feature-cards {
     flex-direction: column;

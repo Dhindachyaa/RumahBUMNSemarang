@@ -1,13 +1,11 @@
 <template>
   <div class="news-page">
-    <!-- Header -->
     <header class="gallery-header">
       <div class="container">
         <h1 class="animate-fade-in">GALERI</h1>
       </div>
     </header>
 
-    <!-- Gallery Section -->
     <section class="gallery-content">
       <div class="right-gallery full-width no-left-text" v-if="galleryItems.length">
         <div
@@ -30,14 +28,10 @@
           </div>
         </div>
       </div>
-
-      <!-- Jika kosong -->
       <div v-else class="no-data-msg">Galeri kosong.</div>
 
-      <!-- Pagination -->
       <div class="pagination">
         <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
-
         <button
           v-for="page in totalPages"
           :key="`page-${page}`"
@@ -46,11 +40,9 @@
         >
           {{ page }}
         </button>
-
         <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
       </div>
 
-      <!-- Modal -->
       <div v-if="showModal" class="galeri-modal" @click.self="closeModal">
         <div class="galeri-modal-content-wrapper">
           <img class="galeri-modal-content" :src="modalImage" />
@@ -71,12 +63,10 @@ const showModal = ref(false)
 const modalImage = ref('')
 const modalCaption = ref('')
 
-// Pagination states
 const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
 
-// Fetch gallery with pagination
 const fetchGallery = async () => {
   try {
     const limit = itemsPerPage

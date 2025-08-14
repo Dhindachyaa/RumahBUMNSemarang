@@ -7,7 +7,6 @@ body {
   color: #1c1c1c;
 }
 
-/* ======================= HEADER ======================= */
 .umkm-header {
   color: #00529b;
   padding: 8rem 0 3rem;
@@ -48,12 +47,10 @@ body {
   }
 }
 
-/* ======================= SECTION ======================= */
 .umkm-section {
   text-align: center;
 }
 
-/* Search Area */
 .umkm-search-wrapper {
   margin-top: -2rem;
   margin-bottom: 2rem;
@@ -67,7 +64,7 @@ body {
   align-items: center;
   gap: 1rem;
   background: rgba(255, 255, 255, 0.916);
-  padding: 1rem 1.5rem; /* << ubah ini di mobile */
+  padding: 1rem 1.5rem; 
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   max-width: 700px;
@@ -111,17 +108,15 @@ body {
   background-color: #002d33;
 }
 
-/* ======================= UMKM LIST ======================= */
 .umkm-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* ✅ Paksa 4 kolom */
+  grid-template-columns: repeat(4, 1fr); 
   gap: 1.2rem;
   max-width: 1200px;
   margin: 2rem auto 0;
   padding: 0 1rem;
   justify-content: center;
 }
-
 
 .umkm-card {
   border: 1px solid #ddd;
@@ -130,7 +125,7 @@ body {
   border-radius: 8px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  min-height: 260px; /* kamu bisa sesuaikan, misal 280px */
+  min-height: 260px; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -181,7 +176,6 @@ body {
   text-overflow: ellipsis;
 }
 
-/* ======================= ANIMASI SCROLL ======================= */
 .animate-on-scroll {
   opacity: 0;
   transform: translateX(-40px);
@@ -194,21 +188,19 @@ body {
   transform: translateX(0);
 }
 
-
-/* ======================= RESPONSIVE ======================= */
 @media (max-width: 768px) {
   .umkm-search {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    flex-wrap: wrap; /* wrap tetap aktif */
+    flex-wrap: wrap; 
     padding: 0.5rem 1rem;
     max-width: 95%;
   }
 
   .search-input {
-    width: 160px;       /* ⬅️ ubah dari 100% ke ukuran tetap */
+    width: 160px;     
     flex: 0 0 auto;
   }
 
@@ -224,7 +216,6 @@ body {
   }
 }
 
-  /* Sembunyikan scrollbar jika ingin */
   .umkm-search::-webkit-scrollbar {
     display: none;
   }
@@ -237,7 +228,7 @@ body {
 
 @media (max-width: 600px) {
   .umkm-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Tetap 2 kolom, fit dengan lebar layar */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); 
   }
 }
 @media (max-width: 480px) {
@@ -251,12 +242,12 @@ body {
   }
 
   .search-input {
-    width: 20%;        /* sekitar 160–180px tergantung device */
+    width: 20%;     
     min-width: 140px;
   }
 
   .category-select {
-    width: 35%;        /* sekitar 110–130px */
+    width: 35%;       
     min-width: 100px;
   }
 
@@ -269,7 +260,7 @@ body {
 }
 @media (max-width: 480px) {
   .umkm-list {
-    padding: 0 1rem; /* tambahkan padding kiri-kanan */
+    padding: 0 1rem; 
   }
 
   .umkm-card {
@@ -278,8 +269,6 @@ body {
   }
 }
 
-
-/* ======================= IMAGE POPUP ======================= */
 .image-popup-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -332,7 +321,6 @@ body {
   color: #ff5f5f;
 }
 
-/* ======================= LINK INFO ======================= */
 .umkm-info-link {
   display: block;
   text-decoration: none;
@@ -355,7 +343,7 @@ body {
   font-size: 0.9rem;
   color: #777;
 }
-/* ======================= PAGINATION ======================= */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -363,7 +351,7 @@ body {
   margin: 2rem auto;
   font-size: 1rem;
   flex-wrap: wrap;
-  gap: 0.2rem; /* biar ada jarak antar tombol */
+  gap: 0.2rem; 
 }
 
 .pagination button {
@@ -377,19 +365,16 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Tombol aktif */
 .pagination button.active {
-  background-color: #00529b; /* warna untuk halaman aktif */
+  background-color: #00529b; 
   color: #fff;
 }
 
-/* Hover */
 .pagination button:hover:not(:disabled) {
   background-color: #003f73;
   color: #ffffff;
 }
 
-/* Disabled */
 .pagination button:disabled {
   background-color: #cccccc;
   color: #666666;

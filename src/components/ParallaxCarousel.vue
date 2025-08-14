@@ -44,7 +44,6 @@ defineProps({
   transition: transform 0.3s ease;
 }
 
-/* Efek melingkar ke dalam */
 .carousel-item:nth-child(1) { transform: rotateY(-40deg); }
 .carousel-item:nth-child(2) { transform: rotateY(-20deg); }
 .carousel-item:nth-child(3) { transform: rotateY(0deg); }

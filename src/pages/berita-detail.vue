@@ -1,9 +1,7 @@
 <template>
   <div class="berita-detail">
-    <!-- Hero Section -->
     <section class="hero-section" v-if="berita">
       <div class="hero-content">
-        <!-- Breadcrumb -->
         <nav class="breadcrumb">
           <router-link to="/" class="breadcrumb-link">Beranda</router-link>
           <span class="breadcrumb-separator">/</span>
@@ -11,24 +9,17 @@
           <span class="breadcrumb-separator">/</span>
           <span class="breadcrumb-current">{{ berita.judul }}</span>
         </nav>
-
-        <!-- Article Meta -->
         <div class="article-meta">
           <span class="article-date">{{ formatTanggal(berita.tanggal) }}</span>
         </div>
-
-        <!-- Article Title -->
         <h1 class="article-title">{{ berita.judul }}</h1>
       </div>
     </section>
 
-    <!-- Article Section -->
     <section class="article-section" v-if="berita">
       <div class="container">
         <div class="article-layout">
-          <!-- Main Content -->
           <main class="article-main">
-            <!-- Article Image -->
             <div class="article-image">
               <img 
                 :src="getImageUrl(berita.gambar)" 
@@ -36,13 +27,8 @@
                 @error="handleImageError"
               />
             </div>
-
-            <!-- Article Content -->
             <div class="article-content">
-              <!-- Article Body -->
               <div class="article-body" v-html="berita.isi"></div>
-
-              <!-- Share Buttons -->
               <div class="article-share">
                 <h4>Bagikan Artikel:</h4>
                 <div class="share-buttons">
@@ -63,9 +49,7 @@
             </div>
           </main>
 
-          <!-- Sidebar -->
           <aside class="article-sidebar">
-            <!-- Latest Articles Widget -->
             <div class="sidebar-widget">
               <h3>Berita Terbaru</h3>
               <div class="latest-articles">
@@ -92,7 +76,6 @@
       </div>
     </section>
 
-    <!-- Article Not Found -->
     <section v-else class="article-section">
       <div class="container">
         <div class="article-not-found">
@@ -108,7 +91,6 @@
       </div>
     </section>
 
-    <!-- Back to Top Button -->
     <button 
       class="back-to-top" 
       v-show="showBackToTop"
@@ -214,6 +196,6 @@ onMounted(() => {
 
 watch(() => route.params.id, async () => {
   await ambilDetailBerita()
-  scrollToTop() // ⬅️ tambahkan ini
+  scrollToTop() 
 })
 </script>

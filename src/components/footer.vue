@@ -44,10 +44,6 @@
   </footer>
 </template>
 
-<script setup>
-// tidak perlu script tambahan di sini
-</script>
-
 <style scoped>
 @import '@/assets/css/footer.css';
 </style>

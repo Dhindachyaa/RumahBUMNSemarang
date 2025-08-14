@@ -27,7 +27,6 @@
               <td class="wrap-text">
   <span>{{ getPreview(berita.isi) }}</span>
 </td>
-
               <td>
                 <img :src="getImage(berita.gambar)" alt="gambar" />
               </td>
@@ -41,8 +40,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Modal -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">
@@ -105,23 +102,17 @@ export default {
     forceLTR() {
   const el = this.$refs.isiEditor
   if (!el) return
-
-  // Paksa atribut utama
   el.setAttribute('dir', 'ltr')
   el.style.direction = 'ltr'
   el.style.textAlign = 'left'
-
-  // Hapus karakter kontrol bidi yang tidak terlihat
   el.innerHTML = this.removeBidiControlChars(el.innerHTML)
 
-  // Hapus atribut dir/style dari semua child
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT)
   while (walker.nextNode()) {
     const node = walker.currentNode
     node.removeAttribute('dir')
     node.removeAttribute('style')
   }
-
       const cleanHTML = this.removeBidiControlChars(el.innerHTML)
       el.innerHTML = cleanHTML
       this.beritaForm.isi = cleanHTML
@@ -139,8 +130,7 @@ export default {
     removeBidiControlChars(text) {
       return text.replace(/[\u202A-\u202E\u200E\u200F]/g, '')
     },
-getPreview(htmlContent) {
-  // Hapus semua tag HTML, lalu ambil 150 karakter pertama
+  getPreview(htmlContent) {
   const plainText = htmlContent.replace(/<[^>]+>/g, '')
   return plainText.length > 150
     ? plainText.slice(0, 150).trim() + '...'

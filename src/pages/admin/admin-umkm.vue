@@ -6,8 +6,6 @@
       <div class="toolbar">
         <button class="btn-save" @click="bukaModal">+ Tambah UMKM</button>
       </div>
-
-      <!-- Tabel Desktop -->
       <div class="table-responsive">
         <table class="umkm-table">
           <thead>
@@ -48,8 +46,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Kartu Mobile -->
       <div class="umkm-card-list">
         <div class="umkm-card" v-for="u in umkmList" :key="u.id">
           <p><strong>Nama:</strong> {{ u.nama }}</p>
@@ -68,8 +64,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Pagination -->
       <div class="pagination">
         <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
 
@@ -84,8 +78,6 @@
 
         <button @click="goToPage(currentPage + 1)" :disabled="currentPage >= computedTotalPages">Next</button>
       </div>
-
-      <!-- Modal Tambah/Edit -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">
@@ -108,7 +100,6 @@
             <input v-model="form.instagram" placeholder="Instagram" />
             <input type="file" @change="handleFile" name="image" />
             <img v-if="gambarPreview" :src="gambarPreview" class="preview-img" />
-
             <div class="modal-footer">
               <button type="button" class="btn-cancel" @click="tutupModal">Batal</button>
               <button type="submit" class="btn-save">{{ isEdit ? 'Update' : 'Simpan' }}</button>
@@ -137,10 +128,7 @@ const selectedFile = ref(null)
 const form = ref({
   id: '', nama: '', harga: '', kategori: '', varian: '', deskripsi: '', instagram: '', image_path: ''
 })
-
-// ✅ Komputasi agar pagination tidak error
 const computedTotalPages = computed(() => Math.max(totalPages.value, 1))
-
 const fetchUMKM = async (page = 1) => {
   try {
     const limit = 20
@@ -161,18 +149,15 @@ const fetchUMKM = async (page = 1) => {
 
 const getPreview = (text) => {
   if (!text) return ''
-  const clean = text.replace(/<[^>]*>/g, '') // jika ada HTML
+  const clean = text.replace(/<[^>]*>/g, '') 
   return clean.length > 150 ? clean.slice(0, 150).trim() + '...' : clean
 }
 
-// ✅ FIX: Function untuk normalize image URL
 const getImageUrl = (path) => {
   if (!path) return 'http://localhost:3000/images/umkm/rumah-bumn.png'
-  
-  // Normalize path - hapus images/ prefix jika ada
+
   let cleanPath = path.replace(/^images\//, '')
-  
-  // Pastikan dimulai dengan umkm/
+
   if (!cleanPath.startsWith('umkm/')) {
     cleanPath = `umkm/${cleanPath}`
   }
@@ -180,7 +165,6 @@ const getImageUrl = (path) => {
   return `http://localhost:3000/images/${cleanPath}`
 }
 
-// ✅ Handle error gambar
 const handleImageError = (event) => {
   event.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
 }

@@ -3,13 +3,9 @@
   <AdminLayout>
     <div class="admin-galeri-page">
       <h1>Kelola Galeri</h1>
-
-      <!-- Tombol Tambah Galeri -->
       <div class="toolbar">
         <button class="btn-save" @click="bukaModal()">+ Tambah Galeri</button>
       </div>
-
-      <!-- Tabel Galeri -->
       <div class="table-responsive">
         <table class="galeri-table">
           <thead>
@@ -36,8 +32,6 @@
             </tr>
           </tbody>
         </table>
-
-        <!-- Pagination Controls -->
         <div class="pagination">
           <button @click="prevPage" :disabled="currentPage === 1">Prev</button>
           <span v-for="page in totalPages" :key="page">
@@ -46,8 +40,6 @@
           <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
         </div>
       </div>
-
-      <!-- Modal Form -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">

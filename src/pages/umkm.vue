@@ -1,13 +1,11 @@
 <template>
   <section class="umkm-section">
-    <!-- Header -->
     <header class="umkm-header">
       <div class="container">
         <h1 class="animate-fade-in">UMKM BINAAN <br>RUMAH BUMN SEMARANG</br></h1>
       </div>
     </header>
 
-    <!-- Search -->
     <form @submit.prevent="submitSearch" class="umkm-search-wrapper animate-on-scroll">
       <div class="umkm-search">
         <input v-model="search" placeholder="Cari UMKM ..." class="search-input" />
@@ -22,7 +20,6 @@
       </div>
     </form>
 
-    <!-- UMKM Cards -->
     <div class="umkm-list">
       <router-link
         v-for="(umkm, i) in umkmList"
@@ -49,15 +46,12 @@
       </router-link>
     </div>
 
-    <!-- Tampilkan jika tidak ada data -->
     <div v-if="umkmList.length === 0" class="no-data-msg">
       Tidak ada UMKM ditemukan.
     </div>
 
-    <!-- Pagination -->
     <div class="pagination">
       <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
-
       <button
         v-for="page in totalPages"
         :key="'page-' + page"
@@ -70,7 +64,6 @@
       <button @click="goToPage(currentPage + 1)" :disabled="currentPage >= totalPages">Next</button>
     </div>
 
-    <!-- Image Popup -->
     <div :class="['image-popup-overlay', popupImage ? 'active' : '']" @click.self="closePopup">
       <img v-if="popupImage" :src="popupImage" alt="Popup" @error="handleImageError" />
       <span class="popup-close" v-if="popupImage" @click.stop="closePopup">&times;</span>
@@ -92,14 +85,10 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
 
-// ✅ FIX: Function untuk normalize image URL
 const getImageUrl = (path) => {
   if (!path) return 'http://localhost:3000/images/umkm/rumah-bumn.png'
-  
-  // Normalize path - hapus images/ prefix jika ada
   let cleanPath = path.replace(/^images\//, '')
   
-  // Pastikan dimulai dengan umkm/
   if (!cleanPath.startsWith('umkm/')) {
     cleanPath = `umkm/${cleanPath}`
   }
@@ -107,7 +96,6 @@ const getImageUrl = (path) => {
   return `http://localhost:3000/images/${cleanPath}`
 }
 
-// ✅ Handle error gambar
 const handleImageError = (event) => {
   event.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
 }
@@ -134,18 +122,14 @@ const fetchUMKM = async () => {
       }
     })
 
-    // ✅ FIX: Gunakan function getImageUrl yang sudah diperbaiki
     umkmList.value = res.data.data.map((u) => ({
       ...u,
       img: getImageUrl(u.image_path)
     }))
 
     totalPages.value = res.data.pagination?.totalPages || 1
-
-    // ⏳ Tunggu DOM render
     await nextTick()
 
-    // ✅ Baru jalankan animasi setelah elemen siap
     const obs = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -166,7 +150,6 @@ const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
 
-    // 👇 Scroll ke atas setelah pindah halaman
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -179,7 +162,6 @@ const submitSearch = () => {
   fetchUMKM()
 }
 
-// Trigger fetch jika page berubah
 watch(currentPage, fetchUMKM)
 watch(category, () => {
   currentPage.value = 1

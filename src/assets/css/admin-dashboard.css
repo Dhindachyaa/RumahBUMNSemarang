@@ -23,7 +23,6 @@
   gap: 1rem;
 }
 
-/* Animasi card masuk dari kiri */
 .dashboard-card {
   flex: 1 1 250px;
   color: white;
@@ -41,7 +40,6 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Delay per card agar muncul berurutan */
 .dashboard-card:nth-child(1) {
   animation-delay: 0.2s;
 }
@@ -55,7 +53,6 @@
   animation-delay: 0.8s;
 }
 
-/* Hover effect */
 .dashboard-card:hover {
   transform: translateY(-5px) scale(1.03);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -70,7 +67,6 @@
   font-size: 1.2rem;
 }
 
-/* Angka animasi fade muncul langsung */
 .dashboard-card p {
   font-size: 2rem;
   font-weight: bold;
@@ -79,7 +75,6 @@
   animation: fadeInOnly 0.5s ease forwards;
 }
 
-/* Sinkronkan delay angka sesuai card */
 .dashboard-card:nth-child(1) p {
   animation-delay: 0.3s;
 }
@@ -109,7 +104,6 @@
   right: 1rem;
 }
 
-/* Warna masing-masing card */
 .dashboard-card.blue {
   background-color: #007bff;
 }
@@ -121,7 +115,6 @@
   background-color: #28a745;
 }
 
-/* ANIMASI */
 @keyframes slideInLeft {
   to {
     opacity: 1;

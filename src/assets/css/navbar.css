@@ -33,7 +33,6 @@
   height: 40px;
 }
 
-/* Hamburger (mobile) */
 .menu-toggle {
   display: none;
   font-size: 1.8rem;
@@ -41,7 +40,6 @@
   color: #004b5a;
 }
 
-/* Desktop nav links */
 .nav-links {
   list-style: none;
   display: flex;
@@ -62,7 +60,6 @@
   padding-bottom: 2px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
