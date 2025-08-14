@@ -5,9 +5,6 @@ const path = require('path')
 const app = express()
 
 require('./config/db')
-
-const cors = require('cors');
-
 app.use(cors({
   origin: ['https://extraordinary-seahorse-67f167.netlify.app/', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
