@@ -1,15 +1,16 @@
-const mysql = require('mysql2')
+import mysql from 'mysql2';
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '', 
-  database: 'rumah_bumn_semarang'
-})
+const db = mysql.createConnection({
+  host: 'bu6wesetu8gdk6zfb75j-mysql.services.clever-cloud.com',
+  user: 'ugcsmhaklusqufzh',
+  password: '7D6zKBWKI3MLDlO899Zo',
+  database: 'bu6wesetu8gdk6zfb75j',
+  port: 3306
+});
 
-connection.connect((err) => {
-  if (err) throw err
-  console.log('✅ Terkoneksi dengan database MySQL!')
-})
+db.connect(err => {
+  if (err) throw err;
+  console.log('✅ MySQL Connected to Clever Cloud!');
+});
 
-module.exports = connection
+export default db;
