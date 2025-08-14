@@ -6,7 +6,10 @@ const app = express()
 
 require('./config/db')
 
-app.use(cors())
+app.use(cors({
+  origin: ['https://rumahbumnsemarang.netlify.app', 'http://localhost:5173']
+}))
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

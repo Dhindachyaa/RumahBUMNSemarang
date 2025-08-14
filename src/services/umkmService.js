@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_BASE = import.meta.env.VITE_API_BASE_URL
 
 export function getAllUMKM() {
   return axios.get(`${API_BASE}/umkm`)
@@ -8,5 +8,6 @@ export function getAllUMKM() {
 }
 
 export function getUMKMById(id) {
-  return axios.get(`${API_BASE}/umkm/${id}`).then(res => res.data)
+  return axios.get(`${API_BASE}/umkm/${id}`)
+    .then(res => res.data)
 }
