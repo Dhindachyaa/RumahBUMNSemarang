@@ -81,7 +81,7 @@
 <script>
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import axios from 'axios'
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 export default {
   components: { AdminLayout },
   data() {
@@ -137,9 +137,8 @@ export default {
     : plainText
 }, 
     getImage(path) {
-      return path
-        ? `http://localhost:3000/images/berita/${path}`
-        : '/default-news.jpg'
+      return path ? `${API_BASE_URL.replace('/api','')}/images/berita/${path}` : `${API_BASE_URL.replace('/api','')}/images/berita/default-news.jpg`
+
     },
     formatTanggal(tgl) {
       return new Date(tgl).toLocaleDateString('id-ID', {
@@ -176,7 +175,7 @@ export default {
     },
     async fetchBerita() {
       try {
-        const res = await axios.get('http://localhost:3000/api/berita')
+        const res = await axios.get(`${API_BASE_URL}/berita`)
         this.beritaList = res.data
       } catch (err) {
         console.error(err)
@@ -197,20 +196,13 @@ async submitForm() {
   }
 
   try {
-    if (this.beritaForm.id) {
-      await axios.post(
-        `http://localhost:3000/api/berita/${this.beritaForm.id}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'X-HTTP-Method-Override': 'PUT',
-          },
+        if (this.beritaForm.id) {
+          await axios.post(`${API_BASE_URL}/berita/${this.beritaForm.id}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data', 'X-HTTP-Method-Override': 'PUT' },
+          })
+        } else {
+          await axios.post(`${API_BASE_URL}/berita`, formData)
         }
-      )
-    } else {
-      await axios.post('http://localhost:3000/api/berita', formData)
-    }
 
     this.fetchBerita()
     this.closeModal()
@@ -221,7 +213,7 @@ async submitForm() {
     async hapusBerita(id) {
       if (confirm('Yakin ingin menghapus berita ini?')) {
         try {
-          await axios.delete(`http://localhost:3000/api/berita/${id}`)
+          await axios.delete(`${API_BASE_URL}/berita/${id}`)
           this.fetchBerita()
         } catch (err) {
           alert('Gagal menghapus berita')

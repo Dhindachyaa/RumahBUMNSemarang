@@ -62,7 +62,7 @@ const galleryItems = ref([])
 const showModal = ref(false)
 const modalImage = ref('')
 const modalCaption = ref('')
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
@@ -72,7 +72,7 @@ const fetchGallery = async () => {
     const limit = itemsPerPage
     const offset = (currentPage.value - 1) * limit
 
-    const res = await axios.get('http://localhost:3000/api/galeri/paginate', {
+    const res = await axios.get(`${API_BASE_URL}/galeri/paginate`, {
       params: { limit, offset }
     })
 
@@ -81,8 +81,8 @@ const fetchGallery = async () => {
 
     galleryItems.value = data.map((item, i) => {
     const imagePath = item.gambar
-  ? `http://localhost:3000/images/galeri/${item.gambar}`
-  : 'http://localhost:3000/images/umkm/rumah-bumn.png'
+        ? `${API_BASE_URL.replace('/api','')}/images/galeri/${item.gambar}`
+        : `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
 
       return {
         src: imagePath,
@@ -130,7 +130,7 @@ const closeModal = () => {
 }
 
 const onImageError = (e) => {
-  e.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  e.target.src = `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
 }
 
 onMounted(fetchGallery)

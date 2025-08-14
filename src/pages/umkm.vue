@@ -76,6 +76,7 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import axios from 'axios'
 import '@/assets/css/umkm.css'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const search = ref('')
 const category = ref('')
 const umkmList = ref([])
@@ -86,18 +87,14 @@ const totalPages = ref(1)
 const itemsPerPage = 20
 
 const getImageUrl = (path) => {
-  if (!path) return 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  if (!path) return `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
   let cleanPath = path.replace(/^images\//, '')
-  
-  if (!cleanPath.startsWith('umkm/')) {
-    cleanPath = `umkm/${cleanPath}`
-  }
-  
-  return `http://localhost:3000/images/${cleanPath}`
+  if (!cleanPath.startsWith('umkm/')) cleanPath = `umkm/${cleanPath}`
+  return `${API_BASE_URL.replace('/api','')}/images/${cleanPath}`
 }
 
 const handleImageError = (event) => {
-  event.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  event.target.src = `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
 }
 
 const openPopup = (img) => {
@@ -113,7 +110,7 @@ const fetchUMKM = async () => {
     const limit = itemsPerPage
     const offset = (currentPage.value - 1) * limit
 
-    const res = await axios.get('http://localhost:3000/api/umkm/paginate', {
+    const res = await axios.get(`${API_BASE_URL}/umkm/paginate`, {
       params: {
         limit,
         offset,

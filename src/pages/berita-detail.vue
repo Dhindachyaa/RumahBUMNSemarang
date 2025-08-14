@@ -111,10 +111,9 @@ const route = useRoute()
 const berita = ref(null)
 const beritaTerbaru = ref([])
 const showBackToTop = ref(false)
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const getImageUrl = (filename) => {
-  return filename ? `http://localhost:3000/images/berita/${filename}` : '/placeholder-news.png'
-}
+ return filename ? `${API_BASE_URL.replace('/api','')}/images/berita/${filename}` : '/placeholder-news.png'}
 
 const formatTanggal = (tanggal) => {
   if (!tanggal) return '-'
@@ -128,7 +127,7 @@ const formatTanggal = (tanggal) => {
 
 const ambilDetailBerita = async () => {
   try {
-    const res = await axios.get(`http://localhost:3000/api/berita/${route.params.id}`)
+    const res = await axios.get(`${API_BASE_URL}/berita/${route.params.id}`)
     berita.value = res.data
     document.title = `${res.data.judul} - UMKM Semarang`
   } catch (err) {
@@ -139,7 +138,7 @@ const ambilDetailBerita = async () => {
 
 const ambilBeritaTerbaru = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/berita')
+    const res = await axios.get(`${API_BASE_URL}/berita`)
     beritaTerbaru.value = res.data.slice(0, 4)
   } catch (err) {
     console.error('Gagal ambil berita terbaru:', err)

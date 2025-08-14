@@ -42,7 +42,7 @@
 import axios from 'axios'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import '@/assets/css/admin-dashboard.css'
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 export default {
   components: { AdminLayout },
   data() {
@@ -60,7 +60,7 @@ export default {
   methods: {
     async fetchTotalUmkm() {
       try {
-    const res = await axios.get('http://localhost:3000/api/umkm/count/dashboard')
+        const res = await axios.get(`${API_BASE_URL}/umkm/count/dashboard`)
     this.totalUmkm = res.data.totalItems
       } catch (err) {
         console.error('❌ Gagal ambil data UMKM:', err.message)
@@ -68,7 +68,7 @@ export default {
     },
     async fetchTotalGaleri() {
       try {
-        const res = await axios.get('http://localhost:3000/api/galeri/count')
+        const res = await axios.get(`${API_BASE_URL}/galeri/count`)
         this.totalGaleri = res.data.total || 0
       } catch (err) {
         console.error('❌ Gagal ambil data galeri:', err.message)
@@ -76,7 +76,7 @@ export default {
     },
     async fetchTotalBerita() {
       try {
-        const res = await axios.get('http://localhost:3000/api/berita/count/dashboard')
+        const res = await axios.get(`${API_BASE_URL}/berita/count/dashboard`)
         this.totalBerita = res.data.total || 0
       } catch (err) {
         console.warn('❌ Data berita belum tersedia:', err.message)

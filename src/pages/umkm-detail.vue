@@ -81,28 +81,28 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const umkm = ref({})
 const showContent = ref(false)
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const whatsappNumber = '085190084481'
 const whatsappLink = `https://wa.me/62${whatsappNumber.replace(/^0/, '')}?text=Halo,%20saya%20tertarik%20dengan%20produk%20UMKM`
 
 const getImageUrl = (path) => {
-  if (!path) return 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  if (!path) return `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
   let cleanPath = path.replace(/^images\//, '')
 
   if (!cleanPath.startsWith('umkm/')) {
     cleanPath = `umkm/${cleanPath}`
   }
   
-  return `http://localhost:3000/images/${cleanPath}`
+  return `${API_BASE_URL.replace('/api','')}/images/${cleanPath}`
 }
 
 const handleImageError = (event) => {
-  event.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  event.target.src = `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
 }
 
 onMounted(async () => {
   try {
-    const res = await fetch(`http://localhost:3000/api/umkm/${route.params.id}`)
+    const res = await fetch(`${API_BASE_URL}/umkm/${route.params.id}`)
     if (!res.ok) throw new Error('Data tidak ditemukan')
     const data = await res.json()
   

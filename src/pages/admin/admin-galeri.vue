@@ -21,7 +21,7 @@
             <tr v-for="(item, index) in galeriList" :key="item.id">
               <td>{{ offset + index + 1 }}</td>
               <td>
-                <img :src="`http://localhost:3000/images/galeri/${item.gambar}`" alt="Galeri" />
+                <img :src="item.gambar ? `${API_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'" alt="Galeri" />
               </td>
               <td>{{ item.judul }}</td>
               <td>{{ item.deskripsi }}</td>
@@ -65,6 +65,7 @@
 <script>
 import axios from 'axios'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export default {
   components: { AdminLayout },
@@ -95,7 +96,7 @@ export default {
   methods: {
     async fetchPaginatedGaleri() {
       try {
-        const res = await axios.get('http://localhost:3000/api/galeri/paginate', {
+        const res = await axios.get(`${API_BASE_URL}/api/galeri/paginate`, {
           params: { limit: this.limit, offset: this.offset },
         })
         this.galeriList = res.data.data
@@ -133,7 +134,7 @@ export default {
           judul: item.judul,
           deskripsi: item.deskripsi,
         }
-        this.gambarPreview = `http://localhost:3000/images/galeri/${item.gambar}`
+        this.gambarPreview = item.gambar ? `${API_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'
       } else {
         this.resetForm()
       }
@@ -161,7 +162,7 @@ export default {
       try {
         if (this.form.id) {
           formData.append('_method', 'PUT')
-          const res = await axios.post(`http://localhost:3000/api/galeri/${this.form.id}`, formData, {
+          const res = await axios.post(`${API_BASE_URL}/api/galeri/${this.form.id}`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           })
           if (res.status === 200) {
@@ -174,7 +175,7 @@ export default {
             alert('Semua field wajib diisi')
             return
           }
-          const res = await axios.post('http://localhost:3000/api/galeri', formData, {
+          const res = await axios.post(`${API_BASE_URL}/api/galeri`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           })
           if (res.status === 200) {
@@ -191,7 +192,7 @@ export default {
     async deleteGaleri(id) {
       if (!confirm('Yakin ingin menghapus gambar ini?')) return
       try {
-        await axios.delete(`http://localhost:3000/api/galeri/${id}`)
+        await axios.delete(`${API_BASE_URL}/api/galeri/${id}`)
         this.fetchPaginatedGaleri()
       } catch (err) {
         alert('Gagal menghapus galeri')

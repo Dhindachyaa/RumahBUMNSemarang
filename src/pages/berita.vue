@@ -90,16 +90,16 @@ const currentPage = ref(1)
 const itemsPerPage = 6
 const isLoading = ref(false)
 const searchTimeout = ref(null)
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const fetchBerita = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/berita')
+    const res = await axios.get(`${API_BASE_URL}/berita`)
     allNews.value = res.data.map(item => ({
       id: item.id,
       title: item.judul,
       excerpt: stripHtml(item.isi).slice(0, 120) + '...',
       imageUrl: item.gambar 
-        ? `http://localhost:3000/images/berita/${item.gambar}` 
+        ? `${API_BASE_URL.replace('/api','')}/images/berita/${item.gambar}`
         : null,
       date: formatTanggal(item.tanggal)
     }))
