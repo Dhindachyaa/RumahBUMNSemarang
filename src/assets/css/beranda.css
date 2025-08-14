@@ -61,13 +61,15 @@
 .carousel-title {
     font-size: 2rem;
     margin-bottom: 16px;
+    margin-top: 5rem;
   }
 }
 
-.stage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@media (max-width: 768px) {
+  .stage{
+    padding-top: 8px; /* Memberi sedikit ruang atas */
+    margin-bottom: 150px;
+  }
 }
 
 /* Hero Section */
@@ -134,6 +136,7 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 
 /* === RESPONSIVE MOBILE === */
 @media (max-width: 768px) {
@@ -1704,4 +1707,5 @@
 .fab-text {
   font-size: 0.9rem;
   font-weight: 600;
+
 }

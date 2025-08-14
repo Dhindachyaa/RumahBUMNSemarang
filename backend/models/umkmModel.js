@@ -4,7 +4,7 @@ const db = require('../config/db');
 // ✔️ getPagedUMKM – TIDAK pakai res[0]
 exports.getPagedUMKM = (limit, offset, search, category, result) => {
   let query = `
-    SELECT id, nama, deskripsi, varian, kategori, pemilik, instagram, image_path
+    SELECT id, nama, deskripsi, varian, kategori, harga, instagram, image_path
     FROM umkm
     WHERE 1=1`;
   const params = [];
@@ -57,7 +57,7 @@ exports.getTotalCount = (search, category, callback) => {
 // Ambil UMKM by ID
 exports.getUMKMById = (id, result) => {
   db.query(
-    `SELECT id, nama, deskripsi, varian, kategori, pemilik, instagram, image_path
+    `SELECT id, nama, deskripsi, varian, kategori, harga, instagram, image_path
      FROM umkm WHERE id = ?`,
     [id],
     (err, res) => {
@@ -70,14 +70,14 @@ exports.getUMKMById = (id, result) => {
 // Tambah UMKM (tanpa menyertakan ID karena auto_increment)
 exports.addUMKM = (data, result) => {
   const sql = `
-    INSERT INTO umkm (nama, deskripsi, varian, kategori, pemilik, instagram, image_path)
+    INSERT INTO umkm (nama, deskripsi, varian, kategori, harga, instagram, image_path)
     VALUES (?, ?, ?, ?, ?, ?, ?)`;
   const values = [
     data.nama,
     data.deskripsi,
     data.varian,
     data.kategori,
-    data.pemilik,
+    data.harga,
     data.instagram,
     data.image_path,
   ];
@@ -88,14 +88,14 @@ exports.addUMKM = (data, result) => {
 exports.updateUMKM = (id, data, result) => {
   const sql = `
     UPDATE umkm
-    SET nama = ?, deskripsi = ?, varian = ?, kategori = ?, pemilik = ?, instagram = ?, image_path = ?
+    SET nama = ?, deskripsi = ?, varian = ?, kategori = ?, harga = ?, instagram = ?, image_path = ?
     WHERE id = ?`;
   const values = [
     data.nama,
     data.deskripsi,
     data.varian,
     data.kategori,
-    data.pemilik,
+    data.harga,
     data.instagram,
     data.image_path,
     id,

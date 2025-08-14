@@ -7,7 +7,7 @@
           <img src="/logobumnsemarang.png" alt="Logo BUMN Semarang" class="background-logo-seq" />
         </div>
         <p class="background-text">
-          Merupakan wadah bagi langkah kolaborasi BUMN dalam membentuk digital ekonomi ekosistem melalui pembinaan bagi UKM untuk meningkatkan kapasitas dan kapabilitas UKM itu sendiri.
+          Rumah BUMN merupakan wadah bagi Langkah kolaborasi BUMN dalam membentuk Digital Economy Ecosystem melalui pembinaan bagi UKM untuk meningkatkan kapasitas dan kapabilitas UKM.
         </p>
       </div>
     </section>
@@ -52,36 +52,34 @@
     <section class="tim-section scroll-anim">
       <h2>Kreativitas di Balik Rumah BUMN</h2>
       <div class="tim-container">
-        <div class="tim-member abim">
-        <div class="member-photo">
-        <img 
-        :src="timList[0].foto || generateAvatar(timList[0].nama)" 
-        :alt="timList[0].nama"
-        @error="handleImageError"
-        />
-        </div>
+        <div class="tim-member endang">
+  <div class="member-photo">
+  <img 
+  src="@/assets/beranda/Bu-Endang.png"
+  alt="Bu Endang"
+  />
+</div>
         <div class="member-info">
         <div class="member-quote">
         {{ timList[0].quote }}
         </div>
-        <h3 class="member-name">{{ timList[0].nama }}</h3>
+        <h3 class="member-name">Tya</h3>
         <p class="member-position">{{ timList[0].jabatan }}</p>
       </div>
     </div>
 
-        <div class="tim-member endang">
-        <div class="member-photo">
-        <img 
-        :src="timList[1].foto || generateAvatar(timList[1].nama)" 
-        :alt="timList[1].nama"
-        @error="handleImageError"
+        <div class="tim-member abim">
+  <div class="member-photo">
+  <img 
+  src="@/assets/beranda/Abim.png"
+  alt="Bu Endang"
         />
         </div>
         <div class="member-info">
         <div class="member-quote">
         {{ timList[1].quote }}
         </div>
-        <h3 class="member-name">{{ timList[1].nama }}</h3>
+        <h3 class="member-name">Abim</h3>
         <p class="member-position">{{ timList[1].jabatan }}</p>
         </div>
         </div>
@@ -173,7 +171,7 @@
             </div>
             <div class="info-content">
               <h4>Telepon</h4>
-              <p>6285190084481</p>
+              <p>02486458877</p>
             </div>
           </div>
           <div class="info-item">
@@ -212,7 +210,7 @@
         </svg>
       </button>
       <div class="fab-menu" :class="{ active: fabOpen }">
-        <a href="https://wa.me/6285190084481" target="_blank" class="fab-item whatsapp">
+        <a href="https://api.whatsapp.com/send?phone=6285190084481&text=Halo%2C%20Saya%20ingin%20menanyakan%20terkait%20Rumah%20BUMN%20Semarang%20" target="_blank" class="fab-item whatsapp">
           <svg class="fab-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.787"/>
           </svg>
@@ -249,16 +247,16 @@ import iconEmail from '@/assets/beranda/icon-email.jpg'
 import hero from '@/assets/beranda/hero background.jpg'
 
 // Import carousel images
-import carouselImage1 from '@/assets/carousel_image/carousel_image1.jpg'
-import carouselImage2 from '@/assets/carousel_image/carousel_image2.jpg'
-import carouselImage3 from '@/assets/carousel_image/carousel_image3.jpg'
-import carouselImage4 from '@/assets/carousel_image/carousel_image4.png'
-import carouselImage5 from '@/assets/carousel_image/carousel_image5.jpg'
-import carouselImage6 from '@/assets/carousel_image/carousel_image6.jpg'
-import carouselImage7 from '@/assets/carousel_image/carousel_image7.jpg'
-import carouselImage8 from '@/assets/carousel_image/carousel_image8.jpg'
-import carouselImage9 from '@/assets/carousel_image/carousel_image9.jpg'
-import carouselImage10 from '@/assets/carousel_image/carousel_image10.jpg'
+import carouselImage1 from '@/assets/carousel_image/1.png'
+import carouselImage2 from '@/assets/carousel_image/2.png'
+import carouselImage3 from '@/assets/carousel_image/3.png'
+import carouselImage4 from '@/assets/carousel_image/4.png'
+import carouselImage5 from '@/assets/carousel_image/5.png'
+import carouselImage6 from '@/assets/carousel_image/6.png'
+import carouselImage7 from '@/assets/carousel_image/7.png'
+import carouselImage8 from '@/assets/carousel_image/8.png'
+import carouselImage9 from '@/assets/carousel_image/9.png'
+import carouselImage10 from '@/assets/carousel_image/10.png'
 
 // Reactive data
 const fabOpen = ref(false)
@@ -313,7 +311,7 @@ const fiturList = ref([
     icon: iconBooking,
     alt: 'Ikon Booking',
     title: 'Booking Ruangan',
-    desc: 'Butuh tempat untuk event komunitas atau meeting bisnis? Reservasi ruangan kami sekarang!',
+    desc: 'Butuh tempat untuk event atau pengembangan bisnis ? Pesan ruang nyaman kami sekarang dan buat acara Anda lebih berkesan!',
     btn: 'Hubungi Kami',
     action: 'contact'
   }
@@ -323,19 +321,19 @@ const fiturList = ref([
 const timList = ref([
   {
     id: 1,
-    nama: 'Abim',
+    nama: 'Endang',
     jabatan: 'Fasilitator Rumah BUMN Semarang',
     foto: orang1,
-    quote: 'Membangun ekosistem digital yang berkelanjutan untuk UMKM adalah misi kami. Setiap langkah kecil yang kita ambil hari ini akan menjadi fondasi kesuksesan masa depan.',
+    quote: 'Transformasi dan digitalisasi membangun ekosistem bisnis digital. Kami hadir sebagai partner yang siap mendampingi perjalanan transformasi digital UKM.',
     linkedin: iconLinkedin,
     email: iconEmail
   },
   {
     id: 2,
-    nama: 'Endang',
+    nama: 'Abim',
     jabatan: 'Fasilitator Rumah BUMN Semarang',
     foto: orang1,
-    quote: 'Kreativitas dan inovasi adalah kunci utama dalam memberdayakan UMKM. Kami hadir sebagai partner yang siap mendampingi perjalanan transformasi digital mereka.',
+    quote: 'Mendorong transformasi dan digitalisasi untuk menciptakan ekosistem bisnis yang terhubung dan modern. Bersama, kita wujudkan pertumbuhan usaha yang lebih cepat dan berdaya saing tinggi di era digital.',
     linkedin: iconLinkedin,
     email: iconEmail
   }
@@ -344,15 +342,14 @@ const timList = ref([
 const faqList = ref([
   {
     question: 'Apakah itu Rumah BUMN?',
-    answer: 'Rumah BUMN adalah sebuah fasilitas atau wadah yang disediakan oleh Badan Usaha Milik Negara (BUMN) sebagai pusat pengembangan kewirausahaan UMKM (Usaha Mikro, Kecil, dan Menengah). Rumah BUMN bertujuan untuk memberdayakan pelaku UMKM agar naik kelas melalui pelatihan, pendampingan, dan akses ke pasar maupun digitalisasi.'
+    answer: 'Rumah BUMN berperan dalam membina UMKM dimulai dari Go Modern, Go Digital, Go Online, Go Global.'
   },
   {
     question: 'Caranya gabung UMKM bagaimana?',
     answer: `
       <ul>
-        <li>Mengisi formulir pendaftaran secara offline atau online melalui website resmi Rumah BUMN setempat.</li>
-        <li>Melampirkan dokumen seperti KTP, NPWP (jika ada), dan data usaha (misalnya foto produk, legalitas usaha, dll).</li>
-        <li>Setelah itu, akan dilakukan verifikasi dan UMKM bisa mengikuti program pembinaan.</li>
+        <li>Menghubungi Rumah BUMN terdekat di kota Anda.</li>
+        <li>Setelah itu, mengisi link form member Rumah BUMN.</li>
       </ul>`
   },
   {
@@ -374,19 +371,19 @@ const faqList = ref([
       </ul>`
   },
   {
-    question: 'Layanan apa yang biasanya diberikan oleh Rumah BUMN?',
+    question: 'Apa saja 5 fungsi Rumah BUMN?',
     answer: `
       <ul>
-        <li>Pelatihan kewirausahaan dan digital marketing</li>
-        <li>Pendampingan legalitas dan sertifikasi produk</li>
-        <li>Fasilitasi akses permodalan dan perbankan</li>
-        <li>Ruang kerja bersama (co-working space)</li>
-        <li>Pameran produk dan promosi melalui marketplace</li>
+        <li>Pengembangan UMKM</li>
+        <li>Satuan Petugas (Satgas) bencana</li>
+        <li>Menyediakan co-working space</li>
+        <li>Basecamp millenials</li>
+        <li>Program PK/BL/KUR</li>
       </ul>`
   },
   {
     question: 'Apa tujuan utama Rumah BUMN bagi pelaku UMKM?',
-    answer:'Tujuan utamanya adalah untuk membantu UMKM naik kelas, yaitu agar mereka lebih siap bersaing di pasar nasional dan global melalui pelatihan, digitalisasi, pembiayaan, serta jaringan pemasaran yang lebih luas.'
+    answer:'Tujuan utamanya adalah untuk memperkuat ekonomi rakyat melalui peningkatan kualitas UMKM.'
   }
 ])
 
@@ -403,18 +400,18 @@ const toggleFaq = (index) => {
 // Testimoni list
 const testimoniList = ref([
   {
-    name: 'Trias Wulandari',
-    business: 'Onty Cake',
+    name: 'Yuta P.',
+    business: ' Semprong Yuta',
     quote: 'Sejak ikut program pembinaan di Rumah BUMN Semarang, usaha saya berkembang pesat. Ilmu digital marketing dan jejaring yang saya dapat sangat membantu meningkatkan penjualan.'
   },
   {
-    name: 'Ahmad Fauzi',
-    business: 'Kerajinan Bambu Semarang',
-    quote: 'Program mentoring dan workshop yang diberikan benar-benar applicable di bisnis saya. Sekarang produk kerajinan bambu saya sudah go digital dan jangkauan pasar makin luas.'
+    name: 'Lyna Windi',
+    business: 'Double8craft',
+    quote: 'Program mentoring dan workshop yang diberikan benar-benar applicable di bisnis saya. Sekarang produk kerajinan saya sudah go digital dan jangkauan pasar makin luas.'
   },
   {
-    name: 'Sri Wahyuni',
-    business: 'Warung Tegal Asri',
+    name: 'Swabawa Arif',
+    business: 'Idea Craft & Fashion',
     quote: 'Dari yang tidak tahu tentang online marketing, sekarang saya bisa jualan melalui berbagai platform digital. Terima kasih Rumah BUMN Semarang!'
   }
 ])
@@ -431,14 +428,14 @@ const toggleFab = () => {
 const handleButtonClick = (action) => {
   switch (action) {
     case 'register':
-      window.open('https://wa.me/6285190084481?text=Halo%2C%20saya%20ingin%20mendaftar%20program%20UMKM', '_blank')
+      window.open('https://docs.google.com/forms/d/e/1FAIpQLSekOnFWb3ajL6d4Pmm3gxAyK3nM86cm1XbLm37wJFmSlef9lQ/viewform', '_blank')
       break
     case 'social':
       // Redirect to social media or news page
       window.open('https://instagram.com/rumahbumn.semarang', '_blank')
       break
     case 'contact':
-      window.open('https://wa.me/6285190084481?text=Halo%2C%20saya%20ingin%20booking%20ruangan', '_blank')
+      window.open('https://api.whatsapp.com/send?phone=6285190084481&text=Halo%20Saya%20Ingin%20Booking%20Ruangan%0A%0ANama%20%3A%0AKomunitas%20%3A%0AKeperluan%20%3A%0ATanggal%20dan%20Waktu%20%3A', '_blank')
       break
   }
 }
@@ -640,15 +637,14 @@ onUnmounted(() => {
 .background-image-section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100vh; /* Full height untuk desktop */
   display: flex;
   justify-content: center;
   align-items: center;
   background-image: url("/src/assets/beranda-background.jpg");
-  background-size: cover;
-  background-position: center;
-  
-
+  background-size: cover; /* Menjaga gambar menutupi seluruh area tanpa distorsi */
+  background-position: center bottom; /* Menjaga gambar tetap terpusat */
+  background-repeat: no-repeat;
 }
 
 /* Overlay yang memudar */
@@ -657,13 +653,13 @@ onUnmounted(() => {
   border-radius: 0;
   max-width: 100%;
   width: 100%;
-  height: 100vh;
+  height: 100%; /* Menjaga overlay menutupi seluruh area */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 0;
+  top: -30;
   left: 0;
   z-index: 1;
   animation: fadeOverlayToNormal 2.5s ease-out forwards;
@@ -678,6 +674,21 @@ onUnmounted(() => {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
+/* Responsive untuk tablet dan mobile */
+@media (max-width: 768px) {
+  .background-image-section {
+    height: 100%; /* Tetap menggunakan 100vh pada perangkat kecil */
+    width: 100%;
+   background-size: auto 100%; /* tinggi penuh, lebar menyesuaikan */
+    background-position: center center;
+    
+  }
+
+  /* Overlay menutupi seluruh konten */
+  .background-image-section .overlay {
+    height: 100%; /* Overlay menyesuaikan dengan konten */
+  }
+}
 
 .logo-sequence {
   display: flex;
@@ -733,12 +744,14 @@ onUnmounted(() => {
   .background-text {
     font-size: 1rem;
     padding: 0 1rem;
+
   }
   .background-logo-seq {
   height: 140px;
   width: auto;
   object-fit: contain;
   }
+  
 }
 
 </style>

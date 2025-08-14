@@ -27,8 +27,9 @@ body {
 }
 
 .umkm-header h1 {
-  font-size: 3rem;
+  font-size: 2.3rem;
   font-weight: 700;
+  line-height: 42px;
   font-family: 'Funnel Display', sans-serif;
   position: relative;
   z-index: 1;
@@ -230,13 +231,13 @@ body {
 
 @media (max-width: 992px) {
   .umkm-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 600px) {
   .umkm-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Tetap 2 kolom, fit dengan lebar layar */
   }
 }
 @media (max-width: 480px) {

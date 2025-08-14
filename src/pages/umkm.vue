@@ -3,7 +3,7 @@
     <!-- Header -->
     <header class="umkm-header">
       <div class="container">
-        <h1 class="animate-fade-in">UMKM BINAAN</h1>
+        <h1 class="animate-fade-in">UMKM BINAAN <br>RUMAH BUMN SEMARANG</br></h1>
       </div>
     </header>
 
@@ -11,15 +11,13 @@
     <form @submit.prevent="submitSearch" class="umkm-search-wrapper animate-on-scroll">
       <div class="umkm-search">
         <input v-model="search" placeholder="Cari UMKM ..." class="search-input" />
-<select v-model="category" class="category-select">
-  <option value="">Semua Kategori</option>
-  <option value="Perdagangan">Perdagangan</option>
-  <option value="Craft/Kerajinan Tangan">Craft/Kerajinan Tangan</option>
-  <option value="Fashion/Busana">Fashion/Busana</option>
-  <option value="Makanan & Minuman">Makanan & Minuman</option>
-  <option value="Kecantikan">Kecantikan</option>
-</select>
-
+        <select v-model="category" class="category-select">
+          <option value="">Semua Kategori</option>
+          <option value="Fashion">Fashion</option>
+          <option value="Craft/Accessoris/Home Decor">Craft/Accessoris/Home Decor</option>
+          <option value="Foods & Beverages">Foods and Beverages</option>
+          <option value="Healthy & Beauty">Healthy & Beauty</option>
+        </select>
         <button type="submit" class="search-btn">Cari</button>
       </div>
     </form>
@@ -41,6 +39,7 @@
             :alt="umkm.nama"
             class="popup-image"
             @click.stop="openPopup(umkm.img)"
+            @error="handleImageError"
           />
           <div class="umkm-info">
             <h3>{{ umkm.nama }}</h3>
@@ -73,7 +72,7 @@
 
     <!-- Image Popup -->
     <div :class="['image-popup-overlay', popupImage ? 'active' : '']" @click.self="closePopup">
-      <img v-if="popupImage" :src="popupImage" alt="Popup" />
+      <img v-if="popupImage" :src="popupImage" alt="Popup" @error="handleImageError" />
       <span class="popup-close" v-if="popupImage" @click.stop="closePopup">&times;</span>
     </div>
   </section>
@@ -93,9 +92,30 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
 
+// ✅ FIX: Function untuk normalize image URL
+const getImageUrl = (path) => {
+  if (!path) return 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  
+  // Normalize path - hapus images/ prefix jika ada
+  let cleanPath = path.replace(/^images\//, '')
+  
+  // Pastikan dimulai dengan umkm/
+  if (!cleanPath.startsWith('umkm/')) {
+    cleanPath = `umkm/${cleanPath}`
+  }
+  
+  return `http://localhost:3000/images/${cleanPath}`
+}
+
+// ✅ Handle error gambar
+const handleImageError = (event) => {
+  event.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
+}
+
 const openPopup = (img) => {
   popupImage.value = img
 }
+
 const closePopup = () => {
   popupImage.value = null
 }
@@ -114,11 +134,10 @@ const fetchUMKM = async () => {
       }
     })
 
+    // ✅ FIX: Gunakan function getImageUrl yang sudah diperbaiki
     umkmList.value = res.data.data.map((u) => ({
       ...u,
-      img: u.image_path
-        ? `http://localhost:3000/images/${u.image_path.replace(/^\/?/, '')}`
-        : '/rumah-bumn.png'
+      img: getImageUrl(u.image_path)
     }))
 
     totalPages.value = res.data.pagination?.totalPages || 1
@@ -143,8 +162,6 @@ const fetchUMKM = async () => {
   }
 }
 
-
-
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
@@ -157,7 +174,6 @@ const goToPage = (page) => {
   }
 }
 
-
 const submitSearch = () => {
   currentPage.value = 1
   fetchUMKM()
@@ -169,7 +185,6 @@ watch(category, () => {
   currentPage.value = 1
   fetchUMKM()
 })
-
 
 onMounted(() => {
   fetchUMKM()

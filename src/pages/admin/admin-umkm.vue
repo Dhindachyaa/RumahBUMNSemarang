@@ -15,7 +15,7 @@
               <th>No</th>
               <th>Nama</th>
               <th>Kategori</th>
-              <th>Pemilik</th>
+              <th>Harga</th>
               <th>Varian</th>
               <th>Deskripsi</th>
               <th>Instagram</th>
@@ -28,15 +28,14 @@
               <td>{{ (currentPage - 1) * 20 + index + 1 }}</td>
               <td>{{ u.nama }}</td>
               <td>{{ u.kategori }}</td>
-              <td>{{ u.pemilik }}</td>
+              <td>{{ u.harga }}</td>
               <td>{{ u.varian }}</td>
               <td class="wrap-text">
-  {{ getPreview(u.deskripsi) }}
-</td>
-
+                {{ getPreview(u.deskripsi) }}
+              </td>
               <td>{{ u.instagram }}</td>
               <td>
-                <img v-if="u.image_path" :src="getImageUrl(u.image_path)" alt="UMKM" />
+                <img v-if="u.image_path" :src="getImageUrl(u.image_path)" alt="UMKM" @error="handleImageError" />
                 <span v-else>-</span>
               </td>
               <td>
@@ -55,12 +54,12 @@
         <div class="umkm-card" v-for="u in umkmList" :key="u.id">
           <p><strong>Nama:</strong> {{ u.nama }}</p>
           <p><strong>Kategori:</strong> {{ u.kategori }}</p>
-          <p><strong>Pemilik:</strong> {{ u.pemilik }}</p>
+          <p><strong>Harga:</strong> {{ u.harga }}</p>
           <p><strong>Varian:</strong> {{ u.varian }}</p>
           <p><strong>Deskripsi:</strong> {{ u.deskripsi }}</p>
           <p><strong>Instagram:</strong> {{ u.instagram }}</p>
           <div class="image-container">
-            <img v-if="u.image_path" :src="getImageUrl(u.image_path)" alt="UMKM" />
+            <img v-if="u.image_path" :src="getImageUrl(u.image_path)" alt="UMKM" @error="handleImageError" />
             <span v-else>-</span>
           </div>
           <div class="card-actions">
@@ -95,16 +94,16 @@
           </div>
           <form @submit.prevent="submitForm" class="modal-form">
             <input v-model="form.nama" placeholder="Nama UMKM" required />
-            <input v-model="form.pemilik" placeholder="Nama Pemilik" />
+            <input v-model="form.harga" placeholder="Harga" />
             <input v-model="form.varian" placeholder="Varian Produk" />
             <textarea v-model="form.deskripsi" placeholder="Deskripsi Produk" class="deskripsi-editor"></textarea>
             <select v-model="form.kategori">
               <option value="">-- Pilih Kategori --</option>
-              <option value="Perdagangan">Perdagangan</option>
-              <option value="Craft/Kerajinan Tangan">Craft/Kerajinan Tangan</option>
-              <option value="Fashion/Busana">Fashion/Busana</option>
-              <option value="Makanan & Minuman">Makanan & Minuman</option>
-              <option value="Kecantikan">Kecantikan</option>
+          <option value="">Semua Kategori</option>
+          <option value="Fashion">Fashion</option>
+          <option value="Craft/Accessoris/Home Decor">Craft/Accessoris/Home Decor</option>
+          <option value="Foods & Beverages">Foods and Beverages</option>
+          <option value="Healthy & Beauty">Healthy & Beauty</option>
             </select>
             <input v-model="form.instagram" placeholder="Instagram" />
             <input type="file" @change="handleFile" name="image" />
@@ -136,7 +135,7 @@ const gambarPreview = ref(null)
 const selectedFile = ref(null)
 
 const form = ref({
-  id: '', nama: '', pemilik: '', kategori: '', varian: '', deskripsi: '', instagram: '', image_path: ''
+  id: '', nama: '', harga: '', kategori: '', varian: '', deskripsi: '', instagram: '', image_path: ''
 })
 
 // ✅ Komputasi agar pagination tidak error
@@ -166,9 +165,24 @@ const getPreview = (text) => {
   return clean.length > 150 ? clean.slice(0, 150).trim() + '...' : clean
 }
 
+// ✅ FIX: Function untuk normalize image URL
 const getImageUrl = (path) => {
-  if (!path) return ''
-  return `http://localhost:3000/images/${path}`
+  if (!path) return 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  
+  // Normalize path - hapus images/ prefix jika ada
+  let cleanPath = path.replace(/^images\//, '')
+  
+  // Pastikan dimulai dengan umkm/
+  if (!cleanPath.startsWith('umkm/')) {
+    cleanPath = `umkm/${cleanPath}`
+  }
+  
+  return `http://localhost:3000/images/${cleanPath}`
+}
+
+// ✅ Handle error gambar
+const handleImageError = (event) => {
+  event.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
 }
 
 const bukaModal = () => {
@@ -190,7 +204,7 @@ const submitForm = async () => {
   try {
     const formData = new FormData()
     formData.append('nama', form.value.nama)
-    formData.append('pemilik', form.value.pemilik)
+    formData.append('harga', form.value.harga)
     formData.append('kategori', form.value.kategori)
     formData.append('varian', form.value.varian)
     formData.append('deskripsi', form.value.deskripsi)
@@ -201,8 +215,8 @@ const submitForm = async () => {
 
     if (isEdit.value) {
       formData.append('_method', 'PUT')
-    await axios.post(`http://localhost:3000/api/umkm/${form.value.id}?_method=PUT`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
+      await axios.post(`http://localhost:3000/api/umkm/${form.value.id}?_method=PUT`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       })
       alert('UMKM berhasil diupdate!')
     } else {
@@ -241,7 +255,7 @@ const deleteUMKM = async (id) => {
 
 const resetForm = () => {
   form.value = {
-    id: '', nama: '', pemilik: '', kategori: '',
+    id: '', nama: '', harga: '', kategori: '',
     varian: '', deskripsi: '', instagram: '', image_path: ''
   }
   selectedFile.value = null
@@ -251,7 +265,7 @@ const resetForm = () => {
 
 const goToPage = async (page) => {
   if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page; // ⬅️ ini harus tetap ada
+    currentPage.value = page
     await fetchUMKM(page)
   }
 }

@@ -102,7 +102,7 @@ body, html, .hubungi-container, .hubungi-text, .contact-list, .footer, .footer-c
   font-size: 1rem;
   margin-bottom: 1.5rem;
   color: #333333;
-  font-weight: 400;
+  font-weight: 800;
   font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -137,18 +137,18 @@ body, html, .hubungi-container, .hubungi-text, .contact-list, .footer, .footer-c
 .hubungi-image {
   position: absolute;
   top: 1rem; /* sejajarkan dengan padding atas teks */
-  right: 0;
+  right: -7rem;
   width: 547px;
   height: auto;
   z-index: 0;
 }
 
 .hubungi-image img {
-  width: 100%;
+  width: 70%;
   height: auto;
   object-fit: contain;
   display: block;
-  border-radius: 8px;
+  margin-top: -4rem;
 }
 
 
@@ -204,10 +204,7 @@ body, html, .hubungi-container, .hubungi-text, .contact-list, .footer, .footer-c
     position: static;
     width: 70%;
     margin: 2rem 0 0 0; /* Reset margin */
-  }
-
-  .hubungi-content {
-    padding: 2rem 0; /* Same as news-content mobile */
+    margin-top: 5rem;
   }
   
   .container {
@@ -231,6 +228,16 @@ body, html, .hubungi-container, .hubungi-text, .contact-list, .footer, .footer-c
   .hubungi-image {
     width: 90%;
   }
+
+  .hubungi-image img {
+  width: 70%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin-top: -4rem;
+  margin-left: 4rem;
+}
+
 }
 
 /* === ACCESSIBILITY === */
