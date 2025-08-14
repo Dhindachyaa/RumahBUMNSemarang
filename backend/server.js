@@ -6,9 +6,12 @@ const app = express()
 
 require('./config/db')
 
+const cors = require('cors');
+
 app.use(cors({
-  origin: ['https://rumahbumnsemarang.netlify.app', 'http://localhost:5173']
-}))
+  origin: ['https://extraordinary-seahorse-67f167.netlify.app/', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+}));
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
