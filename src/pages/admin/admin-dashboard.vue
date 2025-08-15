@@ -40,7 +40,7 @@
 
 <script>
 import axios from 'axios'
-import AdminLayout from '@/layouts/AdminLayout.vue'
+import AdminLayout from '@/layouts/adminlayout.vue'
 import '@/assets/css/admin-dashboard.css'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 export default {
