@@ -1,20 +1,16 @@
-// backend/server.js
 const express = require('express');
 const cors = require('cors');
 const methodOverride = require('method-override');
 const path = require('path');
-require('dotenv').config();
-const db = require('./config/db');
+require('dotenv').config(); // pastikan env di-load
+const db = require('./config/db'); // pakai db pool
 
 const app = express();
 
-// CORS dinamis
-const allowedOrigins = process.env.CORS_ORIGINS
-  ? process.env.CORS_ORIGINS.split(',') // pisah jika ada banyak origin
-  : [];
+// CORS
 app.use(cors({
-  origin: allowedOrigins,
-  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS']
+  origin: ['https://rbsemarang.netlify.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 }));
 
 // Body parser
