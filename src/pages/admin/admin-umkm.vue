@@ -114,7 +114,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
-import AdminLayout from '@/layouts/AdminLayout.vue'
+import AdminLayout from '@/layouts/adminlayout.vue'
 import '@/assets/css/admin-umkm.css'
 
 const umkmList = ref([])
@@ -133,9 +133,7 @@ const fetchUMKM = async (page = 1) => {
   try {
     const limit = 20
     const offset = (page - 1) * limit
-
-    const res = await axios.get(`http://localhost:3000/api/umkm/paginate?limit=${limit}&offset=${offset}`)
-
+    const res = await axios.get(`${BASE_URL}/api/umkm/paginate?limit=${limit}&offset=${offset}`)
     umkmList.value = res.data.data
     currentPage.value = res.data.pagination?.currentPage || 1
     totalPages.value = res.data.pagination?.totalPages || 1
@@ -154,19 +152,14 @@ const getPreview = (text) => {
 }
 
 const getImageUrl = (path) => {
-  if (!path) return 'http://localhost:3000/images/umkm/rumah-bumn.png'
-
+  if (!path) return `${BASE_URL}/images/umkm/rumah-bumn.png`
   let cleanPath = path.replace(/^images\//, '')
-
-  if (!cleanPath.startsWith('umkm/')) {
-    cleanPath = `umkm/${cleanPath}`
-  }
-  
-  return `http://localhost:3000/images/${cleanPath}`
+  if (!cleanPath.startsWith('umkm/')) cleanPath = `umkm/${cleanPath}`
+  return `${BASE_URL}/images/${cleanPath}`
 }
 
 const handleImageError = (event) => {
-  event.target.src = 'http://localhost:3000/images/umkm/rumah-bumn.png'
+  event.target.src = `${BASE_URL}/images/umkm/rumah-bumn.png`
 }
 
 const bukaModal = () => {
@@ -199,12 +192,12 @@ const submitForm = async () => {
 
     if (isEdit.value) {
       formData.append('_method', 'PUT')
-      await axios.post(`http://localhost:3000/api/umkm/${form.value.id}?_method=PUT`, formData, {
+      await axios.post(`${BASE_URL}/api/umkm/${form.value.id}?_method=PUT`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       alert('UMKM berhasil diupdate!')
     } else {
-      await axios.post('http://localhost:3000/api/umkm', formData, {
+      await axios.post(`${BASE_URL}/api/umkm`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       alert('UMKM berhasil ditambahkan!')
@@ -228,7 +221,7 @@ const editUMKM = (umkm) => {
 const deleteUMKM = async (id) => {
   if (confirm('Yakin ingin menghapus data ini?')) {
     try {
-      await axios.delete(`http://localhost:3000/api/umkm/${id}`)
+    await axios.delete(`${BASE_URL}/api/umkm/${id}`)
       await fetchUMKM(currentPage.value)
     } catch (err) {
       console.error('❌ Gagal hapus data:', err)
