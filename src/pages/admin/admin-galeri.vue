@@ -162,7 +162,7 @@ export default {
       try {
         if (this.form.id) {
           formData.append('_method', 'PUT')
-          const res = await axios.post(`${API_BASE_URL}/api/galeri/${this.form.id}`, formData, {
+          const res = await axios.post(`${API_BASE_URL}/galeri/${this.form.id}`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           })
           if (res.status === 200) {
@@ -175,7 +175,7 @@ export default {
             alert('Semua field wajib diisi')
             return
           }
-          const res = await axios.post(`${API_BASE_URL}/api/galeri`, formData, {
+          const res = await axios.post(`${API_BASE_URL}/galeri`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           })
           if (res.status === 200) {
@@ -192,7 +192,7 @@ export default {
     async deleteGaleri(id) {
       if (!confirm('Yakin ingin menghapus gambar ini?')) return
       try {
-        await axios.delete(`${API_BASE_URL}/api/galeri/${id}`)
+        await axios.delete(`${API_BASE_URL}/galeri/${id}`)
         this.fetchPaginatedGaleri()
       } catch (err) {
         alert('Gagal menghapus galeri')

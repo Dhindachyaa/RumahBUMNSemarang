@@ -133,7 +133,7 @@ const fetchUMKM = async (page = 1) => {
   try {
     const limit = 20
     const offset = (page - 1) * limit
-    const res = await axios.get(`${BASE_URL}/api/umkm/paginate?limit=${limit}&offset=${offset}`)
+    const res = await axios.get(`${BASE_URL}/umkm/paginate?limit=${limit}&offset=${offset}`)
     umkmList.value = res.data.data
     currentPage.value = res.data.pagination?.currentPage || 1
     totalPages.value = res.data.pagination?.totalPages || 1
