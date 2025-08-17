@@ -20,7 +20,7 @@
             <tr v-for="(item, index) in galeriList" :key="item.id">
               <td>{{ offset + index + 1 }}</td>
               <td>
-              <img :src="item.gambar ? `${ASSET_BASE_URL}/images/${item.gambar}` : '/default-galeri.jpg'" />
+              <img :src="item.gambar ? `${ASSET_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'" />
               </td>
               <td>{{ item.judul }}</td>
               <td>{{ item.deskripsi }}</td>
@@ -107,6 +107,12 @@ export default {
         alert('Gagal mengambil data galeri')
       }
     },
+
+    getImage(path) {
+    return path
+    ? `${ASSET_BASE_URL}/images/galeri/${path}`
+    : `${ASSET_BASE_URL}/images/galeri/default-gallery.jpg`
+    },
     goToPage(page) {
       this.offset = (page - 1) * this.limit
       this.fetchPaginatedGaleri()
@@ -135,8 +141,9 @@ export default {
           deskripsi: item.deskripsi,
         }
         this.gambarPreview = item.gambar
-        ? `${ASSET_BASE_URL}/images/${item.gambar}`
-        : '/default-galeri.jpg'
+        ? `${ASSET_BASE_URL}/images/galeri/${item.gambar}`
+        : `${ASSET_BASE_URL}/images/galeri/default-gallery.jpg`
+
 
       } else {
         this.resetForm()
