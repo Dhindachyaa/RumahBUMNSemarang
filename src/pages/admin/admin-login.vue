@@ -42,6 +42,41 @@ export default {
         alert('Silakan isi username dan password.')
         return
       }
+      async login() {
+  if (!this.username || !this.password) {
+    alert('Silakan isi username dan password.')
+    return
+  }
+
+  // 🔍 Tambahan log buat cek URL API yang dipanggil
+  console.log('API_BASE_URL =', API_BASE_URL)
+  console.log('Request ke:', `${API_BASE_URL}/api/admin/login`)
+
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/admin/login`, {
+      username: this.username,
+      password: this.password
+    })
+
+    const user = response.data.user
+
+    sessionStorage.setItem('isAdmin', 'true')
+    sessionStorage.setItem('adminUser', JSON.stringify(user))
+
+    if (this.remember) {
+      localStorage.setItem('isAdmin', 'true')
+      localStorage.setItem('adminUser', JSON.stringify(user))
+    } else {
+      localStorage.removeItem('isAdmin')
+      localStorage.removeItem('adminUser')
+    }
+
+    this.$router.push('/admin/dashboard')
+  } catch (err) {
+    const message = err.response?.data?.message || 'Terjadi kesalahan saat login.'
+    alert(message)
+  }
+}
 
       try {
        const response = await axios.post(`${API_BASE_URL}/api/admin/login`, {
