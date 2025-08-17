@@ -124,6 +124,8 @@ const showModal = ref(false)
 const isEdit = ref(false)
 const gambarPreview = ref(null)
 const selectedFile = ref(null)
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const form = ref({
   id: '', nama: '', harga: '', kategori: '', varian: '', deskripsi: '', instagram: '', image_path: ''
