@@ -20,7 +20,7 @@
             <tr v-for="(item, index) in galeriList" :key="item.id">
               <td>{{ offset + index + 1 }}</td>
               <td>
-               <img :src="item.gambar ? `${ASSET_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'" />
+              <img :src="item.gambar ? `${ASSET_BASE_URL}/images/${item.gambar}` : '/default-galeri.jpg'" />
               </td>
               <td>{{ item.judul }}</td>
               <td>{{ item.deskripsi }}</td>
@@ -135,8 +135,8 @@ export default {
           deskripsi: item.deskripsi,
         }
         this.gambarPreview = item.gambar
-  ? `${ASSET_BASE_URL}/images/galeri/${item.gambar}`
-  : '/default-galeri.jpg'
+        ? `${ASSET_BASE_URL}/images/${item.gambar}`
+        : '/default-galeri.jpg'
 
       } else {
         this.resetForm()
