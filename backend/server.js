@@ -31,7 +31,7 @@ app.use(
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     next();
   },
-  express.static(path.join(__dirname, 'public')));
+  express.static(path.join(__dirname, 'public/images')));
 
 // Method override
 app.use(
