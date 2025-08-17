@@ -25,6 +25,7 @@
 <script>
 import axios from 'axios'
 import '@/assets/css/admin-login.css'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export default {
   name: 'AdminLogin',
@@ -43,9 +44,9 @@ export default {
       }
 
       try {
-        const response = await axios.post('http://localhost:3000/api/admin/login', {
-          username: this.username,
-          password: this.password
+       const response = await axios.post(`${API_BASE_URL}/api/admin/login`, {
+        username: this.username,
+        password: this.password
         })
 
         const user = response.data.user
