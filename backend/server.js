@@ -9,7 +9,7 @@ const app = express();
 
 // CORS
 app.use(cors({
-  origin: ['https://rbsemarang.netlify.app', 'http://localhost:5173'],
+  origin: ['https://rumahbumnsemarang.netlify.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 }));
 
@@ -31,7 +31,7 @@ app.use(
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     next();
   },
-  express.static(path.join(__dirname, 'public/images')));
+    express.static(path.join(__dirname, 'public/images')));
 
 // Method override
 app.use(
