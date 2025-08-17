@@ -46,10 +46,10 @@ export default {
 
       // 🔍 Tambahan log buat cek URL API yang dipanggil
       console.log('API_BASE_URL =', API_BASE_URL)
-      console.log('Request ke:', `${API_BASE_URL}/api/admin/login`)
+      console.log('Request ke:', `${API_BASE_URL}/admin/login`)
 
       try {
-        const response = await axios.post(`${API_BASE_URL}/api/admin/login`, {
+        const response = await axios.post(`${API_BASE_URL}/admin/login`, {
           username: this.username,
           password: this.password
         })
