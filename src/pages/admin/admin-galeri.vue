@@ -96,7 +96,7 @@ export default {
   methods: {
     async fetchPaginatedGaleri() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/galeri/paginate`, {
+        const res = await axios.get(`${API_BASE_URL}/galeri/paginate`, {
           params: { limit: this.limit, offset: this.offset },
         })
         this.galeriList = res.data.data
