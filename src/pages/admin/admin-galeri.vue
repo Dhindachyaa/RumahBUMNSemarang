@@ -1,4 +1,3 @@
-
 <template>
   <AdminLayout>
     <div class="admin-galeri-page">
@@ -21,7 +20,7 @@
             <tr v-for="(item, index) in galeriList" :key="item.id">
               <td>{{ offset + index + 1 }}</td>
               <td>
-                <img :src="item.gambar ? `${API_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'" alt="Galeri" />
+               <img :src="item.gambar ? `${ASSET_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'" />
               </td>
               <td>{{ item.judul }}</td>
               <td>{{ item.deskripsi }}</td>
@@ -66,6 +65,7 @@
 import axios from 'axios'
 import AdminLayout from '@/layouts/adminlayout.vue'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const ASSET_BASE_URL = API_BASE_URL.replace('/api', '')
 
 export default {
   components: { AdminLayout },
@@ -134,7 +134,10 @@ export default {
           judul: item.judul,
           deskripsi: item.deskripsi,
         }
-        this.gambarPreview = item.gambar ? `${API_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'
+        this.gambarPreview = item.gambar
+  ? `${ASSET_BASE_URL}/images/galeri/${item.gambar}`
+  : '/default-galeri.jpg'
+
       } else {
         this.resetForm()
       }
