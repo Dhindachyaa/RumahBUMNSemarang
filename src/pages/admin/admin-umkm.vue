@@ -159,9 +159,13 @@ const getPreview = (text) => {
 }
 
 const getImageUrl = (path) => {
-  return path
-    ? `${BASE_URL}/images/${path}`
-    : `${BASE_URL}/images/umkm/rumah-bumn.png`;
+  if (!path) {
+    return `${BASE_URL}/images/umkm/rumah-bumn.png`;
+  }
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  return `${BASE_URL}/images/${path}`;
 };
 
 const handleImageError = (event) => {
