@@ -12,11 +12,11 @@
       <div class="detail-container fade-in" :class="{ show: showContent }">
         <div class="detail-left">
           <img
-          :src="getImageUrl(umkm.image_path)"
+          :src="umkm.img"
           :alt="umkm.nama"
           class="detail-img"
-          @error="handleImageError"
-          />
+         @error="handleImageError"
+        />
 
         </div>
         <div class="detail-right">
@@ -47,7 +47,7 @@
               </li>
             </ul>
           </div>
-<div class="field">
+  <div class="field">
   <label>Instagram</label>
   <p v-if="umkm.instagram">
     <a 
@@ -60,7 +60,6 @@
   </p>
   <p v-else>-</p>
 </div>
-
           <a class="whatsapp-button" :href="whatsappLink" target="_blank">
             Klik untuk Order
           </a>
@@ -85,19 +84,18 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const whatsappNumber = '085190084481'
 const whatsappLink = `https://wa.me/62${whatsappNumber.replace(/^0/, '')}?text=Halo,%20saya%20tertarik%20dengan%20produk%20UMKM`
 
+// Fungsi getImageUrl disamakan dengan umkm.vue
 const getImageUrl = (path) => {
-  if (!path) return `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
-  let cleanPath = path.replace(/^images\//, '')
-
-  if (!cleanPath.startsWith('umkm/')) {
-    cleanPath = `umkm/${cleanPath}`
-  }
-  
-  return `${API_BASE_URL.replace('/api','')}/images/${cleanPath}`
+  const base = API_BASE_URL.replace('/api','') // root server
+  if (!path) return `${base}/images/umkm/rumah-bumn.png` // default image
+  if (path.startsWith('http')) return path // URL langsung
+  return `${base}/images/umkm/${path}` // relative path dari backend
 }
 
+// fallback kalau gambar gagal load
 const handleImageError = (event) => {
-  event.target.src = `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
+  const base = API_BASE_URL.replace('/api','')
+  event.target.src = `${base}/images/umkm/rumah-bumn.png`
 }
 
 onMounted(async () => {
@@ -106,7 +104,8 @@ onMounted(async () => {
     if (!res.ok) throw new Error('Data tidak ditemukan')
     const data = await res.json()
 
-    umkm.value = { ...data } 
+    // pakai getImageUrl untuk img
+    umkm.value = { ...data, img: getImageUrl(data.image_path) }
     setTimeout(() => (showContent.value = true), 100)
   } catch (e) {
     console.error('Gagal mengambil detail UMKM:', e)
