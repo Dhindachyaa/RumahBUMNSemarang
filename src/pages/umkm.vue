@@ -2,7 +2,7 @@
   <section class="umkm-section">
     <header class="umkm-header">
       <div class="container">
-        <h1 class="animate-fade-in">UMKM BINAAN <br>RUMAH BUMN SEMARANG</br></h1>
+        <h1 class="animate-fade-in">UMKM BINAAN <br>RUMAH BUMN SEMARANG</h1>
       </div>
     </header>
 
@@ -36,7 +36,7 @@
             :alt="umkm.nama"
             class="popup-image"
             @click.stop="openPopup(umkm.img)"
-            @error="handleImageError"
+            @error="handleImageError($event)"
           />
           <div class="umkm-info">
             <h3>{{ umkm.nama }}</h3>
@@ -60,12 +60,11 @@
       >
         {{ page }}
       </button>
-
       <button @click="goToPage(currentPage + 1)" :disabled="currentPage >= totalPages">Next</button>
     </div>
 
     <div :class="['image-popup-overlay', popupImage ? 'active' : '']" @click.self="closePopup">
-      <img v-if="popupImage" :src="popupImage" alt="Popup" @error="handleImageError" />
+      <img v-if="popupImage" :src="popupImage" alt="Popup" @error="handleImageError($event)" />
       <span class="popup-close" v-if="popupImage" @click.stop="closePopup">&times;</span>
     </div>
   </section>
@@ -86,18 +85,18 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
 
+// Fungsi getImageUrl sudah diperbaiki agar BASE_URL sesuai backend
 const getImageUrl = (path) => {
-  if (!path) {
-    return `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
-  }
-  if (path.startsWith('umkm/')) {
-    return `${API_BASE_URL.replace('/api','')}/images/${path}`
-  }
-  return `${API_BASE_URL.replace('/api','')}/images/umkm/${path}`
+  const base = API_BASE_URL.replace('/api','') // root server, misal http://localhost:8080
+  if (!path) return `${base}/images/umkm/rumah-bumn.png` // default image
+  if (path.startsWith('http')) return path // external URL
+  return `${base}/images/umkm/${path}` // relative path dari backend
 }
 
+// fallback kalau gambar gagal load
 const handleImageError = (event) => {
-  event.target.src = `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
+  const base = API_BASE_URL.replace('/api','')
+  event.target.src = `${base}/images/umkm/rumah-bumn.png`
 }
 
 const openPopup = (img) => {
@@ -122,14 +121,15 @@ const fetchUMKM = async () => {
       }
     })
 
+    // Map data agar img selalu pakai fungsi getImageUrl
     umkmList.value = res.data.data.map((u) => ({
       ...u,
       img: getImageUrl(u.image_path)
     }))
 
     totalPages.value = res.data.pagination?.totalPages || 1
-    await nextTick()
 
+    await nextTick()
     const obs = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -149,11 +149,7 @@ const fetchUMKM = async () => {
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
 
@@ -170,7 +166,6 @@ watch(category, () => {
 
 onMounted(() => {
   fetchUMKM()
-
   nextTick(() => {
     const obs = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -180,7 +175,6 @@ onMounted(() => {
         }
       })
     }, { threshold: 0.1 })
-
     document.querySelectorAll('.animate-on-scroll').forEach((el) => obs.observe(el))
   })
 })
