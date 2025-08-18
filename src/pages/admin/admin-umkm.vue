@@ -55,8 +55,13 @@
           <p><strong>Deskripsi:</strong> {{ u.deskripsi }}</p>
           <p><strong>Instagram:</strong> {{ u.instagram }}</p>
           <div class="image-container">
-            <img v-if="u.image_path" :src="getImageUrl(u.image_path)" alt="UMKM" @error="handleImageError" />
-            <span v-else>-</span>
+          <img
+          v-if="u.image_path"
+          :src="getImageUrl(u.image_path)"
+          alt="UMKM"
+          @error="handleImageError"
+          />
+          <span v-else>-</span>
           </div>
           <div class="card-actions">
             <button class="btn-edit" @click="editUMKM(u)">Edit</button>
@@ -155,10 +160,9 @@ const getPreview = (text) => {
 
 const getImageUrl = (path) => {
   return path
-    ? `${BASE_URL}/images/umkm/${path}`
-    : `${BASE_URL}/images/umkm/rumah-bumn.png`
-}
-
+    ? `${BASE_URL}/images/${path}`
+    : `${BASE_URL}/images/umkm/rumah-bumn.png`;
+};
 
 const handleImageError = (event) => {
   event.target.src = `${BASE_URL}/images/umkm/rumah-bumn.png`
@@ -217,7 +221,9 @@ const editUMKM = (umkm) => {
   form.value = { ...umkm }
   isEdit.value = true
   showModal.value = true
-  gambarPreview.value = umkm.image_path ? getImageUrl(umkm.image_path) : null
+  gambarPreview.value = umkm.image_path
+  ? getImageUrl(umkm.image_path)
+  : null;
 }
 
 const deleteUMKM = async (id) => {
