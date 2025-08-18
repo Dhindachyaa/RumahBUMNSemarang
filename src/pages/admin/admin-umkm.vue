@@ -158,14 +158,14 @@ const getPreview = (text) => {
   return clean.length > 150 ? clean.slice(0, 150).trim() + '...' : clean
 }
 
-const getImageUrl = (path) => {
-  if (!path) {
+const getImageUrl = (filename) => {
+  if (!filename) {
     return `${BASE_URL}/images/umkm/rumah-bumn.png`;
   }
-  if (path.startsWith('http://') || path.startsWith('https://')) {
-    return path;
+  if (filename.startsWith('http://') || filename.startsWith('https://')) {
+    return filename;
   }
-  return `${BASE_URL}/images/${path}`;
+  return `${BASE_URL}/images/umkm/${filename}`;
 };
 
 const handleImageError = (event) => {
@@ -196,21 +196,28 @@ const submitForm = async () => {
     formData.append('varian', form.value.varian)
     formData.append('deskripsi', form.value.deskripsi)
     formData.append('instagram', form.value.instagram)
+
     if (selectedFile.value) {
       formData.append('image', selectedFile.value)
     }
 
+    let response
     if (isEdit.value) {
       formData.append('_method', 'PUT')
-      await axios.post(`${BASE_URL}/api/umkm/${form.value.id}?_method=PUT`, formData, {
+      response = await axios.post(`${BASE_URL}/api/umkm/${form.value.id}?_method=PUT`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       alert('UMKM berhasil diupdate!')
     } else {
-      await axios.post(`${BASE_URL}/api/umkm`, formData, {
+      response = await axios.post(`${BASE_URL}/api/umkm`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       alert('UMKM berhasil ditambahkan!')
+    }
+
+    // ✅ Pastikan hanya filename yang disimpan di form
+    if (response?.data?.image_path) {
+      form.value.image_path = response.data.image_path.split('/').pop()
     }
 
     await fetchUMKM(currentPage.value)
@@ -226,8 +233,8 @@ const editUMKM = (umkm) => {
   isEdit.value = true
   showModal.value = true
   gambarPreview.value = umkm.image_path
-  ? getImageUrl(umkm.image_path)
-  : null;
+    ? getImageUrl(umkm.image_path.split('/').pop())
+    : null;
 }
 
 const deleteUMKM = async (id) => {
