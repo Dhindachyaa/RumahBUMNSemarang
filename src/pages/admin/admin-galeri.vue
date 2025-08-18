@@ -19,9 +19,10 @@
           <tbody>
             <tr v-for="(item, index) in galeriList" :key="item.id">
               <td>{{ offset + index + 1 }}</td>
-              <td>
-              <img :src="item.gambar ? `${ASSET_BASE_URL}/images/galeri/${item.gambar}` : '/default-galeri.jpg'" />
-              </td>
+             <td>
+  <img :src="getImage(item.gambar)" class="thumb" />
+</td>
+
               <td>{{ item.judul }}</td>
               <td>{{ item.deskripsi }}</td>
               <td class="galeri-actions">
