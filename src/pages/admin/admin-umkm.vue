@@ -231,10 +231,10 @@ const submitForm = async () => {
 
 const editUMKM = (umkm) => {
   form.value = { ...umkm };
-  imagePreview.value = getImageUrl(umkm.image_path);
+  gambarPreview.value = getImageUrl(umkm.image_path); // ✅ konsisten
+  isEdit.value = true; // ✅ biar form tau mode edit
   showModal.value = true;
 };
-
 
 const deleteUMKM = async (id) => {
   if (confirm('Yakin ingin menghapus data ini?')) {
