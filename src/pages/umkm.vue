@@ -85,15 +85,13 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
 
-// Fungsi getImageUrl sudah diperbaiki agar BASE_URL sesuai backend
 const getImageUrl = (path) => {
-  const base = API_BASE_URL.replace('/api','') // root server, misal http://localhost:8080
-  if (!path) return `${base}/images/umkm/rumah-bumn.png` // default image
-  if (path.startsWith('http')) return path // external URL
-  return `${base}/images/umkm/${path}` // relative path dari backend
+  const base = API_BASE_URL.replace('/api','') 
+  if (!path) return `${base}/images/umkm/rumah-bumn.png` 
+  if (path.startsWith('http')) return path 
+  return `${base}/images/umkm/${path}` 
 }
 
-// fallback kalau gambar gagal load
 const handleImageError = (event) => {
   const base = API_BASE_URL.replace('/api','')
   event.target.src = `${base}/images/umkm/rumah-bumn.png`
@@ -121,7 +119,6 @@ const fetchUMKM = async () => {
       }
     })
 
-    // Map data agar img selalu pakai fungsi getImageUrl
     umkmList.value = res.data.data.map((u) => ({
       ...u,
       img: getImageUrl(u.image_path)

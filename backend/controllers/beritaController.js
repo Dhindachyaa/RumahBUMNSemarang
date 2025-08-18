@@ -87,6 +87,6 @@ exports.remove = (req, res) => {
 exports.count = (req, res) => {
   beritaModel.countBerita((err, result) => {
     if (err) return res.status(500).json({ error: err });
-    res.json(result[0]); // { total: ... }
+    res.json(result[0]); 
   });
 };

@@ -84,15 +84,13 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const whatsappNumber = '085190084481'
 const whatsappLink = `https://wa.me/62${whatsappNumber.replace(/^0/, '')}?text=Halo,%20saya%20tertarik%20dengan%20produk%20UMKM`
 
-// Fungsi getImageUrl disamakan dengan umkm.vue
 const getImageUrl = (path) => {
-  const base = API_BASE_URL.replace('/api','') // root server
-  if (!path) return `${base}/images/umkm/rumah-bumn.png` // default image
-  if (path.startsWith('http')) return path // URL langsung
-  return `${base}/images/umkm/${path}` // relative path dari backend
+  const base = API_BASE_URL.replace('/api','') 
+  if (!path) return `${base}/images/umkm/rumah-bumn.png` 
+  if (path.startsWith('http')) return path 
+  return `${base}/images/umkm/${path}`
 }
 
-// fallback kalau gambar gagal load
 const handleImageError = (event) => {
   const base = API_BASE_URL.replace('/api','')
   event.target.src = `${base}/images/umkm/rumah-bumn.png`
@@ -103,8 +101,6 @@ onMounted(async () => {
     const res = await fetch(`${API_BASE_URL}/umkm/${route.params.id}`)
     if (!res.ok) throw new Error('Data tidak ditemukan')
     const data = await res.json()
-
-    // pakai getImageUrl untuk img
     umkm.value = { ...data, img: getImageUrl(data.image_path) }
     setTimeout(() => (showContent.value = true), 100)
   } catch (e) {
