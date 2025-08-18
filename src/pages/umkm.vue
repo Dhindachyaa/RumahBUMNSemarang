@@ -87,10 +87,13 @@ const totalPages = ref(1)
 const itemsPerPage = 20
 
 const getImageUrl = (path) => {
-  if (!path) return `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
-  let cleanPath = path.replace(/^images\//, '')
-  if (!cleanPath.startsWith('umkm/')) cleanPath = `umkm/${cleanPath}`
-  return `${API_BASE_URL.replace('/api','')}/images/${cleanPath}`
+  if (!path) {
+    return `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
+  }
+  if (path.startsWith('umkm/')) {
+    return `${API_BASE_URL.replace('/api','')}/images/${path}`
+  }
+  return `${API_BASE_URL.replace('/api','')}/images/umkm/${path}`
 }
 
 const handleImageError = (event) => {

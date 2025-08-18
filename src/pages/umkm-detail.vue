@@ -12,12 +12,12 @@
       <div class="detail-container fade-in" :class="{ show: showContent }">
         <div class="detail-left">
           <img
-            v-if="umkm.image_path"
-            :src="umkm.image_path"
-            :alt="umkm.nama"
-            class="detail-img"
-            @error="handleImageError"
+          :src="getImageUrl(umkm.image_path)"
+          :alt="umkm.nama"
+          class="detail-img"
+          @error="handleImageError"
           />
+
         </div>
         <div class="detail-right">
           <div class="field" v-if="umkm.nama">
@@ -105,12 +105,8 @@ onMounted(async () => {
     const res = await fetch(`${API_BASE_URL}/umkm/${route.params.id}`)
     if (!res.ok) throw new Error('Data tidak ditemukan')
     const data = await res.json()
-  
-    umkm.value = {
-      ...data,
-      image_path: getImageUrl(data.image_path)
-    }
-    
+
+    umkm.value = { ...data } 
     setTimeout(() => (showContent.value = true), 100)
   } catch (e) {
     console.error('Gagal mengambil detail UMKM:', e)

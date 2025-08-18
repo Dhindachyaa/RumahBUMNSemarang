@@ -216,7 +216,6 @@ const submitForm = async () => {
       alert('UMKM berhasil ditambahkan!')
     }
 
-    // ✅ Pastikan hanya filename yang disimpan di form
     if (response?.data?.image_path) {
     form.value.image_path = response.data.image_path.split("/").pop();
     }
@@ -231,8 +230,8 @@ const submitForm = async () => {
 
 const editUMKM = (umkm) => {
   form.value = { ...umkm };
-  gambarPreview.value = getImageUrl(umkm.image_path); // ✅ konsisten
-  isEdit.value = true; // ✅ biar form tau mode edit
+  gambarPreview.value = getImageUrl(umkm.image_path); 
+  isEdit.value = true; 
   showModal.value = true;
 };
 
