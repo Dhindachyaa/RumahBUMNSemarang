@@ -158,15 +158,16 @@ const getPreview = (text) => {
   return clean.length > 150 ? clean.slice(0, 150).trim() + '...' : clean
 }
 
-const getImageUrl = (filename) => {
-  if (!filename) {
+const getImageUrl = (path) => {
+  if (!path) {
     return `${BASE_URL}/images/umkm/rumah-bumn.png`;
   }
-  if (filename.startsWith('http://') || filename.startsWith('https://')) {
-    return filename;
+  if (path.startsWith("http")) {
+    return path;
   }
-  return `${BASE_URL}/images/umkm/${filename}`;
+  return `${BASE_URL}/images/umkm/${path}`;
 };
+
 
 const handleImageError = (event) => {
   event.target.src = `${BASE_URL}/images/umkm/rumah-bumn.png`
@@ -217,7 +218,7 @@ const submitForm = async () => {
 
     // ✅ Pastikan hanya filename yang disimpan di form
     if (response?.data?.image_path) {
-      form.value.image_path = response.data.image_path.split('/').pop()
+    form.value.image_path = response.data.image_path.split("/").pop();
     }
 
     await fetchUMKM(currentPage.value)
@@ -229,13 +230,11 @@ const submitForm = async () => {
 }
 
 const editUMKM = (umkm) => {
-  form.value = { ...umkm }
-  isEdit.value = true
-  showModal.value = true
-  gambarPreview.value = umkm.image_path
-    ? getImageUrl(umkm.image_path.split('/').pop())
-    : null;
-}
+  form.value = { ...umkm };
+  imagePreview.value = getImageUrl(umkm.image_path);
+  showModal.value = true;
+};
+
 
 const deleteUMKM = async (id) => {
   if (confirm('Yakin ingin menghapus data ini?')) {
