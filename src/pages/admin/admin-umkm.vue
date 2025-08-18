@@ -155,9 +155,8 @@ const getPreview = (text) => {
 
 const getImageUrl = (path) => {
   if (!path) return `${BASE_URL}/images/umkm/rumah-bumn.png`
-  let cleanPath = path.replace(/^images\//, '')
-  if (!cleanPath.startsWith('umkm/')) cleanPath = `umkm/${cleanPath}`
-  return `${BASE_URL}/images/${cleanPath}`
+  if (!path.startsWith('umkm/')) path = `umkm/${path}`
+  return `${BASE_URL}/images/${path}`
 }
 
 const handleImageError = (event) => {
@@ -217,7 +216,7 @@ const editUMKM = (umkm) => {
   form.value = { ...umkm }
   isEdit.value = true
   showModal.value = true
-  gambarPreview.value = getImageUrl(umkm.image_path)
+  gambarPreview.value = umkm.image_path ? getImageUrl(umkm.image_path) : null
 }
 
 const deleteUMKM = async (id) => {
