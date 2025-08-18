@@ -4,14 +4,13 @@ const fs = require('fs');
 const umkmModel = require('../models/umkmModel');
 
 const normalizeImagePath = (imagePath) => {
- if (!imagePath) return null;
- let cleanPath = imagePath.replace(/^images\//, '');
- 
- if (!cleanPath.startsWith('umkm/')) {
-   cleanPath = `umkm/${cleanPath}`;
- }
- 
- return cleanPath;
+  if (!imagePath) return null;
+  const baseUrl = process.env.BASE_URL || "https://rumahbumnsemarang-production.up.railway.app";
+  let cleanPath = imagePath.replace(/^images\//, '');
+  if (!cleanPath.startsWith('umkm/')) {
+    cleanPath = `umkm/${cleanPath}`;
+  }
+  return `${baseUrl}/images/${cleanPath}`;
 };
 
 exports.getAll = (req, res) => {
