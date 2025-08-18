@@ -154,10 +154,11 @@ const getPreview = (text) => {
 }
 
 const getImageUrl = (path) => {
-  if (!path) return `${BASE_URL}/images/umkm/rumah-bumn.png`
-  if (!path.startsWith('umkm/')) path = `umkm/${path}`
-  return `${BASE_URL}/images/${path}`
+  return path
+    ? `${BASE_URL}/images/umkm/${path}`
+    : `${BASE_URL}/images/umkm/rumah-bumn.png`
 }
+
 
 const handleImageError = (event) => {
   event.target.src = `${BASE_URL}/images/umkm/rumah-bumn.png`
