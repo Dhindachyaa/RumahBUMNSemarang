@@ -24,12 +24,8 @@
               <td>{{ index + 1 }}</td>
               <td>{{ berita.judul }}</td>
               <td>{{ formatTanggal(berita.tanggal) }}</td>
-              <td class="wrap-text">
-  <span>{{ getPreview(berita.isi) }}</span>
-</td>
-              <td>
-                <img :src="getImage(berita.gambar)" alt="gambar" />
-              </td>
+              <td class="wrap-text"><span>{{ getPreview(berita.isi) }}</span></td>
+              <td><img :src="getImage(berita.gambar)" alt="gambar" class="thumb"/></td>
               <td>
                 <div class="table-actions">
                   <button class="btn-edit" @click="editBerita(berita)">Edit</button>
@@ -40,6 +36,8 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Modal -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">
@@ -80,8 +78,8 @@
 
 <script>
 import AdminLayout from '@/layouts/adminlayout.vue'
-import axios from 'axios'
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+import { supabase } from '@/supabase.js'
+
 export default {
   components: { AdminLayout },
   data() {
@@ -96,23 +94,23 @@ export default {
         isi: '',
         gambar: null,
       },
+      DEFAULT_IMAGE: 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/berita/rumah-bumn.png'
     }
   },
   methods: {
     forceLTR() {
-  const el = this.$refs.isiEditor
-  if (!el) return
-  el.setAttribute('dir', 'ltr')
-  el.style.direction = 'ltr'
-  el.style.textAlign = 'left'
-  el.innerHTML = this.removeBidiControlChars(el.innerHTML)
-
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT)
-  while (walker.nextNode()) {
-    const node = walker.currentNode
-    node.removeAttribute('dir')
-    node.removeAttribute('style')
-  }
+      const el = this.$refs.isiEditor
+      if (!el) return
+      el.setAttribute('dir', 'ltr')
+      el.style.direction = 'ltr'
+      el.style.textAlign = 'left'
+      el.innerHTML = this.removeBidiControlChars(el.innerHTML)
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT)
+      while (walker.nextNode()) {
+        const node = walker.currentNode
+        node.removeAttribute('dir')
+        node.removeAttribute('style')
+      }
       const cleanHTML = this.removeBidiControlChars(el.innerHTML)
       el.innerHTML = cleanHTML
       this.beritaForm.isi = cleanHTML
@@ -122,24 +120,22 @@ export default {
       const text = e.clipboardData.getData('text/plain')
       const cleaned = this.removeBidiControlChars(text)
       const el = this.$refs.isiEditor
-      if (el) {
-        document.execCommand('insertText', false, cleaned)
-      }
+      if (el) document.execCommand('insertText', false, cleaned)
     },
 
     removeBidiControlChars(text) {
       return text.replace(/[\u202A-\u202E\u200E\u200F]/g, '')
     },
-  getPreview(htmlContent) {
-  const plainText = htmlContent.replace(/<[^>]+>/g, '')
-  return plainText.length > 150
-    ? plainText.slice(0, 150).trim() + '...'
-    : plainText
-}, 
-    getImage(path) {
-      return path ? `${API_BASE_URL.replace('/api','')}/images/berita/${path}` : `${API_BASE_URL.replace('/api','')}/images/berita/default-news.jpg`
 
+    getPreview(htmlContent) {
+      const plainText = htmlContent.replace(/<[^>]+>/g, '')
+      return plainText.length > 150 ? plainText.slice(0, 150).trim() + '...' : plainText
     },
+
+    getImage(url) {
+      return url || this.DEFAULT_IMAGE
+    },
+
     formatTanggal(tgl) {
       return new Date(tgl).toLocaleDateString('id-ID', {
         day: '2-digit',
@@ -147,15 +143,18 @@ export default {
         year: 'numeric',
       })
     },
+
     openModal() {
       this.resetForm()
       this.showModal = true
       this.$nextTick(() => this.forceLTR())
     },
+
     closeModal() {
       this.showModal = false
       this.resetForm()
     },
+
     editBerita(berita) {
       this.beritaForm = {
         id: berita.id,
@@ -164,73 +163,85 @@ export default {
         isi: berita.isi,
         gambar: null,
       }
-      this.previewGambar = this.getImage(berita.gambar)
+      this.previewGambar = berita.gambar || this.DEFAULT_IMAGE
       this.showModal = true
       this.$nextTick(() => this.forceLTR())
     },
+
     handleFileUpload(e) {
       const file = e.target.files[0]
       this.beritaForm.gambar = file
-      this.previewGambar = URL.createObjectURL(file)
+      if (file) this.previewGambar = URL.createObjectURL(file)
     },
+
     async fetchBerita() {
+      const { data, error } = await supabase.from('berita').select('*').order('id', { ascending: false })
+      if (error) console.error(error)
+      else this.beritaList = data
+    },
+
+    async submitForm() {
+      const el = this.$refs.isiEditor
+      if (el) this.beritaForm.isi = el.innerHTML.trim()
+
+      let uploadedFileUrl = null
+      if (this.beritaForm.gambar instanceof File) {
+        const file = this.beritaForm.gambar
+        const fileName = `${Date.now()}_${file.name}`
+        const { error } = await supabase.storage.from('berita').upload(fileName, file)
+        if (error) {
+          alert('Gagal upload gambar')
+          return
+        }
+        uploadedFileUrl = `https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/berita/${encodeURIComponent(fileName)}`
+      }
+
       try {
-        const res = await axios.get(`${API_BASE_URL}/berita`)
-        this.beritaList = res.data
+        if (this.beritaForm.id) {
+          const { error } = await supabase
+            .from('berita')
+            .update({
+              judul: this.beritaForm.judul,
+              tanggal: this.beritaForm.tanggal,
+              isi: this.beritaForm.isi,
+              ...(uploadedFileUrl && { gambar: uploadedFileUrl }),
+            })
+            .eq('id', this.beritaForm.id)
+          if (error) throw error
+        } else {
+          const { error } = await supabase.from('berita').insert([
+            {
+              judul: this.beritaForm.judul,
+              tanggal: this.beritaForm.tanggal,
+              isi: this.beritaForm.isi,
+              gambar: uploadedFileUrl,
+            },
+          ])
+          if (error) throw error
+        }
+
+        this.fetchBerita()
+        this.closeModal()
       } catch (err) {
+        alert('Gagal menyimpan berita')
         console.error(err)
       }
     },
-async submitForm() {
-  const el = this.$refs.isiEditor
-  if (el) {
-    this.beritaForm.isi = el.innerHTML.trim()
-  }
 
-  const formData = new FormData()
-  formData.append('judul', this.beritaForm.judul)
-  formData.append('tanggal', this.beritaForm.tanggal)
-  formData.append('isi', this.beritaForm.isi)
-  if (this.beritaForm.gambar) {
-    formData.append('gambar', this.beritaForm.gambar)
-  }
-
-  try {
-        if (this.beritaForm.id) {
-          await axios.post(`${API_BASE_URL}/berita/${this.beritaForm.id}`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data', 'X-HTTP-Method-Override': 'PUT' },
-          })
-        } else {
-          await axios.post(`${API_BASE_URL}/berita`, formData)
-        }
-
-    this.fetchBerita()
-    this.closeModal()
-  } catch (err) {
-    alert('Gagal menyimpan berita')
-  }
-}, 
     async hapusBerita(id) {
       if (confirm('Yakin ingin menghapus berita ini?')) {
-        try {
-          await axios.delete(`${API_BASE_URL}/berita/${id}`)
-          this.fetchBerita()
-        } catch (err) {
-          alert('Gagal menghapus berita')
-        }
+        const { error } = await supabase.from('berita').delete().eq('id', id)
+        if (error) alert('Gagal menghapus berita')
+        else this.fetchBerita()
       }
     },
+
     resetForm() {
-      this.beritaForm = {
-        id: null,
-        judul: '',
-        tanggal: '',
-        isi: '',
-        gambar: null,
-      }
+      this.beritaForm = { id: null, judul: '', tanggal: '', isi: '', gambar: null }
       this.previewGambar = null
     },
   },
+
   mounted() {
     this.fetchBerita()
   },

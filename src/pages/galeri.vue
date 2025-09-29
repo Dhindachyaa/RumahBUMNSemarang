@@ -7,6 +7,7 @@
     </header>
 
     <section class="gallery-content">
+      <!-- Data galeri -->
       <div class="right-gallery full-width no-left-text" v-if="galleryItems.length">
         <div
           v-for="(item, index) in galleryItems"
@@ -20,7 +21,7 @@
             :alt="item.alt"
             class="gallery-img"
             style="height: 100%; width: 100%; object-fit: cover"
-            @error="onImageError"
+            @error="onImageError($event)"
           />
           <div class="caption">
             <strong>{{ item.title }}</strong>
@@ -28,8 +29,11 @@
           </div>
         </div>
       </div>
+
+      <!-- Jika kosong -->
       <div v-else class="no-data-msg">Galeri kosong.</div>
 
+      <!-- Pagination -->
       <div class="pagination">
         <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
         <button
@@ -43,6 +47,7 @@
         <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
       </div>
 
+      <!-- Modal tampilan gambar -->
       <div v-if="showModal" class="galeri-modal" @click.self="closeModal">
         <div class="galeri-modal-content-wrapper">
           <img class="galeri-modal-content" :src="modalImage" />
@@ -56,41 +61,46 @@
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
-import axios from 'axios'
+import { supabase } from '../supabase.js' // pastikan path sesuai
 
 const galleryItems = ref([])
 const showModal = ref(false)
 const modalImage = ref('')
 const modalCaption = ref('')
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
 
+const SUPABASE_GALERI_URL = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/galeri/'
+
+// helper untuk menangani URL gambar
+const getImageUrl = (path) => {
+  if (!path) return SUPABASE_GALERI_URL + 'rumah-bumn.png' // default
+  if (path.startsWith('http')) return path // full URL dari admin
+  return SUPABASE_GALERI_URL + path // path relatif
+}
+
 const fetchGallery = async () => {
   try {
-    const limit = itemsPerPage
-    const offset = (currentPage.value - 1) * limit
+    const from = (currentPage.value - 1) * itemsPerPage
+    const to = from + itemsPerPage - 1
 
-    const res = await axios.get(`${API_BASE_URL}/galeri/paginate`, {
-      params: { limit, offset }
-    })
+    const { data, error, count } = await supabase
+      .from('galeri')
+      .select('*', { count: 'exact' })
+      .order('id', { ascending: false })
+      .range(from, to)
 
-    const data = res.data.data || []
-    totalPages.value = res.data.pagination?.totalPages || 1
+    if (error) throw error
 
-    galleryItems.value = data.map((item, i) => {
-    const imagePath = item.gambar
-        ? `${API_BASE_URL.replace('/api','')}/images/galeri/${item.gambar}`
-        : `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
+    totalPages.value = Math.ceil(count / itemsPerPage) || 1
 
-      return {
-        src: imagePath,
-        alt: item.judul || 'Gambar Galeri',
-        title: item.judul || 'Tanpa Judul',
-        caption: item.deskripsi || ''
-      }
-    })
+    galleryItems.value = data.map(item => ({
+      src: getImageUrl(item.gambar),
+      alt: item.judul || 'Gambar Galeri',
+      title: item.judul || 'Tanpa Judul',
+      caption: item.deskripsi || ''
+    }))
 
     await nextTick()
     const obs = new IntersectionObserver((entries, observer) => {
@@ -102,9 +112,7 @@ const fetchGallery = async () => {
       })
     }, { threshold: 0.1 })
 
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-      obs.observe(el)
-    })
+    document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el))
   } catch (err) {
     console.error('Gagal mengambil galeri:', err)
   }
@@ -125,12 +133,10 @@ const openModal = (item) => {
   showModal.value = true
 }
 
-const closeModal = () => {
-  showModal.value = false
-}
+const closeModal = () => (showModal.value = false)
 
 const onImageError = (e) => {
-  e.target.src = `${API_BASE_URL.replace('/api','')}/images/umkm/rumah-bumn.png`
+  e.target.src = SUPABASE_GALERI_URL + 'rumah-bumn.png'
 }
 
 onMounted(fetchGallery)

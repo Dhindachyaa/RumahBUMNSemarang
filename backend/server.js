@@ -2,24 +2,28 @@ const express = require('express');
 const cors = require('cors');
 const methodOverride = require('method-override');
 const path = require('path');
-require('dotenv').config(); 
-const db = require('./config/db'); 
+require('dotenv').config();
 
 const app = express();
 
+// ===== Middleware =====
+// CORS untuk frontend
 app.use(cors({
   origin: ['https://rumahbumnsemarang.netlify.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 }));
 
+// Parsing JSON dan URL-encoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Logging request masuk
 app.use((req, res, next) => {
   console.log('Request masuk:', req.method, req.url);
   next();
 });
 
+// Static file untuk gambar
 app.use(
   '/images',
   (req, res, next) => {
@@ -27,8 +31,10 @@ app.use(
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     next();
   },
-    express.static(path.join(__dirname, 'public/images')));
+  express.static(path.join(__dirname, 'public/images'))
+);
 
+// Method Override (untuk PUT via POST)
 app.use(
   methodOverride((req, res) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -42,6 +48,7 @@ app.use(
   })
 );
 
+// ===== Routes =====
 const adminRoutes = require('./routes/adminRoutes');
 const umkmRoutes = require('./routes/umkmRoutes');
 const galeriRoutes = require('./routes/galeriRoutes');
@@ -51,17 +58,22 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/umkm', umkmRoutes);
 app.use('/api/galeri', galeriRoutes);
 app.use('/api/berita', beritaRoutes);
+
+// Root endpoint
 app.get('/', (req, res) => res.send('🚀 Server is up & running ⚡️'));
 
+// ===== 404 Handler =====
 app.use((req, res) => {
   res.status(404).json({ message: 'Endpoint tidak ditemukan' });
 });
 
+// ===== Global Error Handler =====
 app.use((err, req, res, next) => {
-  console.error('❌ GLOBAL ERROR:', err.stack);
-  res.status(500).json({ message: 'Terjadi kesalahan di server' });
+  console.error('❌ GLOBAL ERROR:', err.stack || err);
+  res.status(500).json({ message: 'Terjadi kesalahan di server', error: err.message });
 });
 
+// ===== Server Start =====
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server berjalan di port ${PORT}`);

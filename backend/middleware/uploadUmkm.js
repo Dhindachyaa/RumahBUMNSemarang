@@ -1,32 +1,35 @@
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
+// middleware/uploadUmkm.js
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
-const uploadPath = path.join(__dirname, '../public/images/umkm')
-
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true })
+// Folder sementara untuk menyimpan file sebelum diupload ke Supabase
+const tempDir = path.join(__dirname, '..', 'tmp');
+if (!fs.existsSync(tempDir)) {
+  fs.mkdirSync(tempDir, { recursive: true });
 }
 
+// Konfigurasi storage
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadPath)
+  destination: (req, file, cb) => {
+    cb(null, tempDir);
   },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, uniqueSuffix + path.extname(file.originalname))
-  }
-})
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '_')}`;
+    cb(null, uniqueName);
+  },
+});
 
+// Filter file gambar
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg']
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
   if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true)
+    cb(null, true);
   } else {
-    cb(new Error('File harus berupa gambar'), false)
+    cb(new Error('File harus berupa gambar (jpeg, png, jpg, webp)'));
   }
-}
+};
 
-const uploadUmkm = multer({ storage, fileFilter })
-
+// Export middleware multer
+const uploadUmkm = multer({ storage, fileFilter });
 module.exports = uploadUmkm

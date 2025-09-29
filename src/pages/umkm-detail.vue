@@ -12,12 +12,11 @@
       <div class="detail-container fade-in" :class="{ show: showContent }">
         <div class="detail-left">
           <img
-          :src="umkm.img"
-          :alt="umkm.nama"
-          class="detail-img"
-         @error="handleImageError"
-        />
-
+            :src="umkm.img"
+            :alt="umkm.nama"
+            class="detail-img"
+            @error="handleImageError"
+          />
         </div>
         <div class="detail-right">
           <div class="field" v-if="umkm.nama">
@@ -47,19 +46,19 @@
               </li>
             </ul>
           </div>
-  <div class="field">
-  <label>Instagram</label>
-  <p v-if="umkm.instagram">
-    <a 
-      :href="'https://instagram.com/' + umkm.instagram" 
-      target="_blank" 
-      class="instagram-link"
-    >
-      @{{ umkm.instagram }}
-    </a>
-  </p>
-  <p v-else>-</p>
-</div>
+          <div class="field">
+            <label>Instagram</label>
+            <p v-if="umkm.instagram">
+              <a 
+                :href="'https://instagram.com/' + umkm.instagram" 
+                target="_blank" 
+                class="instagram-link"
+              >
+                @{{ umkm.instagram }}
+              </a>
+            </p>
+            <p v-else>-</p>
+          </div>
           <a class="whatsapp-button" :href="whatsappLink" target="_blank">
             Klik untuk Order
           </a>
@@ -76,31 +75,33 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { supabase } from '../supabase.js'  // pastikan path sesuai
 
 const route = useRoute()
 const umkm = ref({})
 const showContent = ref(false)
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 const whatsappNumber = '085190084481'
 const whatsappLink = `https://wa.me/62${whatsappNumber.replace(/^0/, '')}?text=Halo,%20saya%20tertarik%20dengan%20produk%20UMKM`
 
 const getImageUrl = (path) => {
-  const base = API_BASE_URL.replace('/api','') 
-  if (!path) return `${base}/images/umkm/rumah-bumn.png` 
-  if (path.startsWith('http')) return path 
-  return `${base}/images/umkm/${path}`
+  return path || 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/umkm/rumah-bumn.png'
 }
 
+
 const handleImageError = (event) => {
-  const base = API_BASE_URL.replace('/api','')
-  event.target.src = `${base}/images/umkm/rumah-bumn.png`
+  event.target.src = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/umkm/rumah-bumn.png'
 }
 
 onMounted(async () => {
   try {
-    const res = await fetch(`${API_BASE_URL}/umkm/${route.params.id}`)
-    if (!res.ok) throw new Error('Data tidak ditemukan')
-    const data = await res.json()
+    const { data, error } = await supabase
+      .from('umkm')
+      .select('*')
+      .eq('id', route.params.id)
+      .single()
+    if (error || !data) throw error || new Error('UMKM tidak ditemukan')
+
     umkm.value = { ...data, img: getImageUrl(data.image_path) }
     setTimeout(() => (showContent.value = true), 100)
   } catch (e) {

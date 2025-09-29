@@ -1,204 +1,202 @@
-const db = require('../config/db');
-const path = require('path');
-const fs = require('fs');
-const umkmModel = require('../models/umkmModel');
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
-const normalizeImagePath = (imagePath) => {
-  if (!imagePath) return null;
-  const baseUrl = process.env.BASE_URL || "https://rumahbumnsemarang-production.up.railway.app";
-  let cleanPath = imagePath.replace(/^images\//, '');
-  if (!cleanPath.startsWith('umkm/')) {
-    cleanPath = `umkm/${cleanPath}`;
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
+const TABLE_NAME = 'umkm';
+const STORAGE_BUCKET = 'umkm'; // bucket Supabase Storage untuk gambar UMKM
+
+// Normalisasi path gambar
+const normalizeImagePath = (filename) => {
+  if (!filename) return null;
+  return `${process.env.SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${filename}`;
+};
+
+// GET ALL UMKM
+exports.getAllUMKM = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .select('*')
+      .order('id', { ascending: false });
+    if (error) throw error;
+
+    const normalized = data.map(item => ({
+      ...item,
+      image_path: normalizeImagePath(item.image_path)
+    }));
+
+    res.json(normalized);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-  return `${baseUrl}/images/${cleanPath}`;
 };
 
-exports.getAll = (req, res) => {
- const search = req.query.search || '';
- const kategori = req.query.kategori || '';
- const limit = parseInt(req.query.limit) || 0;
- const offset = parseInt(req.query.offset) || 0;
+// GET UMKM BY ID
+exports.getUMKMById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .select('*')
+      .eq('id', id)
+      .single();
+    if (error || !data) return res.status(404).json({ message: 'UMKM tidak ditemukan' });
 
- let sql = `
-   SELECT * FROM umkm
-   WHERE nama LIKE ? 
- `;
- const params = [`%${search}%`];
-
- if (kategori !== '') {
-   sql += ' AND kategori = ?';
-   params.push(kategori);
- }
-
- if (limit > 0) {
-   sql += ' LIMIT ? OFFSET ?';
-   params.push(limit, offset);
- }
-
- db.query(sql, params, (err, result) => {
-   if (err) return res.status(500).json({ message: 'Gagal mengambil data', error: err });
-   
-   const normalizedResult = result.map(item => ({
-     ...item,
-     image_path: normalizeImagePath(item.image_path)
-   }));
-   
-   res.json({ data: normalizedResult });
- });
+    data.image_path = normalizeImagePath(data.image_path);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-exports.getById = (req, res) => {
- const id = req.params.id;
- db.query('SELECT * FROM umkm WHERE id = ?', [id], (err, result) => {
-   if (err) return res.status(500).json({ message: 'Gagal mengambil data', error: err });
-   if (result.length === 0) return res.status(404).json({ message: 'UMKM tidak ditemukan' });
-   
-   const umkm = result[0];
-   umkm.image_path = normalizeImagePath(umkm.image_path);
-   
-   res.json(umkm);
- });
+// ADD UMKM
+exports.addUMKM = async (req, res) => {
+  try {
+    const { nama, deskripsi, varian, kategori, harga, instagram } = req.body;
+    const image_path = req.file?.filename || 'rumah-bumn.png'; // default jika tidak ada gambar
+
+    if (!nama || !deskripsi || !kategori) {
+      return res.status(400).json({ message: 'Nama, deskripsi, dan kategori wajib diisi' });
+    }
+
+    const { error } = await supabase
+      .from(TABLE_NAME)
+      .insert([{ nama, deskripsi, varian, kategori, harga, instagram, image_path }]);
+    if (error) throw error;
+
+    res.status(201).json({ message: 'UMKM berhasil ditambahkan' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-exports.create = (req, res) => {
- console.log('req.body:', req.body)
- console.log('req.file:', req.file)
+// UPDATE UMKM
+exports.updateUMKM = async (req, res) => {
+  const id = req.params.id;
+  const { nama, deskripsi, varian, kategori, harga, instagram } = req.body;
+  const newImage = req.file?.filename;
 
- const { nama, deskripsi, varian, kategori, harga, instagram } = req.body
- 
- const image_path = req.file ? `umkm/${req.file.filename}` : 'umkm/rumah-bumn.png';
+  try {
+    const { data: oldData, error: fetchError } = await supabase
+      .from(TABLE_NAME)
+      .select('nama, deskripsi, varian, kategori, harga, instagram, image_path')
+      .eq('id', id)
+      .single();
+    if (fetchError || !oldData) return res.status(404).json({ message: 'UMKM tidak ditemukan' });
 
- const sql = `
-   INSERT INTO umkm (nama, deskripsi, varian, kategori, harga, instagram, image_path)
-   VALUES (?, ?, ?, ?, ?, ?, ?)
- `
- const values = [nama, deskripsi, varian, kategori, harga, instagram, image_path]
+    const updateFields = {};
+    if (nama && nama !== oldData.nama) updateFields.nama = nama;
+    if (deskripsi && deskripsi !== oldData.deskripsi) updateFields.deskripsi = deskripsi;
+    if (varian && varian !== oldData.varian) updateFields.varian = varian;
+    if (kategori && kategori !== oldData.kategori) updateFields.kategori = kategori;
+    if (harga && harga !== oldData.harga) updateFields.harga = harga;
+    if (instagram && instagram !== oldData.instagram) updateFields.instagram = instagram;
+    if (newImage) {
+      updateFields.image_path = newImage;
 
- db.query(sql, values, (err, result) => {
-   if (err) return res.status(500).json({ message: 'Gagal menambah data', error: err })
-   res.status(201).json({ message: 'UMKM berhasil ditambahkan', id: result.insertId })
- })
-}
+      // Hapus gambar lama dari Supabase Storage jika bukan default
+      if (oldData.image_path && oldData.image_path !== 'rumah-bumn.png') {
+        await supabase.storage.from(STORAGE_BUCKET).remove([oldData.image_path]);
+      }
+    }
 
-exports.update = (req, res) => {
- const id = req.params.id;
+    if (Object.keys(updateFields).length === 0) {
+      return res.status(400).json({ message: 'Tidak ada perubahan dilakukan' });
+    }
 
- db.query('SELECT * FROM umkm WHERE id = ?', [id], (err, results) => {
-   if (err) return res.status(500).json({ message: 'Gagal mengambil data lama', error: err });
-   if (results.length === 0) return res.status(404).json({ message: 'UMKM tidak ditemukan' });
+    const { error: updateError } = await supabase
+      .from(TABLE_NAME)
+      .update(updateFields)
+      .eq('id', id);
+    if (updateError) throw updateError;
 
-   const oldData = results[0];
-
-   const {
-     nama = oldData.nama,
-     deskripsi = oldData.deskripsi,
-     varian = oldData.varian,
-     kategori = oldData.kategori,
-     harga = oldData.harga,
-     instagram = oldData.instagram
-   } = req.body;
-
-   const normalizedOldPath = normalizeImagePath(oldData.image_path);
-   const newImage = req.file
-     ? `umkm/${req.file.filename}`
-     : normalizedOldPath;
-
-   const sql = `
-     UPDATE umkm
-     SET nama=?, deskripsi=?, varian=?, kategori=?, harga=?, instagram=?, image_path=?
-     WHERE id=?
-   `;
-   const values = [nama, deskripsi, varian, kategori, harga, instagram, newImage, id];
-
-   db.query(sql, values, (err) => {
-     console.log('Query:', sql);
-     console.log('Values:', values);
-     if (err) {
-       console.error('❌ SQL ERROR:', err);
-       return res.status(500).json({ message: 'Gagal mengupdate data', error: err });
-     }
-
-     if (req.file && oldData.image_path && !oldData.image_path.includes('rumah-bumn.png')) {
-       const oldImagePath = oldData.image_path.startsWith('images/') 
-         ? path.join(__dirname, '../public/', oldData.image_path)
-         : path.join(__dirname, '../public/images/', oldData.image_path);
-         
-       fs.unlink(oldImagePath, (err) => {
-         if (err) console.error('Gagal menghapus gambar lama:', err);
-       });
-     }
-
-     res.json({ message: 'UMKM berhasil diupdate' });
-   });
- });
+    res.json({ message: 'UMKM berhasil diperbarui' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-exports.remove = (req, res) => {
- const id = req.params.id;
+// DELETE UMKM
+exports.deleteUMKM = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const { data: oldData, error: fetchError } = await supabase
+      .from(TABLE_NAME)
+      .select('image_path')
+      .eq('id', id)
+      .single();
+    if (fetchError || !oldData) return res.status(404).json({ message: 'UMKM tidak ditemukan' });
 
- db.query('SELECT image_path FROM umkm WHERE id = ?', [id], (err, results) => {
-   if (err) return res.status(500).json({ message: 'Gagal mengambil data', error: err });
-   if (results.length === 0) return res.status(404).json({ message: 'UMKM tidak ditemukan' });
+    // Hapus gambar lama jika bukan default
+    if (oldData.image_path && oldData.image_path !== 'rumah-bumn.png') {
+      await supabase.storage.from(STORAGE_BUCKET).remove([oldData.image_path]);
+    }
 
-   const imagePath = results[0].image_path;
+    const { error: deleteError } = await supabase
+      .from(TABLE_NAME)
+      .delete()
+      .eq('id', id);
+    if (deleteError) throw deleteError;
 
-   db.query('DELETE FROM umkm WHERE id = ?', [id], (err) => {
-     if (err) return res.status(500).json({ message: 'Gagal menghapus data', error: err });
-
-     if (imagePath && !imagePath.includes('rumah-bumn.png')) {
-       const fullPath = imagePath.startsWith('images/') 
-         ? path.join(__dirname, '../public/', imagePath)
-         : path.join(__dirname, '../public/images/', imagePath);
-         
-       fs.unlink(fullPath, (err) => {
-         if (err) console.error('Gagal menghapus gambar:', err);
-       });
-     }
-
-     res.json({ message: 'UMKM berhasil dihapus' });
-   });
- });
+    res.json({ message: 'UMKM berhasil dihapus' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
+// GET PAGED UMKM
 exports.getPagedUMKM = async (req, res) => {
- const limit = parseInt(req.query.limit) || 20;
- const offset = parseInt(req.query.offset) || 0;
- const search = req.query.search || '';
- const category = req.query.kategori || '';
+  const limit = parseInt(req.query.limit) || 20;
+  const offset = parseInt(req.query.offset) || 0;
+  const search = req.query.search || '';
+  const kategori = req.query.kategori || '';
 
- try {
-   umkmModel.getPagedUMKM(limit, offset, search, category, (err, data) => {
-     if (err) return res.status(500).json({ error: err.message });
+  try {
+    let query = supabase.from(TABLE_NAME).select('*');
+    if (search) query = query.ilike('nama', `%${search}%`);
+    if (kategori) query = query.eq('kategori', kategori);
 
-     const normalizedData = data.map(item => ({
-       ...item,
-       image_path: normalizeImagePath(item.image_path)
-     }));
+    const { data, error } = await query
+      .order('id', { ascending: false })
+      .range(offset, offset + limit - 1);
+    if (error) throw error;
 
-     umkmModel.getTotalCount(search, category, (countErr, countRes) => {
-       if (countErr) return res.status(500).json({ error: countErr.message });
+    const { count, error: countError } = await supabase
+      .from(TABLE_NAME)
+      .select('*', { count: 'exact', head: true });
+    if (countError) throw countError;
 
-       const total = countRes?.total || 0;
-       const currentPage = Math.floor(offset / limit) + 1;
-       const totalPages = Math.ceil(total / limit);
+    const normalizedData = data.map(item => ({
+      ...item,
+      image_path: normalizeImagePath(item.image_path)
+    }));
 
-       res.json({
-         data: normalizedData,
-         pagination: {
-           currentPage,
-           totalPages,
-         }
-       });
-     });
-   });
- } catch (err) {
-   res.status(500).json({ error: 'Server Error' });
- }
+    res.json({
+      data: normalizedData,
+      pagination: {
+        currentPage: Math.floor(offset / limit) + 1,
+        totalPages: Math.ceil(count / limit),
+        totalItems: count
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-exports.getUmkmCount = (req, res) => {
- db.query('SELECT COUNT(*) AS totalItems FROM umkm', (err, result) => {
-   if (err) return res.status(500).json({ message: 'Gagal ambil data', error: err });
-   res.json({ totalItems: result[0].totalItems });
- });
+// GET TOTAL UMKM COUNT
+exports.getUMKMCount = async (req, res) => {
+  try {
+    const { count, error } = await supabase
+      .from(TABLE_NAME)
+      .select('*', { count: 'exact', head: true });
+    if (error) throw error;
+    res.json({ totalItems: count });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };

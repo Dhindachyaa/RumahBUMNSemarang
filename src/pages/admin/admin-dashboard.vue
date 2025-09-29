@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { supabase } from '@/supabase.js'
 import AdminLayout from '@/layouts/adminlayout.vue'
 import '@/assets/css/admin-dashboard.css'
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 export default {
   components: { AdminLayout },
   data() {
@@ -52,34 +52,48 @@ export default {
       totalBerita: 0
     }
   },
-  mounted() {
-    this.fetchTotalUmkm()
-    this.fetchTotalGaleri()
-    this.fetchTotalBerita()
+  async mounted() {
+    await this.fetchTotalUmkm()
+    await this.fetchTotalGaleri()
+    await this.fetchTotalBerita()
   },
   methods: {
+    // Hitung total data UMKM dari tabel "umkm"
     async fetchTotalUmkm() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/umkm/count/dashboard`)
-    this.totalUmkm = res.data.totalItems
+        const { count, error } = await supabase
+          .from('umkm')
+          .select('*', { count: 'exact', head: true })
+        if (error) throw error
+        this.totalUmkm = count || 0
       } catch (err) {
-        console.error('❌ Gagal ambil data UMKM:', err.message)
+        console.error('❌ Gagal ambil total UMKM:', err.message)
       }
     },
+
+    // Hitung total data galeri dari tabel "galeri"
     async fetchTotalGaleri() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/galeri/count`)
-        this.totalGaleri = res.data.total || 0
+        const { count, error } = await supabase
+          .from('galeri')
+          .select('*', { count: 'exact', head: true })
+        if (error) throw error
+        this.totalGaleri = count || 0
       } catch (err) {
-        console.error('❌ Gagal ambil data galeri:', err.message)
+        console.error('❌ Gagal ambil total galeri:', err.message)
       }
     },
+
+    // Hitung total data berita dari tabel "berita"
     async fetchTotalBerita() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/berita/count/dashboard`)
-        this.totalBerita = res.data.total || 0
+        const { count, error } = await supabase
+          .from('berita')
+          .select('*', { count: 'exact', head: true })
+        if (error) throw error
+        this.totalBerita = count || 0
       } catch (err) {
-        console.warn('❌ Data berita belum tersedia:', err.message)
+        console.error('❌ Gagal ambil total berita:', err.message)
       }
     }
   }

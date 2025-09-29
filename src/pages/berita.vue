@@ -5,8 +5,10 @@
         <h1 class="animate-fade-in">BERITA TERKINI</h1>
       </div>
     </header>
+
     <main class="news-content">
       <div class="container">
+        <!-- 🔹 Berita utama -->
         <section class="featured-section" v-if="featuredArticle">
           <router-link 
             :to="{ name: 'BeritaDetail', params: { id: featuredArticle.id } }"
@@ -15,7 +17,7 @@
             <div class="featured-content">
               <div class="featured-image">
                 <img 
-                  :src="featuredArticle.imageUrl || getPlaceholderImage()" 
+                  :src="getImageUrl(featuredArticle.imageUrl)" 
                   :alt="featuredArticle.title" 
                   @error="handleImageError"
                 />
@@ -32,6 +34,7 @@
           </router-link>
         </section>
 
+        <!-- 🔹 Daftar berita -->
         <section class="news-grid" v-if="paginatedNews.length > 0">
           <router-link
             v-for="(berita, index) in paginatedNews"
@@ -42,7 +45,7 @@
           >
             <div class="news-card-image">
               <img 
-                :src="berita.imageUrl || getPlaceholderImage()" 
+                :src="getImageUrl(berita.imageUrl)" 
                 :alt="berita.title"
                 @error="handleImageError"
               />
@@ -61,10 +64,13 @@
           </router-link>
         </section>
 
+        <!-- 🔹 Jika tidak ada berita -->
         <section v-else class="no-results animate-fade-in">
           <i class="fas fa-newspaper"></i>
           <p>Tidak ada berita yang ditemukan.</p>
         </section>
+
+        <!-- 🔹 Tombol load more -->
         <section class="load-more-section" v-if="hasMoreNews">
           <button 
             class="load-more-btn" 
@@ -81,28 +87,52 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import axios from 'axios'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { supabase } from '@/supabase.js'
 
+// State utama
 const allNews = ref([])
-const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 6
 const isLoading = ref(false)
-const searchTimeout = ref(null)
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
+// Base URL Supabase Storage untuk berita (jika path relatif)
+const SUPABASE_IMAGE_URL = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/berita/'
+
+// 🔹 Helper untuk handle URL gambar
+const getImageUrl = (path) => {
+  if (!path) return getPlaceholderImage()
+  if (path.startsWith('http')) return path
+  return SUPABASE_IMAGE_URL + path
+}
+
+// 🔹 Placeholder jika gambar gagal
+const getPlaceholderImage = () => {
+  return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect width="400" height="200" fill="#f8f9fa"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#6c757d" font-family="Arial" font-size="16">No Image</text></svg>'
+}
+
+const handleImageError = e => {
+  e.target.src = getPlaceholderImage()
+}
+
+// 🔹 Fetch berita
 const fetchBerita = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/berita`)
-    allNews.value = res.data.map(item => ({
+    const { data, error } = await supabase
+      .from('berita')
+      .select('*')
+      .order('tanggal', { ascending: false })
+
+    if (error) throw error
+
+    allNews.value = data.map(item => ({
       id: item.id,
       title: item.judul,
       excerpt: stripHtml(item.isi).slice(0, 120) + '...',
-      imageUrl: item.gambar 
-        ? `${API_BASE_URL.replace('/api','')}/images/berita/${item.gambar}`
-        : null,
+      imageUrl: item.gambar || null,
       date: formatTanggal(item.tanggal)
     }))
+
     await nextTick()
     initScrollAnimations()
   } catch (err) {
@@ -110,12 +140,14 @@ const fetchBerita = async () => {
   }
 }
 
+// 🔹 Hapus tag HTML
 const stripHtml = html => {
-  const tmp = document.createElement("DIV")
+  const tmp = document.createElement('DIV')
   tmp.innerHTML = html
-  return tmp.textContent || tmp.innerText || ""
+  return tmp.textContent || tmp.innerText || ''
 }
 
+// 🔹 Format tanggal
 const formatTanggal = tgl => {
   const d = new Date(tgl)
   return d.toLocaleDateString('id-ID', {
@@ -125,53 +157,25 @@ const formatTanggal = tgl => {
   })
 }
 
-const getPlaceholderImage = () => {
-  return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200"><rect width="400" height="200" fill="#f8f9fa"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#6c757d" font-family="Arial" font-size="16">No Image</text></svg>'
-}
-
-const handleImageError = e => {
-  e.target.src = getPlaceholderImage()
-}
-
+// 🔹 Berita utama
 const featuredArticle = computed(() => allNews.value[0] || null)
 
-const filteredNews = computed(() => {
-  let news = allNews.value.slice(1)
-  if (searchQuery.value) {
-    const q = searchQuery.value.toLowerCase()
-    return news.filter(n =>
-      n.title.toLowerCase().includes(q) ||
-      n.excerpt.toLowerCase().includes(q)
-    )
-  }
-  return news
-})
-
-const paginatedNews = computed(() =>
-  filteredNews.value.slice(0, currentPage.value * itemsPerPage)
-)
-
-const hasMoreNews = computed(() =>
-  paginatedNews.value.length < filteredNews.value.length
-)
+// 🔹 Pagination
+const filteredNews = computed(() => allNews.value.slice(1))
+const paginatedNews = computed(() => filteredNews.value.slice(0, currentPage.value * itemsPerPage))
+const hasMoreNews = computed(() => paginatedNews.value.length < filteredNews.value.length)
 
 const loadMore = async () => {
   if (isLoading.value || !hasMoreNews.value) return
   isLoading.value = true
-  setTimeout(async () => {
+  setTimeout(() => {
     currentPage.value += 1
-    await nextTick()
-    initScrollAnimations()
+    nextTick(() => initScrollAnimations())
     isLoading.value = false
   }, 500)
 }
 
-const handleSearch = () => (currentPage.value = 1)
-watch(searchQuery, () => {
-  if (searchTimeout.value) clearTimeout(searchTimeout.value)
-  searchTimeout.value = setTimeout(() => handleSearch(), 300)
-})
-
+// 🔹 Scroll animations
 const initScrollAnimations = () => {
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
@@ -186,14 +190,10 @@ const initScrollAnimations = () => {
     .forEach(el => observer.observe(el))
 }
 
-onMounted(async () => {
-  await fetchBerita()
-  window.addEventListener('scroll', initScrollAnimations)
-})
-
+// 🔹 Lifecycle
+onMounted(fetchBerita)
 onUnmounted(() => {
   window.removeEventListener('scroll', initScrollAnimations)
-  if (searchTimeout.value) clearTimeout(searchTimeout.value)
 })
 </script>
 

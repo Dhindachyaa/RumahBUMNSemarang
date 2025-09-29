@@ -1,25 +1,63 @@
-const db = require('../config/db');
+// models/beritaModel.js
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
-exports.getAllBerita = (result) => {
-  db.query('SELECT * FROM berita ORDER BY tanggal DESC', result);
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
+const TABLE_NAME = 'berita';
+
+exports.getAllBerita = async () => {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .select('*')
+    .order('tanggal', { ascending: false });
+  if (error) throw error;
+  return data;
 };
 
-exports.getBeritaById = (id, result) => {
-  db.query('SELECT * FROM berita WHERE id = ?', [id], result);
+exports.getBeritaById = async (id) => {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+  return data;
 };
 
-exports.insertBerita = (data, result) => {
-  db.query('INSERT INTO berita SET ?', [data], result);
+exports.insertBerita = async (berita) => {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .insert([berita]);
+  if (error) throw error;
+  return data;
 };
 
-exports.updateBerita = (data, id, result) => {
-  db.query('UPDATE berita SET ? WHERE id = ?', [data, id], result);
+exports.updateBerita = async (id, berita) => {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .update(berita)
+    .eq('id', id);
+  if (error) throw error;
+  return data;
 };
 
-exports.deleteBerita = (id, result) => {
-  db.query('DELETE FROM berita WHERE id = ?', [id], result);
+exports.deleteBerita = async (id) => {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+  return data;
 };
 
-exports.countBerita = (result) => {
-  db.query('SELECT COUNT(*) AS total FROM berita', result);
+exports.countBerita = async () => {
+  const { count, error } = await supabase
+    .from(TABLE_NAME)
+    .select('*', { count: 'exact', head: true });
+  if (error) throw error;
+  return count;
 };

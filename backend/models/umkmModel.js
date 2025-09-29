@@ -1,99 +1,75 @@
-const db = require('../config/db');
-exports.getPagedUMKM = (limit, offset, search, category, result) => {
-  let query = `
-    SELECT id, nama, deskripsi, varian, kategori, harga, instagram, image_path
-    FROM umkm
-    WHERE 1=1`;
-  const params = [];
+// models/umkmModel.js
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
-  if (search) {
-    query += ' AND nama LIKE ?';
-    params.push(`%${search}%`);
-  }
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
 
-  if (category && category !== '') {
-    query += ' AND kategori = ?';
-    params.push(category);
-  }
+const TABLE_NAME = 'umkm';
 
-  query += ' LIMIT ? OFFSET ?';
-  params.push(limit, offset);
+const UmkmModel = {
+  getPagedUMKM: async (limit = 20, offset = 0, search = '', category = '') => {
+    let query = supabase.from(TABLE_NAME).select('*').order('id', { ascending: false }).range(offset, offset + limit - 1);
 
-  console.log('>> SQL:', query);
-  console.log('>> PARAMS:', params);
+    if (search) query = query.ilike('nama', `%${search}%`);
+    if (category) query = query.eq('kategori', category);
 
-  db.query(query, params, (err, res) => {
-    if (err) return result(err, null);
-    result(null, res);
-  });
+    const { data, error } = await query;
+    if (error) throw error;
+
+    // Ambil total count
+    let countQuery = supabase.from(TABLE_NAME).select('*', { count: 'exact', head: true });
+    if (search) countQuery = countQuery.ilike('nama', `%${search}%`);
+    if (category) countQuery = countQuery.eq('kategori', category);
+
+    const { count, error: countError } = await countQuery;
+    if (countError) throw countError;
+
+    return {
+      data,
+      pagination: {
+        totalItems: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: Math.floor(offset / limit) + 1,
+      },
+    };
+  },
+
+  getTotalCount: async (search = '', category = '') => {
+    let query = supabase.from(TABLE_NAME).select('*', { count: 'exact', head: true });
+    if (search) query = query.ilike('nama', `%${search}%`);
+    if (category) query = query.eq('kategori', category);
+
+    const { count, error } = await query;
+    if (error) throw error;
+    return count;
+  },
+
+  getUMKMById: async (id) => {
+    const { data, error } = await supabase.from(TABLE_NAME).select('*').eq('id', id).single();
+    if (error) throw error;
+    return data;
+  },
+
+  addUMKM: async (data) => {
+    const { data: inserted, error } = await supabase.from(TABLE_NAME).insert([data]);
+    if (error) throw error;
+    return inserted;
+  },
+
+  updateUMKM: async (id, data) => {
+    const { data: updated, error } = await supabase.from(TABLE_NAME).update(data).eq('id', id);
+    if (error) throw error;
+    return updated;
+  },
+
+  deleteUMKM: async (id) => {
+    const { data: deleted, error } = await supabase.from(TABLE_NAME).delete().eq('id', id);
+    if (error) throw error;
+    return deleted;
+  },
 };
 
-exports.getTotalCount = (search, category, callback) => {
-  let sql = `SELECT COUNT(*) AS total FROM umkm WHERE 1=1`;
-  const params = [];
-
-  if (search) {
-    sql += ' AND nama LIKE ?';
-    params.push(`%${search}%`);
-  }
-
-  if (category && category !== '') {
-    sql += ' AND kategori = ?';
-    params.push(category);
-  }
-
-  db.query(sql, params, (err, results) => {
-    if (err) return callback(err);
-    callback(null, results[0]);
-  });
-};
-
-exports.getUMKMById = (id, result) => {
-  db.query(
-    `SELECT id, nama, deskripsi, varian, kategori, harga, instagram, image_path
-     FROM umkm WHERE id = ?`,
-    [id],
-    (err, res) => {
-      if (err) return result(err, null);
-      result(null, res);
-    }
-  );
-};
-
-exports.addUMKM = (data, result) => {
-  const sql = `
-    INSERT INTO umkm (nama, deskripsi, varian, kategori, harga, instagram, image_path)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`;
-  const values = [
-    data.nama,
-    data.deskripsi,
-    data.varian,
-    data.kategori,
-    data.harga,
-    data.instagram,
-    data.image_path,
-  ];
-  db.query(sql, values, result);
-};
-
-exports.updateUMKM = (id, data, result) => {
-  const sql = `
-    UPDATE umkm
-    SET nama = ?, deskripsi = ?, varian = ?, kategori = ?, harga = ?, instagram = ?, image_path = ?
-    WHERE id = ?`;
-  const values = [
-    data.nama,
-    data.deskripsi,
-    data.varian,
-    data.kategori,
-    data.harga,
-    data.instagram,
-    data.image_path,
-    id,
-  ];
-  db.query(sql, values, result);
-};
-
-exports.deleteUMKM = (id, result) => {
-  db.query('DELETE FROM umkm WHERE id = ?', [id], result);
-};
+module.exports = UmkmModel;

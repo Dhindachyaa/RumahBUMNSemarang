@@ -104,16 +104,26 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
+import { supabase } from '../supabase.js'
 import '@/assets/css/berita-detail.css'
 
 const route = useRoute()
 const berita = ref(null)
 const beritaTerbaru = ref([])
 const showBackToTop = ref(false)
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
+// Base URL Supabase Storage untuk berita
+const STORAGE_URL = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/berita'
+
+// 🔹 Helper untuk handle gambar (relatif / full URL / kosong)
 const getImageUrl = (filename) => {
- return filename ? `${API_BASE_URL.replace('/api','')}/images/berita/${filename}` : '/placeholder-news.png'}
+  if (!filename) return getPlaceholderImage()
+  if (filename.startsWith('http')) return filename
+  return `${STORAGE_URL}/${filename}`
+}
+
+// 🔹 Placeholder jika gagal load
+const getPlaceholderImage = () => '/placeholder-news.png'
 
 const formatTanggal = (tanggal) => {
   if (!tanggal) return '-'
@@ -127,9 +137,16 @@ const formatTanggal = (tanggal) => {
 
 const ambilDetailBerita = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/berita/${route.params.id}`)
-    berita.value = res.data
-    document.title = `${res.data.judul} - UMKM Semarang`
+    const { data, error } = await supabase
+      .from('berita')
+      .select('*')
+      .eq('id', route.params.id)
+      .single()
+
+    if (error) throw error
+
+    berita.value = data
+    document.title = `${data.judul} - UMKM Semarang`
   } catch (err) {
     berita.value = null
     console.error('Gagal ambil detail:', err)
@@ -138,8 +155,14 @@ const ambilDetailBerita = async () => {
 
 const ambilBeritaTerbaru = async () => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/berita`)
-    beritaTerbaru.value = res.data.slice(0, 4)
+    const { data, error } = await supabase
+      .from('berita')
+      .select('*')
+      .order('tanggal', { ascending: false })
+      .limit(4)
+
+    if (error) throw error
+    beritaTerbaru.value = data
   } catch (err) {
     console.error('Gagal ambil berita terbaru:', err)
   }
@@ -170,7 +193,7 @@ const copyLink = async () => {
   try {
     await navigator.clipboard.writeText(window.location.href)
     alert('Link berhasil disalin!')
-  } catch (err) {
+  } catch {
     const textArea = document.createElement('textarea')
     textArea.value = window.location.href
     document.body.appendChild(textArea)
@@ -182,7 +205,7 @@ const copyLink = async () => {
 }
 
 const handleImageError = (event) => {
-  event.target.src = getImageUrl(null)
+  event.target.src = getPlaceholderImage()
 }
 
 onMounted(() => {
@@ -198,3 +221,5 @@ watch(() => route.params.id, async () => {
   scrollToTop() 
 })
 </script>
+
+<style src="../assets/css/berita-detail.css"></style>

@@ -1,60 +1,95 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db'); 
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
-router.post('/login', (req, res) => {
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
+// POST login admin
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-
   if (!username || !password) {
     return res.status(400).json({ message: 'Username dan password wajib diisi' });
   }
 
-  const query = 'SELECT * FROM admin WHERE username = ? AND password = ?';
-  db.query(query, [username, password], (err, result) => {
-    if (err) {
-      console.error('Query error:', err);
-      return res.status(500).json({ message: 'Terjadi kesalahan server' });
-    }
+  try {
+    const { data, error } = await supabase
+      .from('admin')
+      .select('id, username')
+      .eq('username', username)
+      .eq('password', password)
+      .single();
 
-    if (result.length === 0) {
+    if (error || !data) {
       return res.status(401).json({ message: 'Username atau password salah' });
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       message: 'Login berhasil',
-      user: {
-        id: result[0].id,
-        username: result[0].username
-      }
+      user: data
     });
-  });
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'Terjadi kesalahan server' });
+  }
 });
 
-router.get('/', (req, res) => {
-  db.query('SELECT id, username FROM admin', (err, result) => {
-    if (err) return res.status(500).json({ message: 'Gagal mengambil data admin' });
-    res.status(200).json(result);
-  });
+// GET semua admin
+router.get('/', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('admin')
+      .select('id, username');
+
+    if (error) throw error;
+
+    res.status(200).json(data);
+  } catch (err) {
+    console.error('Get admins error:', err);
+    res.status(500).json({ message: 'Gagal mengambil data admin' });
+  }
 });
 
-router.post('/add', (req, res) => {
+// POST tambah admin
+router.post('/add', async (req, res) => {
   const { username, password } = req.body;
-  if (!username || !password)
+  if (!username || !password) {
     return res.status(400).json({ message: 'Semua field wajib diisi' });
+  }
 
-  const insertQuery = 'INSERT INTO admin (username, password) VALUES (?, ?)';
-  db.query(insertQuery, [username, password], (err, result) => {
-    if (err) return res.status(500).json({ message: 'Gagal menambahkan admin' });
+  try {
+    const { error } = await supabase
+      .from('admin')
+      .insert([{ username, password }]);
+
+    if (error) throw error;
+
     res.status(201).json({ message: 'Admin berhasil ditambahkan' });
-  });
+  } catch (err) {
+    console.error('Add admin error:', err);
+    res.status(500).json({ message: 'Gagal menambahkan admin' });
+  }
 });
 
-router.delete('/:id', (req, res) => {
+// DELETE hapus admin
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  db.query('DELETE FROM admin WHERE id = ?', [id], (err, result) => {
-    if (err) return res.status(500).json({ message: 'Gagal menghapus admin' });
+  try {
+    const { error } = await supabase
+      .from('admin')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
     res.status(200).json({ message: 'Admin berhasil dihapus' });
-  });
+  } catch (err) {
+    console.error('Delete admin error:', err);
+    res.status(500).json({ message: 'Gagal menghapus admin' });
+  }
 });
 
 module.exports = router;

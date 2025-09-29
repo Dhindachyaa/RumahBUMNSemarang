@@ -6,6 +6,8 @@
       <div class="toolbar">
         <button class="btn-save" @click="bukaModal">+ Tambah UMKM</button>
       </div>
+
+      <!-- Table View -->
       <div class="table-responsive">
         <table class="umkm-table">
           <thead>
@@ -23,18 +25,15 @@
           </thead>
           <tbody>
             <tr v-for="(u, index) in umkmList" :key="u.id">
-              <td>{{ (currentPage - 1) * 20 + index + 1 }}</td>
+              <td>{{ (currentPage - 1) * limit + index + 1 }}</td>
               <td>{{ u.nama }}</td>
               <td>{{ u.kategori }}</td>
               <td>{{ u.harga }}</td>
               <td>{{ u.varian }}</td>
-              <td class="wrap-text">
-                {{ getPreview(u.deskripsi) }}
-              </td>
+              <td class="wrap-text">{{ getPreview(u.deskripsi) }}</td>
               <td>{{ u.instagram }}</td>
               <td>
-                <img v-if="u.image_path" :src="getImageUrl(u.image_path)" alt="UMKM" @error="handleImageError" />
-                <span v-else>-</span>
+                <img :src="getImageUrl(u.image_path)" alt="UMKM" @error="handleImageError" />
               </td>
               <td>
                 <div class="table-actions">
@@ -46,43 +45,22 @@
           </tbody>
         </table>
       </div>
-      <div class="umkm-card-list">
-        <div class="umkm-card" v-for="u in umkmList" :key="u.id">
-          <p><strong>Nama:</strong> {{ u.nama }}</p>
-          <p><strong>Kategori:</strong> {{ u.kategori }}</p>
-          <p><strong>Harga:</strong> {{ u.harga }}</p>
-          <p><strong>Varian:</strong> {{ u.varian }}</p>
-          <p><strong>Deskripsi:</strong> {{ u.deskripsi }}</p>
-          <p><strong>Instagram:</strong> {{ u.instagram }}</p>
-          <div class="image-container">
-          <img
-          v-if="u.image_path"
-          :src="getImageUrl(u.image_path)"
-          alt="UMKM"
-          @error="handleImageError"
-          />
-          <span v-else>-</span>
-          </div>
-          <div class="card-actions">
-            <button class="btn-edit" @click="editUMKM(u)">Edit</button>
-            <button class="btn-delete" @click="deleteUMKM(u.id)">Hapus</button>
-          </div>
-        </div>
-      </div>
+
+      <!-- Pagination -->
       <div class="pagination">
         <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
-
         <button
-          v-for="page in computedTotalPages"
-          :key="'page-'+page"
+          v-for="page in totalPages"
+          :key="'page-' + page"
           @click="goToPage(page)"
           :class="{ active: page === currentPage }"
         >
           {{ page }}
         </button>
-
-        <button @click="goToPage(currentPage + 1)" :disabled="currentPage >= computedTotalPages">Next</button>
+        <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
       </div>
+
+      <!-- Modal Form -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">
@@ -96,11 +74,10 @@
             <textarea v-model="form.deskripsi" placeholder="Deskripsi Produk" class="deskripsi-editor"></textarea>
             <select v-model="form.kategori">
               <option value="">-- Pilih Kategori --</option>
-          <option value="">Semua Kategori</option>
-          <option value="Fashion">Fashion</option>
-          <option value="Craft/Accessoris/Home Decor">Craft/Accessoris/Home Decor</option>
-          <option value="Foods & Beverages">Foods and Beverages</option>
-          <option value="Healthy & Beauty">Healthy & Beauty</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Craft/Accessoris/Home Decor">Craft/Accessoris/Home Decor</option>
+              <option value="Foods & Beverages">Foods & Beverages</option>
+              <option value="Healthy & Beauty">Healthy & Beauty</option>
             </select>
             <input v-model="form.instagram" placeholder="Instagram" />
             <input type="file" @change="handleFile" name="image" />
@@ -117,151 +94,146 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import axios from 'axios'
+import { ref, onMounted } from 'vue'
 import AdminLayout from '@/layouts/adminlayout.vue'
 import '@/assets/css/admin-umkm.css'
+import { supabase } from '@/supabase.js'
 
 const umkmList = ref([])
 const currentPage = ref(1)
 const totalPages = ref(1)
+const limit = 20
 const showModal = ref(false)
 const isEdit = ref(false)
 const gambarPreview = ref(null)
 const selectedFile = ref(null)
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 
 const form = ref({
   id: '', nama: '', harga: '', kategori: '', varian: '', deskripsi: '', instagram: '', image_path: ''
 })
-const computedTotalPages = computed(() => Math.max(totalPages.value, 1))
+
+// Full URL default Supabase
+const DEFAULT_IMAGE = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/umkm/rumah-bumn.png'
+
 const fetchUMKM = async (page = 1) => {
   try {
-    const limit = 20
     const offset = (page - 1) * limit
-    const res = await axios.get(`${BASE_URL}/umkm/paginate?limit=${limit}&offset=${offset}`)
-    umkmList.value = res.data.data
-    currentPage.value = res.data.pagination?.currentPage || 1
-    totalPages.value = res.data.pagination?.totalPages || 1
+    const { data, error, count } = await supabase
+      .from('umkm')
+      .select('*', { count: 'exact' })
+      .range(offset, offset + limit - 1)
+    if (error) throw error
 
-    console.log('✅ currentPage:', currentPage.value, 'totalPages:', totalPages.value)
+    umkmList.value = data.map(u => ({
+      ...u,
+      // Pastikan image_path langsung full URL
+      image_path: u.image_path ? u.image_path : DEFAULT_IMAGE
+    }))
+    currentPage.value = page
+    totalPages.value = Math.ceil(count / limit) || 1
     window.scrollTo({ top: 0, behavior: 'smooth' })
   } catch (err) {
-    console.error('❌ Gagal mengambil data UMKM:', err)
+    console.error('❌ Gagal ambil data UMKM:', err)
   }
 }
 
-const getPreview = (text) => {
+const getPreview = text => {
   if (!text) return ''
-  const clean = text.replace(/<[^>]*>/g, '') 
+  const clean = text.replace(/<[^>]*>/g, '')
   return clean.length > 150 ? clean.slice(0, 150).trim() + '...' : clean
 }
 
-const getImageUrl = (path) => {
-  if (!path) {
-    return `${BASE_URL}/images/umkm/rumah-bumn.png`;
-  }
-  if (path.startsWith("http")) {
-    return path;
-  }
-  return `${BASE_URL}/images/umkm/${path}`;
-};
+const getImageUrl = path => path || DEFAULT_IMAGE
+const handleImageError = e => { e.target.src = DEFAULT_IMAGE }
 
-
-const handleImageError = (event) => {
-  event.target.src = `${BASE_URL}/images/umkm/rumah-bumn.png`
-}
-
-const bukaModal = () => {
-  resetForm()
-  showModal.value = true
-}
-
-const tutupModal = () => {
-  resetForm()
-  showModal.value = false
-}
-
-const handleFile = (e) => {
-  selectedFile.value = e.target.files[0]
-  gambarPreview.value = selectedFile.value ? URL.createObjectURL(selectedFile.value) : null
+const bukaModal = () => { resetForm(); showModal.value = true }
+const tutupModal = () => { resetForm(); showModal.value = false }
+const handleFile = e => { 
+  selectedFile.value = e.target.files[0]; 
+  gambarPreview.value = selectedFile.value ? URL.createObjectURL(selectedFile.value) : null 
 }
 
 const submitForm = async () => {
   try {
-    const formData = new FormData()
-    formData.append('nama', form.value.nama)
-    formData.append('harga', form.value.harga)
-    formData.append('kategori', form.value.kategori)
-    formData.append('varian', form.value.varian)
-    formData.append('deskripsi', form.value.deskripsi)
-    formData.append('instagram', form.value.instagram)
-
-    if (selectedFile.value) {
-      formData.append('image', selectedFile.value)
+    // Buat payload tanpa id
+    const payload = {
+      nama: form.value.nama || '',
+      kategori: form.value.kategori || '',
+      varian: form.value.varian || '',
+      deskripsi: form.value.deskripsi || '',
+      instagram: form.value.instagram || '',
+      harga: form.value.harga ? parseInt(form.value.harga) : null,
+      image_path: form.value.image_path || DEFAULT_IMAGE
     }
 
-    let response
+    // Upload gambar jika ada
+    if (selectedFile.value) {
+      const fileExt = selectedFile.value.name.split('.').pop()
+      const fileName = `umkm/${Date.now()}.${fileExt}`
+
+      const { error: uploadError } = await supabase.storage
+        .from('umkm')
+        .upload(fileName, selectedFile.value, { upsert: true })
+
+      if (uploadError) throw uploadError
+
+      payload.image_path = `https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/${fileName}`
+    }
+
     if (isEdit.value) {
-      formData.append('_method', 'PUT')
-      response = await axios.post(`${BASE_URL}/api/umkm/${form.value.id}?_method=PUT`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      // Update pakai id
+      const { error } = await supabase
+        .from('umkm')
+        .update(payload)
+        .eq('id', form.value.id)
+      if (error) throw error
       alert('UMKM berhasil diupdate!')
     } else {
-      response = await axios.post(`${BASE_URL}/api/umkm`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      // Insert tanpa id
+      const { error } = await supabase
+        .from('umkm')
+        .insert([payload])
+      if (error) throw error
       alert('UMKM berhasil ditambahkan!')
-    }
-
-    if (response?.data?.image_path) {
-    form.value.image_path = response.data.image_path.split("/").pop();
     }
 
     await fetchUMKM(currentPage.value)
     tutupModal()
   } catch (err) {
     console.error('❌ Gagal simpan data:', err)
-    alert('Gagal menyimpan data.')
+    alert('Gagal menyimpan data. Lihat console untuk detail.')
   }
 }
 
-const editUMKM = (umkm) => {
-  form.value = { ...umkm };
-  gambarPreview.value = getImageUrl(umkm.image_path); 
-  isEdit.value = true; 
-  showModal.value = true;
-};
 
-const deleteUMKM = async (id) => {
-  if (confirm('Yakin ingin menghapus data ini?')) {
-    try {
-    await axios.delete(`${BASE_URL}/api/umkm/${id}`)
-      await fetchUMKM(currentPage.value)
-    } catch (err) {
-      console.error('❌ Gagal hapus data:', err)
-      alert('Gagal menghapus data.')
-    }
+const editUMKM = umkm => {
+  form.value = { ...umkm }
+  gambarPreview.value = getImageUrl(form.value.image_path)
+  isEdit.value = true
+  showModal.value = true
+}
+
+const deleteUMKM = async id => {
+  if (!confirm('Yakin ingin menghapus data ini?')) return
+  try {
+    const { error } = await supabase.from('umkm').delete().eq('id', id)
+    if (error) throw error
+    await fetchUMKM(currentPage.value)
+  } catch (err) {
+    console.error('❌ Gagal hapus data:', err)
+    alert('Gagal menghapus data.')
   }
 }
 
 const resetForm = () => {
-  form.value = {
-    id: '', nama: '', harga: '', kategori: '',
-    varian: '', deskripsi: '', instagram: '', image_path: ''
-  }
+  form.value = { id: '', nama: '', harga: '', kategori: '', varian: '', deskripsi: '', instagram: '', image_path: '' }
   selectedFile.value = null
   isEdit.value = false
   gambarPreview.value = null
 }
 
-const goToPage = async (page) => {
-  if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page
-    await fetchUMKM(page)
-  }
+const goToPage = async page => {
+  if (page >= 1 && page <= totalPages.value) await fetchUMKM(page)
 }
 
 onMounted(() => fetchUMKM())

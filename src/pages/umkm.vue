@@ -13,7 +13,7 @@
           <option value="">Semua Kategori</option>
           <option value="Fashion">Fashion</option>
           <option value="Craft/Accessoris/Home Decor">Craft/Accessoris/Home Decor</option>
-          <option value="Foods & Beverages">Foods and Beverages</option>
+          <option value="Foods & Beverages">Foods & Beverages</option>
           <option value="Healthy & Beauty">Healthy & Beauty</option>
         </select>
         <button type="submit" class="search-btn">Cari</button>
@@ -27,10 +27,7 @@
         :to="`/umkm/${umkm.id}`"
         class="umkm-card-link"
       >
-        <div
-          class="umkm-card animate-on-scroll"
-          :style="{ '--animation-delay': `${i * 0.1}s` }"
-        >
+        <div class="umkm-card animate-on-scroll" :style="{ '--animation-delay': `${i * 0.1}s` }">
           <img
             :src="umkm.img"
             :alt="umkm.nama"
@@ -72,72 +69,59 @@
 
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
-import axios from 'axios'
+import { supabase } from '../supabase.js'
 import '@/assets/css/umkm.css'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const search = ref('')
 const category = ref('')
 const umkmList = ref([])
 const popupImage = ref(null)
-
 const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
 
 const getImageUrl = (path) => {
-  const base = API_BASE_URL.replace('/api','') 
-  if (!path) return `${base}/images/umkm/rumah-bumn.png` 
-  if (path.startsWith('http')) return path 
-  return `${base}/images/umkm/${path}` 
+  return path || 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/umkm/rumah-bumn.png'
 }
+
 
 const handleImageError = (event) => {
-  const base = API_BASE_URL.replace('/api','')
-  event.target.src = `${base}/images/umkm/rumah-bumn.png`
+  event.target.src = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/umkm/rumah-bumn.png'
 }
 
-const openPopup = (img) => {
-  popupImage.value = img
-}
-
-const closePopup = () => {
-  popupImage.value = null
-}
+const openPopup = (img) => { popupImage.value = img }
+const closePopup = () => { popupImage.value = null }
 
 const fetchUMKM = async () => {
   try {
-    const limit = itemsPerPage
-    const offset = (currentPage.value - 1) * limit
+    let query = supabase.from('umkm').select('*', { count: 'exact' }).order('id', { ascending: false })
 
-    const res = await axios.get(`${API_BASE_URL}/umkm/paginate`, {
-      params: {
-        limit,
-        offset,
-        search: search.value,
-        kategori: category.value
-      }
-    })
+    if (search.value) query = query.ilike('nama', `%${search.value}%`)
+    if (category.value) query = query.eq('kategori', category.value)
 
-    umkmList.value = res.data.data.map((u) => ({
+    const from = (currentPage.value - 1) * itemsPerPage
+    const to = from + itemsPerPage - 1
+
+    const { data, error, count } = await query.range(from, to)
+    if (error) throw error
+
+    umkmList.value = (data || []).map(u => ({
       ...u,
       img: getImageUrl(u.image_path)
     }))
 
-    totalPages.value = res.data.pagination?.totalPages || 1
+    totalPages.value = Math.ceil((count || umkmList.value.length) / itemsPerPage)
 
     await nextTick()
     const obs = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('show')
           observer.unobserve(entry.target)
         }
       })
     }, { threshold: 0.1 })
-
-    document.querySelectorAll('.animate-on-scroll').forEach((el) => obs.observe(el))
-
+    document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el))
   } catch (err) {
     console.error('Gagal fetch UMKM:', err)
   }
@@ -146,6 +130,7 @@ const fetchUMKM = async () => {
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
+    fetchUMKM()
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
@@ -156,23 +141,7 @@ const submitSearch = () => {
 }
 
 watch(currentPage, fetchUMKM)
-watch(category, () => {
-  currentPage.value = 1
-  fetchUMKM()
-})
+watch(category, () => { currentPage.value = 1; fetchUMKM() })
 
-onMounted(() => {
-  fetchUMKM()
-  nextTick(() => {
-    const obs = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show')
-          observer.unobserve(entry.target)
-        }
-      })
-    }, { threshold: 0.1 })
-    document.querySelectorAll('.animate-on-scroll').forEach((el) => obs.observe(el))
-  })
-})
+onMounted(() => { fetchUMKM() })
 </script>

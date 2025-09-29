@@ -1,111 +1,170 @@
-const Galeri = require('../models/galeriModel');
-const path = require('path');
-const fs = require('fs');
-const db = require('../config/db');
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
-exports.getAllGaleri = (req, res) => {
-  Galeri.getAll((err, result) => {
-    if (err) return res.status(500).json({ message: 'Gagal mengambil data galeri' });
-    res.json(result);
-  });
+// Inisialisasi Supabase
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
+const TABLE_NAME = 'galeri';
+const STORAGE_BUCKET = 'galeri'; // bucket Supabase Storage tempat gambar galeri
+
+// Normalisasi path gambar ke URL Supabase Storage
+const normalizeImagePath = (filename) => {
+  if (!filename) return null;
+  return `${process.env.SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${filename}`;
 };
 
-exports.getPaginatedGaleri = (req, res) => {
+exports.getAllGaleri = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .select('*')
+      .order('id', { ascending: false });
+    if (error) throw error;
+
+    const normalized = data.map(item => ({
+      ...item,
+      gambar: normalizeImagePath(item.gambar)
+    }));
+
+    res.json(normalized);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getPaginatedGaleri = async (req, res) => {
   const limit = parseInt(req.query.limit) || 9;
   const offset = parseInt(req.query.offset) || 0;
 
-  Galeri.getPaginated(limit, offset, (err, data) => {
-    if (err) return res.status(500).json({ message: 'Gagal mengambil data galeri' });
+  try {
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .select('*')
+      .order('id', { ascending: false })
+      .range(offset, offset + limit - 1);
+    if (error) throw error;
 
-    Galeri.countAll((err, countResult) => {
-      if (err) return res.status(500).json({ message: 'Gagal menghitung data galeri' });
+    const { count, error: countError } = await supabase
+      .from(TABLE_NAME)
+      .select('*', { count: 'exact', head: true });
+    if (countError) throw countError;
 
-      const totalItems = countResult[0].total;
-      const totalPages = Math.ceil(totalItems / limit);
-      const currentPage = Math.floor(offset / limit) + 1;
+    const normalized = data.map(item => ({
+      ...item,
+      gambar: normalizeImagePath(item.gambar)
+    }));
 
-      res.json({
-        data,
-        pagination: {
-          totalItems,
-          totalPages,
-          currentPage,
-        },
-      });
+    res.json({
+      data: normalized,
+      pagination: {
+        totalItems: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: Math.floor(offset / limit) + 1,
+      },
     });
-  });
-};
-
-exports.getGaleriCount = (req, res) => {
-  db.query('SELECT COUNT(*) AS total FROM galeri', (err, result) => {
-    if (err) return res.status(500).json({ message: 'Gagal menghitung galeri' });
-    res.json({ total: result[0].total });
-  });
-};
-
-exports.addGaleri = (req, res) => {
-  const { judul, deskripsi } = req.body;
-  const gambar = req.file?.filename;
-
-  if (!judul || !deskripsi || !gambar) {
-    return res.status(400).json({ message: 'Semua field wajib diisi' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-
-  Galeri.insert(judul, deskripsi, gambar, (err) => {
-    if (err) return res.status(500).json({ message: 'Gagal menambahkan galeri' });
-    res.json({ message: 'Galeri berhasil ditambahkan' });
-  });
 };
 
-exports.updateGaleri = (req, res) => {
-  const { judul, deskripsi } = req.body;
+exports.getGaleriCount = async (req, res) => {
+  try {
+    const { count, error } = await supabase
+      .from(TABLE_NAME)
+      .select('*', { count: 'exact', head: true });
+    if (error) throw error;
+    res.json({ total: count });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.addGaleri = async (req, res) => {
+  try {
+    const { judul, deskripsi } = req.body;
+    const gambar = req.file?.filename;
+
+    if (!judul || !deskripsi || !gambar) {
+      return res.status(400).json({ message: 'Semua field wajib diisi' });
+    }
+
+    const { error } = await supabase
+      .from(TABLE_NAME)
+      .insert([{ judul, deskripsi, gambar }]);
+    if (error) throw error;
+
+    res.json({ message: 'Galeri berhasil ditambahkan' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateGaleri = async (req, res) => {
   const id = req.params.id;
+  const { judul, deskripsi } = req.body;
   const newImage = req.file?.filename;
 
-  Galeri.getById(id, (err, result) => {
-    if (err) return res.status(500).json({ message: 'Gagal mengambil data' });
-    if (result.length === 0) return res.status(404).json({ message: 'Data tidak ditemukan' });
+  try {
+    const { data: oldData, error: fetchError } = await supabase
+      .from(TABLE_NAME)
+      .select('gambar, judul, deskripsi')
+      .eq('id', id)
+      .single();
+    if (fetchError || !oldData) return res.status(404).json({ message: 'Data tidak ditemukan' });
 
-    const oldData = result[0];
     const updateFields = {};
-
     if (judul && judul !== oldData.judul) updateFields.judul = judul;
     if (deskripsi && deskripsi !== oldData.deskripsi) updateFields.deskripsi = deskripsi;
     if (newImage) {
       updateFields.gambar = newImage;
 
-      const oldPath = path.join(__dirname, '..', 'public', 'images', 'galeri', oldData.gambar);
-      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      // Hapus gambar lama dari Supabase Storage jika ada
+      if (oldData.gambar && oldData.gambar !== 'default-galeri.jpg') {
+        await supabase.storage.from(STORAGE_BUCKET).remove([oldData.gambar]);
+      }
     }
 
     if (Object.keys(updateFields).length === 0) {
       return res.status(400).json({ message: 'Tidak ada perubahan dilakukan' });
     }
 
-    Galeri.updateFlexibleById(id, updateFields, (err) => {
-      if (err) return res.status(500).json({ message: 'Gagal memperbarui galeri' });
-      res.json({ message: 'Galeri berhasil diperbarui' });
-    });
-  });
+    const { error: updateError } = await supabase
+      .from(TABLE_NAME)
+      .update(updateFields)
+      .eq('id', id);
+    if (updateError) throw updateError;
+
+    res.json({ message: 'Galeri berhasil diperbarui' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-exports.deleteGaleri = (req, res) => {
+exports.deleteGaleri = async (req, res) => {
   const id = req.params.id;
+  try {
+    const { data: oldData, error: fetchError } = await supabase
+      .from(TABLE_NAME)
+      .select('gambar')
+      .eq('id', id)
+      .single();
+    if (fetchError || !oldData) return res.status(404).json({ message: 'Data tidak ditemukan' });
 
-  Galeri.getById(id, (err, result) => {
-    if (err) return res.status(500).json({ message: 'Gagal mengambil data' });
-    if (result.length === 0) return res.status(404).json({ message: 'Data tidak ditemukan' });
-
-    const gambar = result[0].gambar;
-    const filePath = path.join(__dirname, '..', 'public', 'images', 'galeri', gambar);
-
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    if (oldData.gambar && oldData.gambar !== 'default-galeri.jpg') {
+      await supabase.storage.from(STORAGE_BUCKET).remove([oldData.gambar]);
     }
 
-    Galeri.deleteById(id, (err) => {
-      if (err) return res.status(500).json({ message: 'Gagal menghapus galeri' });
-      res.json({ message: 'Galeri berhasil dihapus' });
-    });
-  });
+    const { error: deleteError } = await supabase
+      .from(TABLE_NAME)
+      .delete()
+      .eq('id', id);
+    if (deleteError) throw deleteError;
+
+    res.json({ message: 'Galeri berhasil dihapus' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
