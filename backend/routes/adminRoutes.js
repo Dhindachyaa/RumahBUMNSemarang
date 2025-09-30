@@ -8,7 +8,6 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
-// POST login admin
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -37,7 +36,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// GET semua admin
 router.get('/', async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -53,7 +51,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST tambah admin
 router.post('/add', async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -74,7 +71,6 @@ router.post('/add', async (req, res) => {
   }
 });
 
-// DELETE hapus admin
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {

@@ -7,7 +7,6 @@
         <button class="btn-save" @click="bukaModal">+ Tambah UMKM</button>
       </div>
 
-      <!-- Table View -->
       <div class="table-responsive">
         <table class="umkm-table">
           <thead>
@@ -46,7 +45,6 @@
         </table>
       </div>
 
-      <!-- Pagination -->
       <div class="pagination">
         <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
         <button
@@ -60,7 +58,6 @@
         <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
       </div>
 
-      <!-- Modal Form -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">
@@ -112,7 +109,6 @@ const form = ref({
   id: '', nama: '', harga: '', kategori: '', varian: '', deskripsi: '', instagram: '', image_path: ''
 })
 
-// Full URL default Supabase
 const DEFAULT_IMAGE = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/umkm/rumah-bumn.png'
 
 const fetchUMKM = async (page = 1) => {
@@ -126,14 +122,13 @@ const fetchUMKM = async (page = 1) => {
 
     umkmList.value = data.map(u => ({
       ...u,
-      // Pastikan image_path langsung full URL
       image_path: u.image_path ? u.image_path : DEFAULT_IMAGE
     }))
     currentPage.value = page
     totalPages.value = Math.ceil(count / limit) || 1
     window.scrollTo({ top: 0, behavior: 'smooth' })
   } catch (err) {
-    console.error('❌ Gagal ambil data UMKM:', err)
+    console.error('Gagal ambil data UMKM:', err)
   }
 }
 
@@ -155,7 +150,7 @@ const handleFile = e => {
 
 const submitForm = async () => {
   try {
-    // Buat payload tanpa id
+
     const payload = {
       nama: form.value.nama || '',
       kategori: form.value.kategori || '',
@@ -166,7 +161,6 @@ const submitForm = async () => {
       image_path: form.value.image_path || DEFAULT_IMAGE
     }
 
-    // Upload gambar jika ada
     if (selectedFile.value) {
       const fileExt = selectedFile.value.name.split('.').pop()
       const fileName = `umkm/${Date.now()}.${fileExt}`
@@ -181,7 +175,6 @@ const submitForm = async () => {
     }
 
     if (isEdit.value) {
-      // Update pakai id
       const { error } = await supabase
         .from('umkm')
         .update(payload)
@@ -189,7 +182,7 @@ const submitForm = async () => {
       if (error) throw error
       alert('UMKM berhasil diupdate!')
     } else {
-      // Insert tanpa id
+ 
       const { error } = await supabase
         .from('umkm')
         .insert([payload])
@@ -200,7 +193,7 @@ const submitForm = async () => {
     await fetchUMKM(currentPage.value)
     tutupModal()
   } catch (err) {
-    console.error('❌ Gagal simpan data:', err)
+    console.error('Gagal simpan data:', err)
     alert('Gagal menyimpan data. Lihat console untuk detail.')
   }
 }
@@ -220,7 +213,7 @@ const deleteUMKM = async id => {
     if (error) throw error
     await fetchUMKM(currentPage.value)
   } catch (err) {
-    console.error('❌ Gagal hapus data:', err)
+    console.error('Gagal hapus data:', err)
     alert('Gagal menghapus data.')
   }
 }

@@ -58,7 +58,7 @@ export default {
     await this.fetchTotalBerita()
   },
   methods: {
-    // Hitung total data UMKM dari tabel "umkm"
+ 
     async fetchTotalUmkm() {
       try {
         const { count, error } = await supabase
@@ -71,7 +71,6 @@ export default {
       }
     },
 
-    // Hitung total data galeri dari tabel "galeri"
     async fetchTotalGaleri() {
       try {
         const { count, error } = await supabase
@@ -84,7 +83,6 @@ export default {
       }
     },
 
-    // Hitung total data berita dari tabel "berita"
     async fetchTotalBerita() {
       try {
         const { count, error } = await supabase

@@ -75,7 +75,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { supabase } from '../supabase.js'  // pastikan path sesuai
+import { supabase } from '../supabase.js'  
 
 const route = useRoute()
 const umkm = ref({})

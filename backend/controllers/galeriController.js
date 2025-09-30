@@ -1,16 +1,14 @@
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-// Inisialisasi Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY
 );
 
 const TABLE_NAME = 'galeri';
-const STORAGE_BUCKET = 'galeri'; // bucket Supabase Storage tempat gambar galeri
+const STORAGE_BUCKET = 'galeri'; 
 
-// Normalisasi path gambar ke URL Supabase Storage
 const normalizeImagePath = (filename) => {
   if (!filename) return null;
   return `${process.env.SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${filename}`;
@@ -121,11 +119,10 @@ exports.updateGaleri = async (req, res) => {
     if (newImage) {
       updateFields.gambar = newImage;
 
-      // Hapus gambar lama dari Supabase Storage jika ada
-      if (oldData.gambar && oldData.gambar !== 'default-galeri.jpg') {
-        await supabase.storage.from(STORAGE_BUCKET).remove([oldData.gambar]);
-      }
+    if (oldData.gambar && oldData.gambar !== 'default-galeri.jpg') {
+      await supabase.storage.from(STORAGE_BUCKET).remove([oldData.gambar]);
     }
+  }
 
     if (Object.keys(updateFields).length === 0) {
       return res.status(400).json({ message: 'Tidak ada perubahan dilakukan' });

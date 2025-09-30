@@ -7,7 +7,6 @@
     </header>
 
     <section class="gallery-content">
-      <!-- Data galeri -->
       <div class="right-gallery full-width no-left-text" v-if="galleryItems.length">
         <div
           v-for="(item, index) in galleryItems"
@@ -30,10 +29,7 @@
         </div>
       </div>
 
-      <!-- Jika kosong -->
       <div v-else class="no-data-msg">Galeri kosong.</div>
-
-      <!-- Pagination -->
       <div class="pagination">
         <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
         <button
@@ -47,7 +43,6 @@
         <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
       </div>
 
-      <!-- Modal tampilan gambar -->
       <div v-if="showModal" class="galeri-modal" @click.self="closeModal">
         <div class="galeri-modal-content-wrapper">
           <img class="galeri-modal-content" :src="modalImage" />
@@ -61,7 +56,7 @@
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
-import { supabase } from '../supabase.js' // pastikan path sesuai
+import { supabase } from '../supabase.js' 
 
 const galleryItems = ref([])
 const showModal = ref(false)
@@ -70,14 +65,12 @@ const modalCaption = ref('')
 const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = 20
-
 const SUPABASE_GALERI_URL = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/galeri/'
 
-// helper untuk menangani URL gambar
 const getImageUrl = (path) => {
-  if (!path) return SUPABASE_GALERI_URL + 'rumah-bumn.png' // default
-  if (path.startsWith('http')) return path // full URL dari admin
-  return SUPABASE_GALERI_URL + path // path relatif
+  if (!path) return SUPABASE_GALERI_URL + 'rumah-bumn.png' 
+  if (path.startsWith('http')) return path 
+  return SUPABASE_GALERI_URL + path 
 }
 
 const fetchGallery = async () => {

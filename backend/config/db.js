@@ -8,9 +8,9 @@ const pool = new Pool({
 
 pool.connect((err, client, release) => {
   if (err) {
-    console.error('❌ PostgreSQL Connection Error:', err.stack);
+    console.error('PostgreSQL Connection Error:', err.stack);
   } else {
-    console.log('✅ PostgreSQL Connected!');
+    console.log('PostgreSQL Connected!');
     release();
   }
 });

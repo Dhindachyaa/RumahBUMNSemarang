@@ -111,18 +111,13 @@ const route = useRoute()
 const berita = ref(null)
 const beritaTerbaru = ref([])
 const showBackToTop = ref(false)
-
-// Base URL Supabase Storage untuk berita
 const STORAGE_URL = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/berita'
 
-// 🔹 Helper untuk handle gambar (relatif / full URL / kosong)
 const getImageUrl = (filename) => {
   if (!filename) return getPlaceholderImage()
   if (filename.startsWith('http')) return filename
   return `${STORAGE_URL}/${filename}`
 }
-
-// 🔹 Placeholder jika gagal load
 const getPlaceholderImage = () => '/placeholder-news.png'
 
 const formatTanggal = (tanggal) => {

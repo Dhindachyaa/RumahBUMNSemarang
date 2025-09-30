@@ -1,8 +1,0 @@
--const heroBackgroundStyle = {
--  backgroundImage: `url(${tuguMuda})`,
--  backgroundSize: 'cover',
--  backgroundPosition: 'center',
--  backgroundRepeat: 'no-repeat',
--  position: 'relative'
--}
-=======

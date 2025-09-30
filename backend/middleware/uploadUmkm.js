@@ -1,15 +1,12 @@
-// middleware/uploadUmkm.js
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Folder sementara untuk menyimpan file sebelum diupload ke Supabase
 const tempDir = path.join(__dirname, '..', 'tmp');
 if (!fs.existsSync(tempDir)) {
   fs.mkdirSync(tempDir, { recursive: true });
 }
 
-// Konfigurasi storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, tempDir);
@@ -20,7 +17,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Filter file gambar
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
   if (allowedTypes.includes(file.mimetype)) {
@@ -30,6 +26,5 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Export middleware multer
 const uploadUmkm = multer({ storage, fileFilter });
 module.exports = uploadUmkm

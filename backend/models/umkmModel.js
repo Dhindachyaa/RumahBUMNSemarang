@@ -1,4 +1,3 @@
-// models/umkmModel.js
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
@@ -19,7 +18,6 @@ const UmkmModel = {
     const { data, error } = await query;
     if (error) throw error;
 
-    // Ambil total count
     let countQuery = supabase.from(TABLE_NAME).select('*', { count: 'exact', head: true });
     if (search) countQuery = countQuery.ilike('nama', `%${search}%`);
     if (category) countQuery = countQuery.eq('kategori', category);

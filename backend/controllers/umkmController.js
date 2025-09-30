@@ -7,15 +7,13 @@ const supabase = createClient(
 );
 
 const TABLE_NAME = 'umkm';
-const STORAGE_BUCKET = 'umkm'; // bucket Supabase Storage untuk gambar UMKM
+const STORAGE_BUCKET = 'umkm'; 
 
-// Normalisasi path gambar
 const normalizeImagePath = (filename) => {
   if (!filename) return null;
   return `${process.env.SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${filename}`;
 };
 
-// GET ALL UMKM
 exports.getAllUMKM = async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -35,7 +33,6 @@ exports.getAllUMKM = async (req, res) => {
   }
 };
 
-// GET UMKM BY ID
 exports.getUMKMById = async (req, res) => {
   const id = req.params.id;
   try {
@@ -53,11 +50,10 @@ exports.getUMKMById = async (req, res) => {
   }
 };
 
-// ADD UMKM
 exports.addUMKM = async (req, res) => {
   try {
     const { nama, deskripsi, varian, kategori, harga, instagram } = req.body;
-    const image_path = req.file?.filename || 'rumah-bumn.png'; // default jika tidak ada gambar
+    const image_path = req.file?.filename || 'rumah-bumn.png'; 
 
     if (!nama || !deskripsi || !kategori) {
       return res.status(400).json({ message: 'Nama, deskripsi, dan kategori wajib diisi' });
@@ -74,7 +70,6 @@ exports.addUMKM = async (req, res) => {
   }
 };
 
-// UPDATE UMKM
 exports.updateUMKM = async (req, res) => {
   const id = req.params.id;
   const { nama, deskripsi, varian, kategori, harga, instagram } = req.body;
@@ -98,11 +93,10 @@ exports.updateUMKM = async (req, res) => {
     if (newImage) {
       updateFields.image_path = newImage;
 
-      // Hapus gambar lama dari Supabase Storage jika bukan default
-      if (oldData.image_path && oldData.image_path !== 'rumah-bumn.png') {
-        await supabase.storage.from(STORAGE_BUCKET).remove([oldData.image_path]);
-      }
+    if (oldData.image_path && oldData.image_path !== 'rumah-bumn.png') {
+      await supabase.storage.from(STORAGE_BUCKET).remove([oldData.image_path]);
     }
+  }
 
     if (Object.keys(updateFields).length === 0) {
       return res.status(400).json({ message: 'Tidak ada perubahan dilakukan' });
@@ -120,7 +114,6 @@ exports.updateUMKM = async (req, res) => {
   }
 };
 
-// DELETE UMKM
 exports.deleteUMKM = async (req, res) => {
   const id = req.params.id;
   try {
@@ -131,7 +124,6 @@ exports.deleteUMKM = async (req, res) => {
       .single();
     if (fetchError || !oldData) return res.status(404).json({ message: 'UMKM tidak ditemukan' });
 
-    // Hapus gambar lama jika bukan default
     if (oldData.image_path && oldData.image_path !== 'rumah-bumn.png') {
       await supabase.storage.from(STORAGE_BUCKET).remove([oldData.image_path]);
     }
@@ -148,7 +140,6 @@ exports.deleteUMKM = async (req, res) => {
   }
 };
 
-// GET PAGED UMKM
 exports.getPagedUMKM = async (req, res) => {
   const limit = parseInt(req.query.limit) || 20;
   const offset = parseInt(req.query.offset) || 0;
@@ -188,7 +179,6 @@ exports.getPagedUMKM = async (req, res) => {
   }
 };
 
-// GET TOTAL UMKM COUNT
 exports.getUMKMCount = async (req, res) => {
   try {
     const { count, error } = await supabase

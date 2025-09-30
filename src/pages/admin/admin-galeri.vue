@@ -156,7 +156,6 @@ export default {
 
         let gambarPath = this.form.gambar
 
-        // Upload file jika ada gambar baru
         if (this.form.gambar instanceof File) {
           const fileName = `${Date.now()}-${this.form.gambar.name}`
           const { error: uploadError } = await supabase
@@ -175,14 +174,14 @@ export default {
         }
 
         if (this.form.id) {
-          // Update
+
           const { error } = await supabase
             .from('galeri')
             .update(payload)
             .eq('id', this.form.id)
           if (error) throw error
         } else {
-          // Insert
+
           const { error } = await supabase
             .from('galeri')
             .insert([payload])

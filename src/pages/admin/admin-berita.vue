@@ -37,7 +37,6 @@
         </table>
       </div>
 
-      <!-- Modal -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal">
           <div class="modal-header">

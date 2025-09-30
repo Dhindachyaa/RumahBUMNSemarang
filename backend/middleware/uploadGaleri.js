@@ -1,15 +1,12 @@
-// middleware/uploadGaleri.js
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Folder sementara sebelum upload ke Supabase
 const tempDir = path.join(__dirname, '..', 'tmp');
 if (!fs.existsSync(tempDir)) {
   fs.mkdirSync(tempDir, { recursive: true });
 }
 
-// Konfigurasi multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, tempDir);
@@ -30,5 +27,4 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage, fileFilter });
-
 module.exports = upload;

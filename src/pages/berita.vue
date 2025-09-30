@@ -8,7 +8,6 @@
 
     <main class="news-content">
       <div class="container">
-        <!-- 🔹 Berita utama -->
         <section class="featured-section" v-if="featuredArticle">
           <router-link 
             :to="{ name: 'BeritaDetail', params: { id: featuredArticle.id } }"
@@ -34,7 +33,6 @@
           </router-link>
         </section>
 
-        <!-- 🔹 Daftar berita -->
         <section class="news-grid" v-if="paginatedNews.length > 0">
           <router-link
             v-for="(berita, index) in paginatedNews"
@@ -63,14 +61,10 @@
             </div>
           </router-link>
         </section>
-
-        <!-- 🔹 Jika tidak ada berita -->
         <section v-else class="no-results animate-fade-in">
           <i class="fas fa-newspaper"></i>
           <p>Tidak ada berita yang ditemukan.</p>
         </section>
-
-        <!-- 🔹 Tombol load more -->
         <section class="load-more-section" v-if="hasMoreNews">
           <button 
             class="load-more-btn" 
@@ -90,23 +84,18 @@
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { supabase } from '@/supabase.js'
 
-// State utama
 const allNews = ref([])
 const currentPage = ref(1)
 const itemsPerPage = 6
 const isLoading = ref(false)
-
-// Base URL Supabase Storage untuk berita (jika path relatif)
 const SUPABASE_IMAGE_URL = 'https://hzpaqqpcjxoseaaiivaj.supabase.co/storage/v1/object/public/berita/'
 
-// 🔹 Helper untuk handle URL gambar
 const getImageUrl = (path) => {
   if (!path) return getPlaceholderImage()
   if (path.startsWith('http')) return path
   return SUPABASE_IMAGE_URL + path
 }
 
-// 🔹 Placeholder jika gambar gagal
 const getPlaceholderImage = () => {
   return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect width="400" height="200" fill="#f8f9fa"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#6c757d" font-family="Arial" font-size="16">No Image</text></svg>'
 }
@@ -115,7 +104,6 @@ const handleImageError = e => {
   e.target.src = getPlaceholderImage()
 }
 
-// 🔹 Fetch berita
 const fetchBerita = async () => {
   try {
     const { data, error } = await supabase
@@ -140,14 +128,12 @@ const fetchBerita = async () => {
   }
 }
 
-// 🔹 Hapus tag HTML
 const stripHtml = html => {
   const tmp = document.createElement('DIV')
   tmp.innerHTML = html
   return tmp.textContent || tmp.innerText || ''
 }
 
-// 🔹 Format tanggal
 const formatTanggal = tgl => {
   const d = new Date(tgl)
   return d.toLocaleDateString('id-ID', {
@@ -157,10 +143,7 @@ const formatTanggal = tgl => {
   })
 }
 
-// 🔹 Berita utama
 const featuredArticle = computed(() => allNews.value[0] || null)
-
-// 🔹 Pagination
 const filteredNews = computed(() => allNews.value.slice(1))
 const paginatedNews = computed(() => filteredNews.value.slice(0, currentPage.value * itemsPerPage))
 const hasMoreNews = computed(() => paginatedNews.value.length < filteredNews.value.length)
@@ -175,7 +158,6 @@ const loadMore = async () => {
   }, 500)
 }
 
-// 🔹 Scroll animations
 const initScrollAnimations = () => {
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
@@ -190,7 +172,6 @@ const initScrollAnimations = () => {
     .forEach(el => observer.observe(el))
 }
 
-// 🔹 Lifecycle
 onMounted(fetchBerita)
 onUnmounted(() => {
   window.removeEventListener('scroll', initScrollAnimations)

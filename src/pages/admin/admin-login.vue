@@ -43,7 +43,6 @@ export default {
       }
 
       try {
-        // 1️⃣ Login pakai Supabase Auth
         const { data, error } = await supabase.auth.signInWithPassword({
           email: this.email,
           password: this.password
@@ -51,7 +50,6 @@ export default {
         if (error) throw error
         if (!data.user) throw new Error('Login gagal, periksa email dan password.')
 
-        // 2️⃣ Cek apakah email ada di tabel admin_users
         const { data: adminData, error: adminError } = await supabase
           .from('admin')
           .select('email')
@@ -64,7 +62,6 @@ export default {
           return
         }
 
-        // 3️⃣ Simpan session
         sessionStorage.setItem('isAdmin', 'true')
         sessionStorage.setItem('adminUser', JSON.stringify(data.user))
         if (this.remember) {
@@ -75,7 +72,6 @@ export default {
           localStorage.removeItem('adminUser')
         }
 
-        // 4️⃣ Redirect ke dashboard
         this.$router.push('/admin/dashboard')
 
       } catch (err) {

@@ -1,16 +1,14 @@
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-// Inisialisasi Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY
 );
 
 const TABLE_NAME = 'berita';
-const STORAGE_BUCKET = 'berita'; // bucket Supabase Storage tempat gambar berita
+const STORAGE_BUCKET = 'berita'; 
 
-// Normalisasi path gambar ke URL Supabase Storage
 const normalizeImagePath = (filename) => {
   if (!filename) return null;
   return `${process.env.SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${filename}`;
@@ -66,7 +64,7 @@ exports.create = async (req, res) => {
 
     if (error) throw error;
 
-    res.json({ message: '✅ Berita berhasil ditambahkan' });
+    res.json({ message: 'Berita berhasil ditambahkan' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -79,7 +77,6 @@ exports.update = async (req, res) => {
     const isi = req.body.isi ? req.body.isi.replace(/\n/g, '<br>') : '';
     const gambarBaru = req.file ? req.file.filename : null;
 
-    // Ambil data lama
     const { data: oldData, error: fetchError } = await supabase
       .from(TABLE_NAME)
       .select('gambar')
@@ -88,7 +85,6 @@ exports.update = async (req, res) => {
 
     if (fetchError || !oldData) return res.status(404).json({ message: 'Berita tidak ditemukan' });
 
-    // Hapus gambar lama dari Supabase Storage jika ada
     if (gambarBaru && oldData.gambar && oldData.gambar !== 'default-berita.jpg') {
       await supabase.storage
         .from(STORAGE_BUCKET)
@@ -105,7 +101,7 @@ exports.update = async (req, res) => {
 
     if (error) throw error;
 
-    res.json({ message: '✅ Berita berhasil diperbarui' });
+    res.json({ message: 'Berita berhasil diperbarui' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -122,7 +118,6 @@ exports.remove = async (req, res) => {
 
     if (fetchError || !oldData) return res.status(404).json({ message: 'Berita tidak ditemukan' });
 
-    // Hapus gambar lama dari Supabase Storage
     if (oldData.gambar && oldData.gambar !== 'default-berita.jpg') {
       await supabase.storage
         .from(STORAGE_BUCKET)
@@ -136,7 +131,7 @@ exports.remove = async (req, res) => {
 
     if (error) throw error;
 
-    res.json({ message: '🗑️ Berita berhasil dihapus' });
+    res.json({ message: 'Berita berhasil dihapus' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
